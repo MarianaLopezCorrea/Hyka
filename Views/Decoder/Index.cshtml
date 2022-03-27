@@ -1,0 +1,30 @@
+﻿@model Barcode
+
+@{
+    ViewData["Title"] = "Ingreso";
+}
+
+<form method="post" asp-action="Decode">
+
+
+    <div class="border p-3 mt-4" style="text-align: center;">
+
+        <div classs="row pb-2">
+            <h2 class="text-primary">
+                Scan PDF417
+            </h2>
+        </div>
+
+        <div class="mb-3">
+            @* <textarea class="form-control" asp-for="Code" maxlength="240"></textarea>
+             *@
+             <input asp-for="Code" class="form-control" maxlength="300" autofocus />
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px"> Decodificar </button>
+
+        @* <a asp-controller="Scanner" asp-action="Index" class="btn btn-secondary" style="width:150px"> View list</a>
+        *@
+    </div>
+
+</form>
