@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hyka.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220327060127_AddPersonToDatabase")]
-    partial class AddPersonToDatabase
+    [Migration("20220401025407_GenerateTerritoriesTable")]
+    partial class GenerateTerritoriesTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,7 @@ namespace Hyka.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
@@ -47,6 +48,7 @@ namespace Hyka.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surnames")
@@ -96,6 +98,22 @@ namespace Hyka.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Hyka.Models.Territory", b =>
+                {
+                    b.Property<string>("DaneId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MunicipalityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DaneId");
+
+                    b.ToTable("Territories");
                 });
 #pragma warning restore 612, 618
         }

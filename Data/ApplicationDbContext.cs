@@ -8,8 +8,12 @@ namespace Hyka.Data
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
         public DbSet<Blockbuster> Blockbusters { get; set; }
         public DbSet<Person> Users { get; set; }
+        public DbSet<Territory> Territories { get; set; }
+
+
     }
 }

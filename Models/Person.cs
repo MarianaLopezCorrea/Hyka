@@ -22,6 +22,7 @@ namespace Hyka.Models
         public String BloodType { get; set; }
         [Required]
         public int Age { get; set; }
+        [Required]
         public DateTime RegisterDateTime { get; set; } = DateTime.Now;
     }
 

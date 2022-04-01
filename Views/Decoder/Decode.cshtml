@@ -17,8 +17,9 @@
 
         <div class="mb-3">
             @* <textarea class="form-control" asp-for="Code" maxlength="240"></textarea>
-             *@
-             <input asp-for="Code" class="form-control" maxlength="300" autofocus />
+            *@
+            <input asp-for="Code" class="form-control" maxlength="300" type="password" autofocus />
+            <span asp-validation-for="Code" class="text-danger"> </span>
         </div>
 
         <button type="submit" class="btn btn-primary" style="width:150px"> Decodificar </button>

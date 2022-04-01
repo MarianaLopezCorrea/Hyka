@@ -1,34 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
-using Hyka.Service.TerritoryDto;
 using Hyka.Models;
+using Hyka.Data;
 
 namespace Hyka.Service.Controllers
 {
     [ApiController]
-    // The URL where the controller going to send data https://localhost:0000/name
+    // The URL where the controller going to send data /api/territories
     [Route("api/territories")]
     public class TerritoryController : ControllerBase
+
     {
-        [HttpGet]
-        public IEnumerable<TerritoryRecord> Get()
+        private readonly ApplicationDbContext _db;
+        public TerritoryController(ApplicationDbContext db)
         {
-            return Territory.territories;
+            _db = db;
+        }
+
+        [HttpGet]
+        public IEnumerable<Territory> Get()
+        {
+            return _db.Territories;
         }
 
 
-        [HttpGet("{departmentId}/{municipalityId}")]
-        public TerritoryRecord Get(string departmentId, string municipalityId)
+        [HttpGet("{daneId}")]
+        public ActionResult<Territory> Get(string daneId)
         {
             // Get the unique bracelet that meets that condition
-            var TerritoryDto = Territory.territories.Where(
-                TerritoryDto =>
-             TerritoryDto.DepartmentId == departmentId &&
-             TerritoryDto.MunicipalityID == municipalityId
-             )
-             .FirstOrDefault();
-            return TerritoryDto != null ? TerritoryDto : Territory.territories[0];
+            var territory = _db.Territories
+            .Where(t => t.DaneId == daneId)
+            .FirstOrDefault();
+            return territory != null ? territory : NotFound();
         }
-
 
     }
 }

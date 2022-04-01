@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Hyka.csproj",
+  "FilePath": "c:\\Users\\Lenovo\\OneDrive\\Escritorio\\Projects\\Hyka\\Hyka.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "6.0",
@@ -16296,72 +16296,6 @@
     "CSharpLanguageVersion": 1000
   },
   "RootNamespace": "Hyka",
-  "Documents": [
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Shared\\Error.cshtml",
-      "TargetPath": "Views\\Shared\\Error.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Home\\Privacy.cshtml",
-      "TargetPath": "Views\\Home\\Privacy.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Blockbuster\\Delete.cshtml",
-      "TargetPath": "Views\\Blockbuster\\Delete.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Blockbuster\\Edit.cshtml",
-      "TargetPath": "Views\\Blockbuster\\Edit.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Blockbuster\\Create.cshtml",
-      "TargetPath": "Views\\Blockbuster\\Create.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Blockbuster\\Index.cshtml",
-      "TargetPath": "Views\\Blockbuster\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\_ViewStart.cshtml",
-      "TargetPath": "Views\\_ViewStart.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Shared\\_Notifications.cshtml",
-      "TargetPath": "Views\\Shared\\_Notifications.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Decoder\\Decode.cshtml",
-      "TargetPath": "Views\\Decoder\\Decode.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\_ViewImports.cshtml",
-      "TargetPath": "Views\\_ViewImports.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Home\\Index.cshtml",
-      "TargetPath": "Views\\Home\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Views\\Shared\\_Layout.cshtml",
-      "TargetPath": "Views\\Shared\\_Layout.cshtml",
-      "FileKind": "mvc"
-    }
-  ],
+  "Documents": [],
   "SerializationFormat": "0.2"
 }

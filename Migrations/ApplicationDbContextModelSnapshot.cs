@@ -34,6 +34,7 @@ namespace Hyka.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
@@ -45,6 +46,7 @@ namespace Hyka.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surnames")
@@ -94,6 +96,22 @@ namespace Hyka.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Hyka.Models.Territory", b =>
+                {
+                    b.Property<string>("DaneId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MunicipalityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DaneId");
+
+                    b.ToTable("Territories");
                 });
 #pragma warning restore 612, 618
         }
