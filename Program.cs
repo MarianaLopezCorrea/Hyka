@@ -1,4 +1,5 @@
 using Hyka.Data;
+using Hyka.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 --------------------------------------------------------
 dotnet tool install --global dotnet-ef
 dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet-ef migrations add InitialCreate
+dotnet-ef migrations add [name]
 dotnet-ef database update
 dotnet-ef migrations remove
 --------------------------------------------------------
@@ -18,10 +19,12 @@ PM> add-migrations [name]
 PM> update-database 
 */
 
-// Add services to the container.
+// API
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<Territory>();
 
+// MVC
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>
     (
@@ -31,6 +34,8 @@ builder.Services.AddDbContext<ApplicationDbContext>
     );
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

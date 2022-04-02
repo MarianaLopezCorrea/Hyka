@@ -11,26 +11,29 @@ namespace Hyka.Service.Controllers
 
     {
         private readonly ApplicationDbContext _db;
+
+     
+
         public TerritoryController(ApplicationDbContext db)
         {
             _db = db;
         }
 
+
         [HttpGet]
-        public IEnumerable<Territory> Get()
+        public IActionResult Get()
         {
-            return _db.Territories;
+            return Ok(_db.Territories);
         }
 
 
         [HttpGet("{daneId}")]
-        public ActionResult<Territory> Get(string daneId)
-        {
-            // Get the unique bracelet that meets that condition
+        public IActionResult GetById(string daneId)
+        {       
             var territory = _db.Territories
             .Where(t => t.DaneId == daneId)
             .FirstOrDefault();
-            return territory != null ? territory : NotFound();
+            return territory != null ? Ok(territory) : NotFound();
         }
 
     }
