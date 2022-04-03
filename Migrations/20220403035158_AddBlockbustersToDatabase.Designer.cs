@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hyka.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220401025407_GenerateTerritoriesTable")]
-    partial class GenerateTerritoriesTable
+    [Migration("20220403035158_AddBlockbustersToDatabase")]
+    partial class AddBlockbustersToDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,15 +100,36 @@ namespace Hyka.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Hyka.Models.Tariff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TariffName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tariff");
+                });
+
             modelBuilder.Entity("Hyka.Models.Territory", b =>
                 {
                     b.Property<string>("DaneId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DepartmentName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MunicipalityName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DaneId");

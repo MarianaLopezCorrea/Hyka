@@ -25,7 +25,7 @@ namespace Hyka.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult Decode(Barcode barcode)
         {
-
+            
             if (ModelState.IsValid)
             {
                 Regex regexRh = new Regex(@"(A|B|O|AB)(\+|-)");
@@ -58,15 +58,10 @@ namespace Hyka.Controllers
                         person.Department = territory.DepartmentName;
                         person.Municipality = territory.MunicipalityName;
                     }
-
-                    // JsonSerializerOptions jOptions = new JsonSerializerOptions
-                    // {
-                    //     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                    //     WriteIndented = true
-                    // };
-                    // String jsonString = JsonSerializer.Serialize(person, jOptions);
-                    // Console.WriteLine(jsonString);
-
+                    
+                    if (_db.find(person.id)){
+                        //TODO
+                    }
                     _db.Add(person);
                     _db.SaveChanges();
                     TempData["success"] = "User created correctly";

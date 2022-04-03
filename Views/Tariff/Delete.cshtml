@@ -1,0 +1,49 @@
+@model Blockbuster
+
+<form method="post" asp-action="Delete">
+
+    <input asp-for="Id" hidden />
+
+    <div class="border p-3 mt-4">
+
+        <div classs="row pb-2">
+            <h2 class="text-primary">
+                Delete Blockbuster
+            </h2>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Id">Id</label>
+            <input asp-for="Id" disabled class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Names">Names</label>
+            <input asp-for="Names" disabled class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Surnames">Surnames</label>
+            <input asp-for="Surnames" disabled class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Age">Age</label>
+            <input asp-for="Age" disabled class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Gender">Gender</label>
+            <input asp-for="Gender" disabled class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" disabled class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-danger" style="width:150px"> Eliminar </button>
+        <a asp-controller="Blockbuster" asp-action="Index" class="btn btn-primary" style="width:150px"> View list</a>
+    
+    </div>
+
+</form>

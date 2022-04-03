@@ -6,7 +6,8 @@
 
 <form method="post" asp-action="Decode">
 
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
     <div class="border p-3 mt-4" style="text-align: center;">
 
         <div classs="row pb-2">
@@ -21,11 +22,15 @@
             <input asp-for="Code" class="form-control" maxlength="300" type="password" autofocus />
             <span asp-validation-for="Code" class="text-danger"> </span>
         </div>
+        
 
-        <button type="submit" class="btn btn-primary" style="width:150px"> Decodificar </button>
+        <button type="submit" onclick="getUsersTable()"class="btn btn-primary" style="width:150px"> Decodificar </button>
+        
 
-        @* <a asp-controller="Scanner" asp-action="Index" class="btn btn-secondary" style="width:150px"> View list</a>
-        *@
     </div>
-
+    
 </form>
+
+<div class="table table-bordered table-striped" id="users-table"> </div>
+
+

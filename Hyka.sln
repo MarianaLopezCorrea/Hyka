@@ -5,8 +5,6 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hyka", "Hyka.csproj", "{D7930EE0-10C8-4FE4-AA51-C65BE11581A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xHykaTest", "..\xHykaTest\xHykaTest.csproj", "{6F84A5EB-14D3-4B2D-BA8F-6321EEDB0706}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{D7930EE0-10C8-4FE4-AA51-C65BE11581A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7930EE0-10C8-4FE4-AA51-C65BE11581A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7930EE0-10C8-4FE4-AA51-C65BE11581A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F84A5EB-14D3-4B2D-BA8F-6321EEDB0706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F84A5EB-14D3-4B2D-BA8F-6321EEDB0706}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F84A5EB-14D3-4B2D-BA8F-6321EEDB0706}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F84A5EB-14D3-4B2D-BA8F-6321EEDB0706}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

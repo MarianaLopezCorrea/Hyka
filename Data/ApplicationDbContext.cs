@@ -16,6 +16,7 @@ namespace Hyka.Data
         public DbSet<Blockbuster> Blockbusters { get; set; }
         public DbSet<Person> Users { get; set; }
         public DbSet<Territory> Territories { get; set; }
+        public DbSet<Tariff> Tariff { get; set; }
 
 
     }
