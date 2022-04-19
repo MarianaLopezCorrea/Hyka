@@ -3,8 +3,9 @@ GO
 INSERT INTO
 	[dbo].[Territories] (
 		[DaneId],
-		[MunicipalityName],
-		[DepartmentName]
+		[DepartmentName],
+		[MunicipalityName]
+		
 	)
 VALUES
 	('01001', 'ANTIOQUIA', 'MEDELLIN'),

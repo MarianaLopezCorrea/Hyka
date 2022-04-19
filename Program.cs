@@ -35,6 +35,16 @@ builder.Services.AddDbContext<ApplicationDbContext>
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
+builder.Services.AddCors(options =>
+  {
+      // this defines a CORS policy called "default"
+      options.AddPolicy("default", policy =>
+      {
+          policy.WithOrigins("https://api.qrserver.com/v1/create-qr-code/")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+      });
+  });
 
 var app = builder.Build();
 
@@ -54,8 +64,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseCors();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();
