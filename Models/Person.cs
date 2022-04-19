@@ -24,6 +24,10 @@ namespace Hyka.Models
         public int Age { get; set; }
         [Required]
         public DateTime RegisterDateTime { get; set; } = DateTime.Now;
+
+        public List<Category> Category { get; set; }
+
+
     }
 
 }

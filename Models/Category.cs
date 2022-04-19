@@ -6,10 +6,13 @@ namespace Hyka.Models
     public class Category
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public String Id { get; set; }
-        public Person person { get; set; }
-        public Tariff tariff { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public String PersonId { get; set; }
+        public Guid TariffId { get; set; }
+
+        public Person Person { get; set; }
+        public Tariff Tariff { get; set; }
 
     }
 }

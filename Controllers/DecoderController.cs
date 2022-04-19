@@ -30,6 +30,7 @@ namespace Hyka.Controllers
                 Regex regexRh = new Regex(@"(A|B|O|AB)(\+|-)");
                 Match rhmatch = regexRh.Match(barcode.Code);
                 Person person = new Person();
+                var category = new Category();
                 if (rhmatch.Success)
                 {
                     String _code = barcode.Code;
@@ -65,6 +66,45 @@ namespace Hyka.Controllers
                         person.Department = territory.DepartmentName;
                         person.Municipality = territory.MunicipalityName;
                     }
+
+                    if (person.Age < 5)
+                    {
+
+                        var tari = _db.Tariff
+                        .Where(t => t.TariffName == "eximido")
+                        .FirstOrDefault();
+
+
+                        category.TariffId = tari.Id;
+                        category.PersonId = person.Id;
+
+                    }
+                    else if (person.Municipality == "FACATATIVA")
+                    {
+
+                        var tari = _db.Tariff
+                            .Where(t => t.TariffName == "local")
+                            .FirstOrDefault();
+
+
+                        category.TariffId = tari.Id;
+                        category.PersonId = person.Id;
+
+                    }
+                    else
+                    {
+
+                        var tari = _db.Tariff
+                            .Where(t => t.TariffName == "nacional")
+                            .FirstOrDefault();
+
+
+                        category.TariffId = tari.Id;
+                        category.PersonId = person.Id;
+                    }
+
+
+                    _db.Category.Add(category);
                     _db.Add(person);
                     _db.SaveChanges();
                     TempData["success"] = "User created correctly";
