@@ -1,0 +1,53 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj": {}
+  },
+  "projects": {
+    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj",
+        "projectName": "build",
+        "projectPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj",
+        "packagesPath": "C:\\Users\\maril\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\maril\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net45"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net45": {
+            "targetAlias": "net45",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net45": {
+          "targetAlias": "net45",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )",
+              "autoReferenced": true
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
