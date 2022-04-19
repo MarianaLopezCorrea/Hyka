@@ -1,28 +1,42 @@
-﻿function getUsersTable() {
-    $.ajax({
-        url: 'https://localhost:44397/api/person/get',
+﻿
+window.onload = async function getUsersTable() {
+    await $.ajax({
+        url: 'https://localhost:7281/api/person/get',
         type: 'GET',
         dataType: 'json',
         contentType: "application/json; charset=utf-8",
         success: function (users) {
             $("#users-table").empty();
-            let table = '<table>';
+            let table = `
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-primary" style="text-align: center;">
+                        <th>Cedula</th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>`;
             for (i = 0; i < users.length; i++) {
-                console.log(users);
-                table += '<tr>';
-                table += '<td>' + users[i].id + '</td>';
-                table += '<td>' + users[i].fullName+ '</td>';
-                // table += '<td>' +     users[i].client.idClient + '</td>';
-                // table += '<td>' + users[i].client.name + '</td>';
-                // table += '<td>' + users[i].client.email + '</td>';
-                // table += '<td>' + users[i].score + '</td>';
-                 table += '<td><button onclick="editarRegistro(' + users[i].idReservation + ' )">Editar</button>';
-                 table += '<td><button onclick="eliminarRegistro(' + users[i].idReservation + ' )">Borrar</button>';
-                 table += '</tr>';
-
+                table += `
+                <tbody>
+                    <tr class="table-light">
+                        <td>${users[i].id}</td>
+                        <td>${users[i].fullName}</td>
+                    </tr>
+                </tbody>`
             }
             table += '</table>';
             $("#users-table").append(table);
         },
     });
+}
+
+
+async function getImage(data) {
+    const url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + data
+    let image = document.getElementById('image')
+    await fetch(url)
+        .then(response => { return response.url })
+        .then(data => {
+            image.src = data
+        })
 }
