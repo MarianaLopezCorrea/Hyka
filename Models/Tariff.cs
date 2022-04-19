@@ -11,5 +11,8 @@ namespace Hyka.Models
         public String TariffName { get; set; }
         [Required]
         public String Price { get; set; }
+
+        public List<Category> Category { get; set; }
+
     }
 }
