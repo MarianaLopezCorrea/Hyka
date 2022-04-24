@@ -19,14 +19,12 @@ namespace Hyka.Controllers
             return View(tariffList);
         }
 
-        // GET
         public IActionResult Create()
         {
             return View();
         }
-        // POST
+
         [HttpPost]
-        // Prevent request forgery 
         [AutoValidateAntiforgeryToken]
         public IActionResult Create(Tariff obj)
         {
@@ -37,6 +35,11 @@ namespace Hyka.Controllers
 
             if (ModelState.IsValid)
             {
+                if (_db.Tariff.Find(obj.Id) != null)
+                {
+                    TempData["error"] = "Tariff already exists";
+                    return RedirectToAction("Index");
+                }
                 _db.Tariff.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "Tariff Created Correctly";
@@ -49,8 +52,6 @@ namespace Hyka.Controllers
         public IActionResult Edit(Guid id)
         {
             var TariffFromDb = _db.Tariff.Find(id);
-            //var BlockbusterFromDbFirst = _db.Blockbusters.FirstOrDefault(c => c.Id == id);
-            //var BlockbusterFromDbSingle = _db.Blockbusters.SingleOrDefault(c => c.Id == id);
             return TariffFromDb == null ?
                 NotFound() : View(TariffFromDb);
         }
@@ -83,8 +84,6 @@ namespace Hyka.Controllers
                 return NotFound();
             }
             var TariffFromDb = _db.Tariff.Find(id);
-            //var BlockbusterFromDbFirst = _db.Blockbusters.FirstOrDefault(c => c.Id == id);
-            //var BlockbusterFromDbSingle = _db.Blockbusters.SingleOrDefault(c => c.Id == id);
             return TariffFromDb == null ?
                 NotFound() : View(TariffFromDb);
         }
@@ -99,7 +98,6 @@ namespace Hyka.Controllers
             {
                 return NotFound();
             }
-
             _db.Tariff.Remove(obj);
             _db.SaveChanges();
             TempData["success"] = "Tariff Deleted Correctly";

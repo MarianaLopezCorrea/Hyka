@@ -27,36 +27,41 @@ namespace Hyka.Controllers
         {
             if (ModelState.IsValid)
             {
-                Regex regexRh = new Regex(@"(A|B|O|AB)(\+|-)");
-                Match rhmatch = regexRh.Match(barcode.Code);
-                Person person = new Person();
-                var category = new Category();
-                if (rhmatch.Success)
+                String _code = barcode.Code;
+                Match zeroMatch = Regex.Match(_code, @"(M|F)([0-9]{8})(0|)([0-9]{5})", RegexOptions.Multiline);
+                Match rhMatch = Regex.Match(_code, @"(A|B|O|AB)(\+|-)", RegexOptions.Multiline);
+                if (rhMatch.Success && zeroMatch.Success)
                 {
-                    String _code = barcode.Code;
-                    person.DocumentType = _code.ElementAt(0).Equals('I') ? "IT" : "CC";
-                    person.BloodType = rhmatch.Value;
-                    _code = _code.Substring(0, rhmatch.Index);
-                    string DaneId = _code.Substring(_code.Length - 6, 5);
-                    person.Age = DateTime.UtcNow.Year - Int32.Parse(_code.Substring(_code.Length - 14, 4));
-                    person.Gender = _code.Substring(_code.Length - 15, 1);
+                    Person person = new Person();
+                    String DaneId;
+                    // Clean string Barcode
+                    _code = _code.Substring(0, rhMatch.Index);
+                    // Index to save the end of the name
                     int i = 0;
                     for (i = _code.Length - 17; i > 0; i--)
                     {
-                        if (Char.IsDigit(_code[i]))
-                        {
-                            break;
-                        }
+                        if (Char.IsDigit(_code[i])) break;
+
                     }
-                    String fullName = _code.Substring(i + 1, _code.Length - 17 - i);
-                    person.FullName = Regex.Replace(fullName, @"([^A-ZÑ])+", " ").TrimEnd();
-                    person.Id = _code.Substring(i - 9, 10);
+                    person.Id = _code.Substring(i - 9, 10).TrimStart('0');
 
                     if (_db.Users.Find(person.Id) != null)
                     {
                         TempData["error"] = "User already exists";
                         return RedirectToAction("Decode");
                     }
+
+                    person.DocumentType = _code.ElementAt(0).Equals('I') ? "IT" : "CC";
+                    person.BloodType = rhMatch.Value;
+                    // Zero match onnly has 4 groups
+                    person.Gender = zeroMatch.Groups[1].Value;
+                    person.Age = DateTime.UtcNow.Year - Int32.Parse(zeroMatch.Groups[2].Value.Substring(0, 4));
+                    // Group[3] must be 0 or null
+                    DaneId = zeroMatch.Groups[4].Value;
+                    // Clean full name
+                    String fullName = _code.Substring(i + 1, _code.Length - 17 - i);
+                    person.FullName = Regex.Replace(fullName, @"([^A-ZÑ])+", " ").TrimEnd();
+
                     var territory = _db.Territories
                         .Where(t => t.DaneId == DaneId)
                         .FirstOrDefault();
@@ -66,8 +71,15 @@ namespace Hyka.Controllers
                         person.Department = territory.DepartmentName;
                         person.Municipality = territory.MunicipalityName;
                     }
+                    else
+                    {
+                        TempData["error"] = "Territoy not found.";
+                        return RedirectToAction("Decode");
+                    }
 
-                    if (person.Age < 5)
+                    Category category = new Category();
+                        
+                    if (person.Age < 8)
                     {
 
                         var tari = _db.Tariff
@@ -114,5 +126,6 @@ namespace Hyka.Controllers
             TempData["error"] = "Invalid Barcode";
             return RedirectToAction("Decode");
         }
+
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1xspmi1RoYlDYqkrlfQBEfz4p5Fj1OPHglsVwVnNepQn+ROZ79L0+kZAcmZfRyrRma0qLv2Bxm9bruiaOJd2hg==",
+  "dgSpecHash": "MAoqew2fIKE19IAWHAMo+tSRib9SjxLznrtsIwR9xfqlItDpXMPHCi2UyZh9eqvUICC7NOMCBg7ueiLW0TJjxQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\xHykaTest\\xHykaTest.csproj",
+  "projectFilePath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maril\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\maril\\.nuget\\packages\\coverlet.collector\\3.1.0\\coverlet.collector.3.1.0.nupkg.sha512",

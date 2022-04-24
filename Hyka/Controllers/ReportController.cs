@@ -31,14 +31,15 @@ namespace Hyka.Controllers
 
             //PdfColumnCollection tableColumns = pdfGrid.Columns;
             table.Columns.Add("Nombre");
-            table.Columns.Add("Sexo");
             table.Columns.Add("Municipio");
-            table.Columns.Add("Fecha");
-            var people = _db.Users.Select(person => new { person.FullName, person.Gender, person.Municipality, person.RegisterDateTime });
+            table.Columns.Add("Tipo de usuario");
+            table.Columns.Add("Valor a pagar");
+            table.Columns.Add("Fecha de registro");
+            var people = _db.Category.Select(person => new { person.Person.FullName, person.Person.Municipality, person.Tariff.TariffName, person.Tariff.Price, person.Person.RegisterDateTime.Date });
 
             foreach (var person in people)
             {
-                Object[] obj = { person.FullName, person.Gender, person.Municipality, person.RegisterDateTime };
+                Object[] obj = { person.FullName, person.Municipality, person.TariffName.ToUpper(), person.Price, person.Date };
                 table.Rows.Add(obj);
             }
             pdfGrid.DataSource = table;
