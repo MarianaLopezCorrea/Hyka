@@ -62,10 +62,7 @@ namespace Hyka.Controllers
                     String fullName = _code.Substring(i + 1, _code.Length - 17 - i);
                     person.FullName = Regex.Replace(fullName, @"([^A-ZÑ])+", " ").TrimEnd();
 
-                    var territory = _db.Territories
-                        .Where(t => t.DaneId == DaneId)
-                        .FirstOrDefault();
-
+                    Territory territory = setTerritory(DaneId);
                     if (territory != null)
                     {
                         person.Department = territory.DepartmentName;
@@ -76,47 +73,8 @@ namespace Hyka.Controllers
                         TempData["error"] = "Territoy not found.";
                         return RedirectToAction("Decode");
                     }
-
-                    Category category = new Category();
-                        
-                    if (person.Age < 8)
-                    {
-
-                        var tari = _db.Tariff
-                        .Where(t => t.TariffName == "eximido")
-                        .FirstOrDefault();
-
-
-                        category.TariffId = tari.Id;
-                        category.PersonId = person.Id;
-
-                    }
-                    else if (person.Municipality == "FACATATIVA")
-                    {
-
-                        var tari = _db.Tariff
-                            .Where(t => t.TariffName == "local")
-                            .FirstOrDefault();
-
-
-                        category.TariffId = tari.Id;
-                        category.PersonId = person.Id;
-
-                    }
-                    else
-                    {
-
-                        var tari = _db.Tariff
-                            .Where(t => t.TariffName == "nacional")
-                            .FirstOrDefault();
-
-
-                        category.TariffId = tari.Id;
-                        category.PersonId = person.Id;
-                    }
-
-
-                    _db.Category.Add(category);
+                    verifyOrCreateTariff();
+                    person.TariffId = setTariff(person);
                     _db.Add(person);
                     _db.SaveChanges();
                     TempData["success"] = "User created correctly";
@@ -125,6 +83,54 @@ namespace Hyka.Controllers
             }
             TempData["error"] = "Invalid Barcode";
             return RedirectToAction("Decode");
+        }
+
+        private void verifyOrCreateTariff()
+        {
+            if (_db.Tariff.Any())
+                return;
+
+            List<Tariff> tariff = new(){
+                new Tariff("1C", "Facatativeño", 1500),
+                new Tariff("2C", "Colombiano", 10500),
+                new Tariff("3C", "Extranjero", 40500),
+                new Tariff("4C", "Exento", 0)
+            };
+            _db.Tariff.AddRange(tariff);
+            _db.SaveChanges();
+
+        }
+        private string setTariff(Person person)
+        {
+            Tariff tariff = null;
+            if (person.Age < 8)
+            {
+                tariff = _db.Tariff
+                .Where(t => t.Name.Equals("Exento"))
+                .FirstOrDefault();
+            }
+            else if (person.Municipality.Equals("FACATATIVA"))
+            {
+                tariff = _db.Tariff
+                    .Where(t => t.Name.Equals("Facatativeño"))
+                    .FirstOrDefault();
+            }
+            else if (!person.Municipality.Equals("FACATATIVA"))
+            {
+                tariff = _db.Tariff
+                    .Where(t => t.Name.Equals("Colombiano"))
+                    .FirstOrDefault();
+            }
+
+            return tariff != null ? tariff.Id : "3C";
+        }
+
+        private Territory setTerritory(String DaneId)
+        {
+            Territory territory = _db.Territories
+                                    .Where(t => t.DaneId == DaneId)
+                                    .FirstOrDefault();
+            return territory;
         }
 
     }

@@ -26,83 +26,46 @@ namespace Hyka.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(Tariff obj)
+        public IActionResult Create(Tariff tariff)
         {
-            if (obj.TariffName == obj.Price.ToString())
-            {
-                ModelState.AddModelError("Name", "Name can't be equal to Display Order ");
-            }
 
             if (ModelState.IsValid)
             {
-                if (_db.Tariff.Find(obj.Id) != null)
+                if (_db.Tariff.Find(tariff.Id) != null)
                 {
                     TempData["error"] = "Tariff already exists";
                     return RedirectToAction("Index");
                 }
-                _db.Tariff.Add(obj);
+                _db.Tariff.Add(tariff);
                 _db.SaveChanges();
                 TempData["success"] = "Tariff Created Correctly";
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(tariff);
         }
 
-        // GET
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(String id)
         {
             var TariffFromDb = _db.Tariff.Find(id);
             return TariffFromDb == null ?
                 NotFound() : View(TariffFromDb);
         }
-        // POST 
-        [HttpPost]
-        // Prevent request falsification wi
-        [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(Tariff obj)
-        {
-            if (obj.TariffName == obj.Price.ToString())
-            {
-                ModelState.AddModelError("Name", "Name can't be equal to Display Order ");
-            }
 
-            if (ModelState.IsValid)
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Edit(Tariff tariff)
+        {
+            if (ModelState.IsValid) 
             {
-                _db.Tariff.Update(obj);
+                _db.Tariff.Update(tariff);
                 _db.SaveChanges();
                 TempData["success"] = "Tariff Updated Correctly";
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(tariff);
         }
 
-        // GET
-        public IActionResult Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var TariffFromDb = _db.Tariff.Find(id);
-            return TariffFromDb == null ?
-                NotFound() : View(TariffFromDb);
-        }
-        // POST 
-        [HttpPost, ActionName("Delete")]
-        // Prevent request falsification wi
-        [AutoValidateAntiforgeryToken]
-        public IActionResult DeletePOST(Guid? id)
-        {
-            var obj = _db.Tariff.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _db.Tariff.Remove(obj);
-            _db.SaveChanges();
-            TempData["success"] = "Tariff Deleted Correctly";
-            return RedirectToAction("Index");
-        }
+
 
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hyka.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,9 +31,9 @@ namespace Hyka.Migrations
                 name: "Tariff",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TariffName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,47 +65,13 @@ namespace Hyka.Migrations
                     Municipality = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BloodType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    RegisterDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RegisterDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TariffId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Category",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PersonId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TariffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Category", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Category_Tariff_TariffId",
-                        column: x => x.TariffId,
-                        principalTable: "Tariff",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Category_Users_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_PersonId",
-                table: "Category",
-                column: "PersonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Category_TariffId",
-                table: "Category",
-                column: "TariffId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -114,13 +80,10 @@ namespace Hyka.Migrations
                 name: "Blockbusters");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Tariff");
 
             migrationBuilder.DropTable(
                 name: "Territories");
-
-            migrationBuilder.DropTable(
-                name: "Tariff");
 
             migrationBuilder.DropTable(
                 name: "Users");

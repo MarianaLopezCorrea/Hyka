@@ -23,7 +23,7 @@
         <tr class="table-primary" style="text-align: center;">
             <th>Nombre de la tarifa</th>
             <th>Precio de la tarifa</th>
-             <th>Opciones</th>
+            <th>Opciones</th>
         </tr>
     </thead>
 
@@ -32,22 +32,17 @@
         {
             <tr class="table-light">
                 <td>
-                    @obj.TariffName
+                    @obj.Name
                 </td>
                 <td>
                     @obj.Price
                 </td>
-
                 <td style="text-align: center;">
                     <div class="w-75 btn-group" role="group">
-                        <a asp-controller="Tariff" asp-action="Edit" asp-route-id="@obj.Id"
-                        class="btn btn-primary mx-2">
+                        <a asp-controller="Tariff" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
                             <i class="bi bi-pencil-square"></i>
                         </a>
 
-                        <a asp-controller="Tariff" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger">
-                            <i class="bi bi-x-square-fill"></i>
-                        </a>
                     </div>
                 </td>
             </tr>

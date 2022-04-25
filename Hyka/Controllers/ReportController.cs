@@ -35,11 +35,13 @@ namespace Hyka.Controllers
             table.Columns.Add("Tipo de usuario");
             table.Columns.Add("Valor a pagar");
             table.Columns.Add("Fecha de registro");
-            var people = _db.Category.Select(person => new { person.Person.FullName, person.Person.Municipality, person.Tariff.TariffName, person.Tariff.Price, person.Person.RegisterDateTime.Date });
+
+            var people = _db.Users.Select(person => new { person.FullName, person.Municipality, person.TariffId, person.RegisterDateTime.Date }).ToList();
 
             foreach (var person in people)
             {
-                Object[] obj = { person.FullName, person.Municipality, person.TariffName.ToUpper(), person.Price, person.Date };
+                var tariff = _db.Tariff.Find(person.TariffId);
+                Object[] obj = { person.FullName, person.Municipality, tariff.Name, tariff.Price, person.Date };
                 table.Rows.Add(obj);
             }
             pdfGrid.DataSource = table;
@@ -54,7 +56,7 @@ namespace Hyka.Controllers
             document.Close(true);
             //Download the PDF document in the browser
             FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/pdf");
-            fileStreamResult.FileDownloadName = "Sample.pdf";
+            fileStreamResult.FileDownloadName = "Report_" + DateTime.Now + ".pdf";
             return fileStreamResult;
         }
     }

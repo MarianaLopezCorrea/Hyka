@@ -25,9 +25,7 @@ namespace Hyka.Models
         [Required]
         public DateTime RegisterDateTime { get; set; } = DateTime.Now;
 
-        public List<Category> Category { get; set; }
-
-
+        public String TariffId { get; set; }
     }
 
 }

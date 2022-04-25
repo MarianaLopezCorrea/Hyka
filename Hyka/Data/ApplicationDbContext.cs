@@ -17,7 +17,6 @@ namespace Hyka.Data
         public DbSet<Person> Users { get; set; }
         public DbSet<Territory> Territories { get; set; }
         public DbSet<Tariff> Tariff { get; set; }
-        public DbSet<Category> Category { get; set; }
 
     }
 }

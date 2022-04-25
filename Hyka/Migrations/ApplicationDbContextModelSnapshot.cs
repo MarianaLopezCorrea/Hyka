@@ -17,7 +17,7 @@ namespace Hyka.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -58,29 +58,6 @@ namespace Hyka.Migrations
                     b.ToTable("Blockbusters");
                 });
 
-            modelBuilder.Entity("Hyka.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("PersonId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("TariffId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PersonId");
-
-                    b.HasIndex("TariffId");
-
-                    b.ToTable("Category");
-                });
-
             modelBuilder.Entity("Hyka.Models.Person", b =>
                 {
                     b.Property<string>("Id")
@@ -116,6 +93,9 @@ namespace Hyka.Migrations
                     b.Property<DateTime>("RegisterDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("TariffId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -123,17 +103,15 @@ namespace Hyka.Migrations
 
             modelBuilder.Entity("Hyka.Models.Tariff", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Price")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TariffName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -156,33 +134,6 @@ namespace Hyka.Migrations
                     b.HasKey("DaneId");
 
                     b.ToTable("Territories");
-                });
-
-            modelBuilder.Entity("Hyka.Models.Category", b =>
-                {
-                    b.HasOne("Hyka.Models.Person", "Person")
-                        .WithMany("Category")
-                        .HasForeignKey("PersonId");
-
-                    b.HasOne("Hyka.Models.Tariff", "Tariff")
-                        .WithMany("Category")
-                        .HasForeignKey("TariffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Person");
-
-                    b.Navigation("Tariff");
-                });
-
-            modelBuilder.Entity("Hyka.Models.Person", b =>
-                {
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Hyka.Models.Tariff", b =>
-                {
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
