@@ -353,23 +353,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\maril\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\lucho\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj",
+      "projectUniqueName": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\build.proj",
       "projectName": "build",
-      "projectPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj",
-      "packagesPath": "C:\\Users\\maril\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\obj\\",
+      "projectPath": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\build.proj",
+      "packagesPath": "C:\\Users\\lucho\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\maril\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lucho\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

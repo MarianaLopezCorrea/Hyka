@@ -7127,23 +7127,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\maril\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\lucho\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj",
+      "projectUniqueName": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\xHykaTest\\xHykaTest.csproj",
       "projectName": "xHykaTest",
-      "projectPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj",
-      "packagesPath": "C:\\Users\\maril\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\obj\\",
+      "projectPath": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\xHykaTest\\xHykaTest.csproj",
+      "packagesPath": "C:\\Users\\lucho\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\xHykaTest\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\maril\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lucho\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7157,8 +7153,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj": {
-              "projectPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj"
+            "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Hyka\\Hyka.csproj": {
+              "projectPath": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\Hyka\\Hyka.csproj"
             }
           }
         }

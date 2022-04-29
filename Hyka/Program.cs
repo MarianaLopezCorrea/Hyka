@@ -1,8 +1,11 @@
 using Hyka.Data;
 using Hyka.Models;
 using Microsoft.EntityFrameworkCore;
-
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Hyka.Areas.Identity.Data;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 /*
     vs-code
@@ -19,22 +22,44 @@ PM> add-migrations [name]
 PM> update-database 
 */
 
+var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
+var isUserSignInKey = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("Keys")["TokenSignIn"]);
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    options.Events = new JwtBearerEvents
+    {
+        OnTokenValidated = context =>
+        {
+            var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<IdentityUser>>();
+            var user = userManager.GetUserAsync(context.HttpContext.User);
+            if (user == null) context.Fail("Unauthorized");
+            return Task.CompletedTask;
+        }
+    };
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(isUserSignInKey),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+
 // API
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<Territory>();
-
-// MVC
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>
-    (
-        options => options.UseSqlServer(
-            builder.Configuration.GetConnectionString("DefaultSQLS")
-        )
-    );
-
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-
 builder.Services.AddCors(options =>
   {
       // this defines a CORS policy called "default"
@@ -45,7 +70,9 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
       });
   });
+// MVC
 
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,13 +88,16 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors();
 
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}");
+    pattern: "{controller=Home}/{action=Index}"
+);
 
+app.MapRazorPages();
 app.Run();
