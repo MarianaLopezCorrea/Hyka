@@ -1,9 +1,11 @@
 ﻿using Hyka.Data;
 using Hyka.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hyka.Controllers
 {
+    [Authorize]
     public class TariffController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -55,7 +57,7 @@ namespace Hyka.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult Edit(Tariff tariff)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _db.Tariff.Update(tariff);
                 _db.SaveChanges();

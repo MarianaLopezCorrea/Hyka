@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Hyka.Models;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Hyka.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DecoderController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -45,7 +48,7 @@ namespace Hyka.Controllers
                     }
                     person.Id = _code.Substring(i - 9, 10).TrimStart('0');
 
-                    if (_db.Users.Find(person.Id) != null)
+                    if (_db.People.Find(person.Id) != null)
                     {
                         TempData["error"] = "User already exists";
                         return RedirectToAction("Decode");

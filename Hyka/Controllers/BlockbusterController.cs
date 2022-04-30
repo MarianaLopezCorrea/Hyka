@@ -1,9 +1,11 @@
 ﻿using Hyka.Data;
 using Hyka.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hyka.Controllers
 {
+    [Authorize]
     public class BlockbusterController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -13,34 +15,35 @@ namespace Hyka.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Blockbuster> objBlockbusterList = _db.Blockbusters;
-            return View(objBlockbusterList);
+            IEnumerable<Blockbuster> blockbusterBlockbusterList = _db.Blockbusters;
+            return View(blockbusterBlockbusterList);
         }
-    
-        // GET
+
+
         public IActionResult Create()
         {
             return View();
         }
-        // POST
+
         [HttpPost]
-        // Prevent request forgery 
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(Blockbuster obj)
+        public async Task<IActionResult> Create(Blockbuster blockbuster)
         {
-            // if (obj.Name == obj.DisplayOrder.ToString())
-            // {
-            //     ModelState.AddModelError("Name", "Name can't be equal to Display Order ");
-            // }
+            var userExists = await _db.Blockbusters.FindAsync(blockbuster.Id);
+
+            if (userExists != null)
+            {
+                ModelState.AddModelError("Id", "User already exists");
+            }
 
             if (ModelState.IsValid)
             {
-                _db.Blockbusters.Add(obj);
-                _db.SaveChanges();
+                await _db.Blockbusters.AddAsync(blockbuster);
+                await _db.SaveChangesAsync();
                 TempData["success"] = "Blockbuster Created Correctly";
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(blockbuster);
         }
 
         // GET
@@ -53,28 +56,28 @@ namespace Hyka.Controllers
             var BlockbusterFromDb = _db.Blockbusters.Find(id);
             //var BlockbusterFromDbFirst = _db.Blockbusters.FirstOrDefault(c => c.Id == id);
             //var BlockbusterFromDbSingle = _db.Blockbusters.SingleOrDefault(c => c.Id == id);
-            return BlockbusterFromDb == null ? 
+            return BlockbusterFromDb == null ?
                 NotFound() : View(BlockbusterFromDb);
         }
         // POST 
         [HttpPost]
         // Prevent request falsification wi
         [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(Blockbuster obj)
+        public IActionResult Edit(Blockbuster blockbuster)
         {
-            // if (obj.Name == obj.DisplayOrder.ToString())
+            // if (blockbuster.Name == blockbuster.DisplayOrder.ToString())
             // {
             //     ModelState.AddModelError("Name", "Name can't be equal to Display Order ");
             // }
 
             if (ModelState.IsValid)
             {
-                _db.Blockbusters.Update(obj);
+                _db.Blockbusters.Update(blockbuster);
                 _db.SaveChanges();
                 TempData["success"] = "Blockbuster Updated Correctly";
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(blockbuster);
         }
 
         // GET
@@ -96,13 +99,13 @@ namespace Hyka.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult DeletePOST(int? id)
         {
-            var obj = _db.Blockbusters.Find(id);
-            if (obj == null)
+            var blockbuster = _db.Blockbusters.Find(id);
+            if (blockbuster == null)
             {
                 return NotFound();
             }
-         
-            _db.Blockbusters.Remove(obj);
+
+            _db.Blockbusters.Remove(blockbuster);
             _db.SaveChanges();
             TempData["success"] = "Blockbuster Deleted Correctly";
             return RedirectToAction("Index");

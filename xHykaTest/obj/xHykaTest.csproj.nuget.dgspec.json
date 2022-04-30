@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj": {}
+    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj": {}
   },
   "projects": {
-    "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj": {
+    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj",
+        "projectUniqueName": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj",
         "projectName": "Hyka",
-        "projectPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj",
+        "projectPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj",
         "packagesPath": "C:\\Users\\maril\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\obj\\",
+        "outputPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -43,6 +43,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[6.0.3, )"
@@ -102,14 +110,14 @@
         }
       }
     },
-    "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj": {
+    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj",
+        "projectUniqueName": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj",
         "projectName": "xHykaTest",
-        "projectPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj",
+        "projectPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\xHykaTest.csproj",
         "packagesPath": "C:\\Users\\maril\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\obj\\",
+        "outputPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\xHykaTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -129,8 +137,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj": {
-                "projectPath": "c:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj"
+              "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj": {
+                "projectPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\Hyka\\Hyka.csproj"
               }
             }
           }

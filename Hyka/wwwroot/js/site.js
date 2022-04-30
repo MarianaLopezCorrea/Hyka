@@ -1,11 +1,10 @@
-﻿
-window.onload = async function getUsersTable() {
+﻿window.onload = async function getUsersTable() {
     await $.ajax({
-        url: 'https://localhost:7281/api/person/get',
+        url: 'https://localhost:8080/api/person/get',
         type: 'GET',
         dataType: 'json',
         contentType: "application/json; charset=utf-8",
-        success: function (users) {
+        success: function(users) {
             $("#users-table").empty();
             let table = `
             <table class="table table-bordered table-striped">

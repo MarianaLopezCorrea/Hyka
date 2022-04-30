@@ -36,7 +36,7 @@ namespace Hyka.Controllers
             table.Columns.Add("Valor a pagar");
             table.Columns.Add("Fecha de registro");
 
-            var people = _db.Users.Select(person => new { person.FullName, person.Municipality, person.TariffId, person.RegisterDateTime.Date }).ToList();
+            var people = _db.People.Select(person => new { person.FullName, person.Municipality, person.TariffId, person.RegisterDateTime.Date }).ToList();
 
             foreach (var person in people)
             {

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-
+using Hyka.Models;
 using Hyka.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hyka.Service.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class PersonController : ControllerBase
@@ -16,10 +18,10 @@ namespace Hyka.Service.Controllers
             _db = db;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetPerson")]
         public IActionResult Get()
         {
-            return Ok(_db.Users);
+            return Ok(_db.People);
         }
 
     }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj": {}
+    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\build.proj": {}
   },
   "projects": {
-    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj": {
+    "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\build.proj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj",
+        "projectUniqueName": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\build.proj",
         "projectName": "build",
-        "projectPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj",
+        "projectPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\build.proj",
         "packagesPath": "C:\\Users\\maril\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\obj\\",
+        "outputPath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3.1\\Hyka\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

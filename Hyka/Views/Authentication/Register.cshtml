@@ -1,0 +1,56 @@
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<center>
+    <div class="border col-md-4 p-3 m-2">
+        <form method="post">
+
+            <div class="row pb-2 my-2">
+                <h2 class="text-primary">
+                    Register
+                </h2>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-floating my-2">
+                <input asp-for="Username" class="form-control" autocomplete="username" />
+                <label asp-for="Username"></label>
+                <span asp-validation-for=" Username" class="text-danger"> </span>
+            </div>
+            <div class="form-floating my-2">
+                <input asp-for="Email" class="form-control" autocomplete="Email" />
+                <label asp-for="Email"></label>
+                <span asp-validation-for="Email" class="text-danger"> </span>
+            </div>
+            <div class="form-floating my-2">
+                <input asp-for="Password" class="form-control" autocomplete="new-password" type="password" />
+                <label asp-for="Password">Password</label>
+                <span asp-validation-for="Password" class="text-danger"> </span>
+            </div>
+            <div class="form-floating my-2">
+                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" type="password" />
+                <label asp-for="ConfirmPassword">Confirm Password</label>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"> </span>
+            </div>
+
+            <button type="submit" asp-action="Register" class="btn btn-primary mt-3" style="width:150px">
+                Taquillero</button>
+            <button type="submit" asp-action="RegisterAdmin" class="btn btn-primary mt-3" style="width:150px">
+                Admistrador
+            </button>
+            <a asp-controller="Authentication" asp-action="Login" class="btn btn-secondary mt-3"
+                style="width:150px">Login</a>
+
+        </form>
+    </div>
+</center>
+
+@*Allows to validate form without recharge the pages -> Client side*@
+@section Scripts{
+@{
+    <partial name="_ValidationScriptsPartial" />
+}
+}

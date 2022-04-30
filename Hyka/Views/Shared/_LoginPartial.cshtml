@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Decoder" asp-action="Decode">Ingreso</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Blockbuster" asp-action="Index">Taquilleros</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Tariff" asp-action="Index">Tarifas</a>
+        </li>
+    </ul>
+
+    <ul class="navbar-nav ">
+        <li class="nav-item">
+            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello
+                @UserManager.GetUserName(User)!</a>
+        </li>
+        <li class="nav-item">
+            <form lass="form-inline" asp-controller="Authentication" asp-action="Logout">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    </ul>
+}
+else
+{
+
+    <ul class="navbar-nav me-auto">
+
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a>
+            <span class="visually-hidden">(current)</span>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+            aria-expanded="false">Servicios</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+        </li>
+
+    </ul>
+
+    <ul class="navbar-nav">
+        <li class="nav-item my-2">
+            <a class="nav-link" asp-controller="Authentication" asp-action="Login">Entrar</a>
+
+            <!-- <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a> -->
+    </li>
+        <li class="nav-item my-2 mx-2">
+            <a class="nav-link btn btn-outline-light" asp-controller="Authentication" asp-action="Register">Registrarse</a>
+
+        </li>
+        <li class="nav-item my-2 mx-2">
+    </ul>
+
+
+
+
+}

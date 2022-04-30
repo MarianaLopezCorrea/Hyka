@@ -1,0 +1,38 @@
+@model LoginModel
+
+<form method="post" asp-action="Login">
+
+    <div class="border p-3 mt-4">
+
+        <div classs="row pb-2">
+            <h2 class="text-primary">
+                Login
+            </h2>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Username">Email</label>
+            <input asp-for="Username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"> </span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"> </span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px"> Sign In </button>
+        <a asp-controller="Authentication" asp-action="Register" class="btn btn-secondary" style="width:150px">Sign
+            Up</a>
+    </div>
+
+</form>
+
+
+@*Allows to validate form without recharge the pages -> Client side*@
+@section Scripts{
+@{
+    <partial name="_ValidationScriptsPartial" />
+}
+}
