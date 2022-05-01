@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Hyka.Models;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
+using Hyka.Areas.Identity.PoliciesDefinition;
 
 namespace Hyka.Controllers
 {
@@ -14,15 +16,15 @@ namespace Hyka.Controllers
         {
             _db = db;
         }
-
+        [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
         public IActionResult Decode()
         {
             return View();
         }
 
         [HttpPost]
-        // Prevent request forgery 
         [AutoValidateAntiforgeryToken]
+        [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
         public IActionResult Decode(Barcode barcode)
         {
             if (ModelState.IsValid)

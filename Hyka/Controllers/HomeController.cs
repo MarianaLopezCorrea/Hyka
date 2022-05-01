@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Hyka.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hyka.Controllers;
 
@@ -17,7 +18,6 @@ public class HomeController : Controller
     // {
     //     return View();
     // }
-
     public IActionResult Privacy()
     {
         return View();

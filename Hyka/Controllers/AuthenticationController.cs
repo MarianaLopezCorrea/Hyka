@@ -17,18 +17,18 @@ namespace Hyka.Controllers
     [Route("[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _db;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _config;
 
         public AuthenticationController(
-            ApplicationDbContext dbContext,
+            ApplicationDbContext db,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IConfiguration config)
         {
-            _dbContext = dbContext;
+            _db = db;
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
@@ -39,7 +39,7 @@ namespace Hyka.Controllers
         [HttpGet("getToken")]
         public async Task<IActionResult> GetToken([FromBody] LoginModel loginModel)
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.Email == loginModel.EmailAddress);
+            var user = _db.Users.FirstOrDefault(u => u.Email == loginModel.Email);
 
             if (user != null)
             {
@@ -53,7 +53,7 @@ namespace Hyka.Controllers
                     {
                         Subject = new ClaimsIdentity(new Claim[]
                         {
-                            new Claim(ClaimTypes.Name, loginModel.EmailAddress)
+                            new Claim(ClaimTypes.Name, loginModel.Email )
                         }),
                         Expires = DateTime.UtcNow.AddHours(1),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -67,10 +67,10 @@ namespace Hyka.Controllers
             return BadRequest();
         }
 
-        [HttpGet("getResources")]
-        public IActionResult GetResources()
+        [HttpGet("getPersons")]
+        public IActionResult Get()
         {
-            return Ok(new { Data = "THIS IS THE DATA THAT IS PROTECTED BY AUTHORIZATION" });
+            return Ok(_db.People);
         }
     }
 }

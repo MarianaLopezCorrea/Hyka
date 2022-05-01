@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hyka.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220429021937_IdentityMigration")]
-    partial class IdentityMigration
+    [Migration("20220501001620_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

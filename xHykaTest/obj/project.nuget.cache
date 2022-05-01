@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/mtnMzF3tSkULM7grVeYPx6x8KIK8i8LMhyRdDlSoCV7sT2LcaRNS9gbpt6qgYwCQe1VXNAEN0u/o/hLlG6S5A==",
+  "dgSpecHash": "le7GMzdpYHqB0i0+4dgWnUcm4BXY9FnWzZnL08ZM1CiciXl8+cEQAIbJnOlBDluPcPWZO7Ug1pTbGe8V+HfLyg==",
   "success": true,
   "projectFilePath": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\xHykaTest\\xHykaTest.csproj",
   "expectedPackageFiles": [
@@ -106,7 +106,8 @@
     "C:\\Users\\lucho\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.3.0\\swashbuckle.aspnetcore.swaggergen.6.3.0.nupkg.sha512",
     "C:\\Users\\lucho\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.3.0\\swashbuckle.aspnetcore.swaggerui.6.3.0.nupkg.sha512",
     "C:\\Users\\lucho\\.nuget\\packages\\syncfusion.compression.net.core\\20.1.0.48\\syncfusion.compression.net.core.20.1.0.48.nupkg.sha512",
-    "C:\\Users\\lucho\\.nuget\\packages\\syncfusion.licensing\\20.1.0.48\\syncfusion.licensing.20.1.0.48.nupkg.sha512",
+    "C:\\Users\\lucho\\.nuget\\packages\\syncfusion.ej2.aspnet.core\\20.1.0.51\\syncfusion.ej2.aspnet.core.20.1.0.51.nupkg.sha512",
+    "C:\\Users\\lucho\\.nuget\\packages\\syncfusion.licensing\\20.1.0.51\\syncfusion.licensing.20.1.0.51.nupkg.sha512",
     "C:\\Users\\lucho\\.nuget\\packages\\syncfusion.pdf.net.core\\20.1.0.48\\syncfusion.pdf.net.core.20.1.0.48.nupkg.sha512",
     "C:\\Users\\lucho\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\lucho\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",

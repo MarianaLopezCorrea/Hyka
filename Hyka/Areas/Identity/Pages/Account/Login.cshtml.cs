@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Hyka.Areas.Identity.Pages.Account
 {
@@ -29,58 +30,27 @@ namespace Hyka.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
@@ -119,18 +89,31 @@ namespace Hyka.Areas.Identity.Pages.Account
                     return Page();
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
-                    List<Claim> claims = new(){
-                        new Claim("amr","pwd")
+                    var claims = new List<Claim> {
+                        new Claim(ClaimTypes.Name, user.UserName)
                     };
+
+                    var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
+                    if (userRoles.Any())
+                    {
+                        userRoles.ToList().ForEach(role =>
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role));
+                        });
+                    }
+
                     await _signInManager.SignInWithClaimsAsync(
                         user,
                         Input.RememberMe,
                         claims
                     );
+
+                    // var token = getToken(claims);
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
@@ -145,9 +128,27 @@ namespace Hyka.Areas.Identity.Pages.Account
                 }
 
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+        // private object getToken(List<Claim> claims)
+        // {
+        //     var tokenHandler = new JwtSecurityTokenHandler();
+        //     var key = Encoding.ASCII.GetBytes(_config.GetSection("Keys")["TokenSignIn"]);
+        //     var tokenDescriptor = new SecurityTokenDescriptor
+        //     {
+        //         Subject = new ClaimsIdentity(new Claim[]
+        //         {
+        //                     new Claim(ClaimTypes.Name, loginModel.Email )
+        //         }),
+        //         Expires = DateTime.UtcNow.AddHours(1),
+        //         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //     };
+        //     var token = tokenHandler.CreateToken(tokenDescriptor);
+        //     var tokenString = tokenHandler.WriteToken(token);
+
+        //     return Ok(new { Token = tokenString });
+        // }
     }
 }

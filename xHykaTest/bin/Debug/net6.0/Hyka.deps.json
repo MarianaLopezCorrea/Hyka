@@ -44,6 +44,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "6.0.4",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.3",
           "Swashbuckle.AspNetCore": "6.3.0",
+          "Syncfusion.EJ2.AspNet.Core": "20.1.0.51",
           "Syncfusion.Pdf.Net.Core": "20.1.0.48",
           "xunit": "2.4.1",
           "xunit.runner.visualstudio": "2.4.3",
@@ -2044,11 +2045,26 @@
           "lib/netstandard2.0/Syncfusion.Compression.Portable.dll": {}
         }
       },
-      "Syncfusion.Licensing/20.1.0.48": {
+      "Syncfusion.EJ2.AspNet.Core/20.1.0.51": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1",
+          "Syncfusion.Licensing": "20.1.0.51"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Syncfusion.EJ2.dll": {
+            "assemblyVersion": "20.1.0.51",
+            "fileVersion": "20.1.0.51"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/Syncfusion.EJ2.dll": {}
+        }
+      },
+      "Syncfusion.Licensing/20.1.0.51": {
         "runtime": {
           "lib/net6.0/Syncfusion.Licensing.dll": {
-            "assemblyVersion": "20.1.0.48",
-            "fileVersion": "20.1.0.48"
+            "assemblyVersion": "20.1.0.51",
+            "fileVersion": "20.1.0.51"
           }
         },
         "compile": {
@@ -2059,7 +2075,7 @@
         "dependencies": {
           "NETStandard.Library": "2.0.0",
           "Syncfusion.Compression.Net.Core": "20.1.0.48",
-          "Syncfusion.Licensing": "20.1.0.48",
+          "Syncfusion.Licensing": "20.1.0.51",
           "System.Text.Encoding.CodePages": "4.7.0"
         },
         "runtime": {
@@ -4978,12 +4994,19 @@
       "path": "syncfusion.compression.net.core/20.1.0.48",
       "hashPath": "syncfusion.compression.net.core.20.1.0.48.nupkg.sha512"
     },
-    "Syncfusion.Licensing/20.1.0.48": {
+    "Syncfusion.EJ2.AspNet.Core/20.1.0.51": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-f+nrjyw08N1OIUmDbn+zv2MKDf03o5yf5j/Ypk2DIZDfQuIKp5t9zyxOtfL3Ya7oNUtmSPJQ5zNuAzZln4JreA==",
-      "path": "syncfusion.licensing/20.1.0.48",
-      "hashPath": "syncfusion.licensing.20.1.0.48.nupkg.sha512"
+      "sha512": "sha512-IUm70Vk52Ha+pPDfAVwGmpkz1//x95t51wnJxEkvHwQRJy1vQS5QqVcst6A5DVEgVjJLQ6ZniQ9rgiCqRGWItw==",
+      "path": "syncfusion.ej2.aspnet.core/20.1.0.51",
+      "hashPath": "syncfusion.ej2.aspnet.core.20.1.0.51.nupkg.sha512"
+    },
+    "Syncfusion.Licensing/20.1.0.51": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mn6bLH6fXMFGQJPVmAQBfJ6aE6AVBzrwbM0o9fvq3GWJ/8qtwXEDhWy34YABhPuX3RpVKWeOq5dwIh+hGwmBbw==",
+      "path": "syncfusion.licensing/20.1.0.51",
+      "hashPath": "syncfusion.licensing.20.1.0.51.nupkg.sha512"
     },
     "Syncfusion.Pdf.Net.Core/20.1.0.48": {
       "type": "package",

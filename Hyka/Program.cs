@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Hyka.Areas.Identity.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Hyka.Areas.Identity.PoliciesDefinition;
+using System.Security.Claims;
+using Hyka.Areas.Identity.RolesDefinition;
 
 /*
     vs-code
@@ -26,11 +29,18 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
 var isUserSignInKey = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("Keys")["TokenSignIn"]);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options =>
+        options.UseSqlServer(connectionString)
+    );
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+    options =>
+        options.SignIn.RequireConfirmedAccount = false
+    )
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
@@ -46,7 +56,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     };
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(isUserSignInKey),
@@ -70,9 +80,21 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
       });
   });
-// MVC
 
+// MVC
+builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy(Roles.ADMIN, policy => policy.RequireClaim(ClaimTypes.Role, Roles.ADMIN));
+        options.AddPolicy(Roles.BLOCKBUSTER, policy => policy.RequireClaim(ClaimTypes.Role, Roles.BLOCKBUSTER));
+
+        options.AddPolicy(Policy.REQUIRE_ADMIN, policy => policy.RequireRole(Roles.ADMIN));
+        options.AddPolicy(Policy.REQUIRE_BLOCKBUSTER, policy => policy.RequireRole(Roles.BLOCKBUSTER));
+    }
+);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -92,7 +114,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors();
-
 
 app.MapControllerRoute(
     name: "default",

@@ -82,6 +82,10 @@
               "target": "Package",
               "version": "[6.3.0, )"
             },
+            "Syncfusion.EJ2.AspNet.Core": {
+              "target": "Package",
+              "version": "[20.1.0.51, )"
+            },
             "Syncfusion.Pdf.Net.Core": {
               "target": "Package",
               "version": "[20.1.0.48, )"

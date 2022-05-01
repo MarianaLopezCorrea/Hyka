@@ -2114,7 +2114,20 @@
           "lib/netstandard2.0/Syncfusion.Compression.Portable.dll": {}
         }
       },
-      "Syncfusion.Licensing/20.1.0.48": {
+      "Syncfusion.EJ2.AspNet.Core/20.1.0.51": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "[11.0.2, 14.0.0)",
+          "Syncfusion.Licensing": "20.1.0.51"
+        },
+        "compile": {
+          "lib/netstandard2.1/Syncfusion.EJ2.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Syncfusion.EJ2.dll": {}
+        }
+      },
+      "Syncfusion.Licensing/20.1.0.51": {
         "type": "package",
         "compile": {
           "lib/net6.0/Syncfusion.Licensing.dll": {}
@@ -3256,6 +3269,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "6.0.4",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.3",
           "Swashbuckle.AspNetCore": "6.3.0",
+          "Syncfusion.EJ2.AspNet.Core": "20.1.0.51",
           "Syncfusion.Pdf.Net.Core": "20.1.0.48",
           "xunit": "2.4.1"
         },
@@ -6924,10 +6938,28 @@
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.Licensing/20.1.0.48": {
-      "sha512": "f+nrjyw08N1OIUmDbn+zv2MKDf03o5yf5j/Ypk2DIZDfQuIKp5t9zyxOtfL3Ya7oNUtmSPJQ5zNuAzZln4JreA==",
+    "Syncfusion.EJ2.AspNet.Core/20.1.0.51": {
+      "sha512": "IUm70Vk52Ha+pPDfAVwGmpkz1//x95t51wnJxEkvHwQRJy1vQS5QqVcst6A5DVEgVjJLQ6ZniQ9rgiCqRGWItw==",
       "type": "package",
-      "path": "syncfusion.licensing/20.1.0.48",
+      "path": "syncfusion.ej2.aspnet.core/20.1.0.51",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net451/Syncfusion.EJ2.dll",
+        "lib/netstandard1.6/Syncfusion.EJ2.dll",
+        "lib/netstandard2.0/Syncfusion.EJ2.dll",
+        "lib/netstandard2.1/Syncfusion.EJ2.dll",
+        "syncfusion.ej2.aspnet.core.20.1.0.51.nupkg.sha512",
+        "syncfusion.ej2.aspnet.core.nuspec",
+        "syncfusion_logo.png"
+      ]
+    },
+    "Syncfusion.Licensing/20.1.0.51": {
+      "sha512": "mn6bLH6fXMFGQJPVmAQBfJ6aE6AVBzrwbM0o9fvq3GWJ/8qtwXEDhWy34YABhPuX3RpVKWeOq5dwIh+hGwmBbw==",
+      "type": "package",
+      "path": "syncfusion.licensing/20.1.0.51",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6951,7 +6983,7 @@
         "lib/netstandard2.0/Syncfusion.Licensing.dll",
         "lib/portable-win+net45+wp80+win81+wpa81/Syncfusion.Licensing.dll",
         "lib/uap10.0/Syncfusion.Licensing.dll",
-        "syncfusion.licensing.20.1.0.48.nupkg.sha512",
+        "syncfusion.licensing.20.1.0.51.nupkg.sha512",
         "syncfusion.licensing.nuspec",
         "syncfusion_logo.png"
       ]
