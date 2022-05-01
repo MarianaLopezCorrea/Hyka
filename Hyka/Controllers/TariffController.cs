@@ -1,5 +1,8 @@
-﻿using Hyka.Data;
+﻿using Hyka.Areas.Identity.PoliciesDefinition;
+using Hyka.Areas.Identity.RolesDefinition;
+using Hyka.Data;
 using Hyka.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hyka.Controllers
@@ -12,7 +15,8 @@ namespace Hyka.Controllers
         {
             _db = db;
         }
-
+        // [Authorize(Policy = Policy.REQUIRE_ADMIN)]
+        [Authorize(Roles = $"{Roles.ADMIN}")]
         public IActionResult Index()
         {
             IEnumerable<Tariff> tariffList = _db.Tariff;
@@ -26,16 +30,19 @@ namespace Hyka.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(Tariff tariff)
+        [Authorize(Policy = "RequireAdmin")]
+        public async Task<IActionResult> Create(Tariff tariff)
         {
+            var result = await _db.Tariff.FindAsync(tariff.Id);
+            if (result != null)
+            {
+                ModelState.AddModelError(string.Empty, "Tariff already exist");
+                return View();
+            }
 
             if (ModelState.IsValid)
             {
-                if (_db.Tariff.Find(tariff.Id) != null)
-                {
-                    TempData["error"] = "Tariff already exists";
-                    return RedirectToAction("Index");
-                }
+
                 _db.Tariff.Add(tariff);
                 _db.SaveChanges();
                 TempData["success"] = "Tariff Created Correctly";
@@ -55,7 +62,7 @@ namespace Hyka.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult Edit(Tariff tariff)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _db.Tariff.Update(tariff);
                 _db.SaveChanges();
@@ -64,8 +71,6 @@ namespace Hyka.Controllers
             }
             return View(tariff);
         }
-
-
 
     }
 }

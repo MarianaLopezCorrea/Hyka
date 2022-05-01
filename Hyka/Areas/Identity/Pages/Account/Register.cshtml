@@ -1,0 +1,78 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registrate";
+}
+
+<div class="col-md-4 text-xxl-center" style="margin: 0 auto">
+    <h1 class="text-xxl-center">@ViewData["Title"]</h1>
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <h2>Crea tu cuenta.</h2>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-floating my-3">
+            <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" />
+            <label asp-for="Input.UserName"></label>
+            <span asp-validation-for="Input.UserName" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating my-3">
+            <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" />
+            <label asp-for="Input.Email"></label>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating my-3">
+            <select class="form-select" asp-for="Input.Rol">
+                <option value=""></option>
+                <option>Administrador</option>
+                <option>Taquillero</option>
+            </select>
+            <label asp-for="Input.Rol"></label>
+            <span asp-validation-for="Input.Rol" class="text-danger"></span>
+        </div>
+
+        <div class=" form-floating my-3">
+            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+            <label asp-for="Input.Password"></label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating my-3">
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password"
+                aria-required="true" />
+            <label asp-for="Input.ConfirmPassword"></label>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+    </form>
+
+    <p>
+        Al registrarte, aceptas nuestros
+        <a asp-controller="Index" asp-action="Privacy"> Términos de servicio </a> y
+        <a asp-controller="Index" asp-action="Privacy"> nuestra Política de privacidad. </a>
+    </p>
+    <hr />
+    <p>
+        ¿Ya tienes una cuenta? <a id="login" asp-area="Identity" asp-page="/Account/Login">Inicia sesion</a>
+    </p>
+
+</div>
+
+@*
+    <div class="col-md-6 col-md-offset-2">
+    <section>
+    <h3>¿Ya tienes una cuenta?</h3>
+    <hr />
+    <div>
+
+
+    </div>
+    </section>
+    </div>
+    </div> *@
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

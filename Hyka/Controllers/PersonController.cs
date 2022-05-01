@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 
 using Hyka.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Hyka.Service.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]/[action]")]
-    public class PersonController : ControllerBase
+    public class PersonController : Controller
 
     {
         private readonly ApplicationDbContext _db;
@@ -19,7 +22,7 @@ namespace Hyka.Service.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_db.Users);
+            return Ok(_db.People);
         }
 
     }

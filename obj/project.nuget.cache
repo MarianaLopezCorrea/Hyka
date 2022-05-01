@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "qY87LbO8iIfhaX8qRqYTljxrtNq0HOBuRbSr10EJ0HbFWuAZbo76lNAt6v0uAgd1XjgV/W55mav0YIHxerqiew==",
+  "dgSpecHash": "1nVFwnP9cOd2aePgdEknP4FOnqCy7mChBklUNQhrehfRslqyYNEv0plFFdjGWC36PpOH1QC5C4W/iX5sYNa9aQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\maril\\OneDrive\\Escritorio\\UDEC\\Sexto Semestre\\Hyka\\Sprint 3\\Hyka\\build.proj",
+  "projectFilePath": "C:\\Users\\lucho\\OneDrive\\Escritorio\\Projects\\Hyka\\build.proj",
   "expectedPackageFiles": [
-    "C:\\Users\\maril\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
-    "C:\\Users\\maril\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net45\\1.0.2\\microsoft.netframework.referenceassemblies.net45.1.0.2.nupkg.sha512"
+    "C:\\Users\\lucho\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "C:\\Users\\lucho\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net45\\1.0.2\\microsoft.netframework.referenceassemblies.net45.1.0.2.nupkg.sha512"
   ],
   "logs": []
 }

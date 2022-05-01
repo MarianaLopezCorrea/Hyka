@@ -1,9 +1,11 @@
 ﻿using Hyka.Data;
 using Hyka.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hyka.Controllers
 {
+    [Authorize]
     public class BlockbusterController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -16,7 +18,7 @@ namespace Hyka.Controllers
             IEnumerable<Blockbuster> objBlockbusterList = _db.Blockbusters;
             return View(objBlockbusterList);
         }
-    
+
         // GET
         public IActionResult Create()
         {
@@ -53,7 +55,7 @@ namespace Hyka.Controllers
             var BlockbusterFromDb = _db.Blockbusters.Find(id);
             //var BlockbusterFromDbFirst = _db.Blockbusters.FirstOrDefault(c => c.Id == id);
             //var BlockbusterFromDbSingle = _db.Blockbusters.SingleOrDefault(c => c.Id == id);
-            return BlockbusterFromDb == null ? 
+            return BlockbusterFromDb == null ?
                 NotFound() : View(BlockbusterFromDb);
         }
         // POST 
@@ -101,7 +103,7 @@ namespace Hyka.Controllers
             {
                 return NotFound();
             }
-         
+
             _db.Blockbusters.Remove(obj);
             _db.SaveChanges();
             TempData["success"] = "Blockbuster Deleted Correctly";

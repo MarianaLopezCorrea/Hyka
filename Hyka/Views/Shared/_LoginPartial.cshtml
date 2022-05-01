@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Decoder" asp-action="Decode">Ingreso</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Blockbuster" asp-action="Index">Taquilleros</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Tariff" asp-action="Index">Tarifas</a>
+        </li>
+    </ul>
+
+    <ul class="navbar-nav ">
+        <li class="nav-item">
+            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/ChangePassword"
+            title="Manage"></a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+            aria-expanded="false">
+                @UserManager.GetUserName(User)
+                <i class="bi bi-person-circle"></i>
+            </a>
+            <div class="dropdown-menu">
+
+                <a class="dropdown-item" asp-controller="Home" asp-action="Index">Inicio</a>
+
+                <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index"
+                title="Manage">Perfil</a>
+
+                <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Email"
+                title="Manage">Correo</a>
+
+                <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/ChangePassword"
+                title="Manage"> Contraseña</a>
+
+                <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/PersonalData"
+                title="Manage"> Datos personales</a>
+
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+            asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav me-auto">
+
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a>
+            <span class="visually-hidden">(current)</span>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+            aria-expanded="false">Servicios</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+        </li>
+
+
+    </ul>
+
+    <ul class="navbar-nav">
+        <li class="nav-item my-2">
+            <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+        <li class="nav-item my-2 mx-2">
+            <a class="nav-link btn btn-outline-light" id="register" asp-area="Identity"
+            asp-page="/Account/Register">Register</a>
+        </li>
+
+    </ul>
+
+
+
+
+}
