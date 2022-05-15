@@ -1,5 +1,5 @@
 ﻿
-window.onload = async function getUsersTable() {
+async function getUsersTable() {
     await $.ajax({
         url: 'https://localhost:8080/api/person/get',
         type: 'GET',
@@ -40,3 +40,14 @@ async function getImage(data) {
             image.src = data
         })
 }
+
+
+window.onload = async function getAllContries() {
+    const url = 'https://restcountries.com/v3.1/all'
+    await fetch(url)
+        .then(response => { return response.json() })
+        .then(data => {
+            console.log(data)
+        })
+}
+

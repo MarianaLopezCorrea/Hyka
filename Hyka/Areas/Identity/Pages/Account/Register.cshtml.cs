@@ -112,7 +112,6 @@ namespace Hyka.Areas.Identity.Pages.Account
                     else if (Input.Rol.Equals("Administrador"))
                     {
                         await _userManager.AddToRoleAsync(user, Roles.ADMIN);
-                        await _userManager.AddToRoleAsync(user, Roles.BLOCKBUSTER);
                     }
 
                     _logger.LogInformation($"{Input.Rol} created a new account with password.");
@@ -126,7 +125,6 @@ namespace Hyka.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }
