@@ -1,0 +1,44 @@
+@model RangeDate
+
+@{
+    ViewData["Title"] = "Generar Reportes de Ventas";
+}
+
+<form method="post" asp-action="SalesReport">
+
+    <div class="border col-md-4 p-3 my-3" style="margin: 0 auto; text-align: center;">
+        <section>
+
+            <div classs="row pb-2">
+                <h2 class="text-xxl-center">
+                    Sales Report
+                </h2>
+            </div>
+
+            <div class="form-floating my-3">
+                <input asp-for="Start" class="form-control" pattern="\d{4}-\d{2}-\d{2}" type="date"
+                    value='@DateTime.Now.ToString("yyyy-MM-dd")'>
+                <label asp-for="Start" class="form-label"> Start date</label>
+                <span asp-validation-for="Start" class="text-danger"> </span>
+            </div>
+
+            <div class="form-floating my-3">
+                <input asp-for="End" class="form-control" pattern="\d{4}-\d{2}-\d{2}" type="date"
+                    value='@DateTime.Now.ToString("yyyy-MM-dd")' max='@DateTime.Now.ToString("yyyy-MM-dd")'>
+                <label asp-for="End" class="form-label">End date</label>
+                <span asp-validation-for="End" class="text-danger"> </span>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:150px"> Export </button>
+
+        </section>
+    </div>
+
+</form>
+
+@*Allows to validate form without recharge the pages -> Client side*@
+@section Scripts{
+@{
+    <partial name="_ValidationScriptsPartial" />
+}
+}

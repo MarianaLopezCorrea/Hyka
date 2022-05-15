@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="~/img/Hyka-logos_transparent.png" style="height:50px;width:50px;">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <img src="~/img/Hyka-logos_transparent.png" alt="hyka_logo" style="height:50px;width:50px;">
         </a>
 
         <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
@@ -13,10 +13,10 @@
 
             <partial name="_LoginPartial" />
 
-            <form class="d-flex">
+            @* <form class="d-flex">
                 <input class="form-control me-sm-2" type="text" placeholder="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit"> <i class="bi bi-search"></i> </button>
-            </form>
+            </form> *@
 
         </div>
     </div>

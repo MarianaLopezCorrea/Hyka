@@ -10,9 +10,9 @@ namespace Hyka.Models
         [Required]
         public String Name { get; set; }
         [Required]
-        public Double Price { get; set; }
+        public int Price { get; set; }
 
-        public Tariff(string id, string name, double price)
+        public Tariff(string id, string name, int price)
         {
             Id = id;
             Name = name;

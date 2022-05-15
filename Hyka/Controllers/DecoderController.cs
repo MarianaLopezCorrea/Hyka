@@ -8,23 +8,27 @@ using Hyka.Areas.Identity.PoliciesDefinition;
 
 namespace Hyka.Controllers
 {
+    [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
     public class DecoderController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private static List<KeyValuePair<Person, Tariff>> _order = new();
+        private static int _total;
 
         public DecoderController(ApplicationDbContext db)
         {
             _db = db;
         }
-        [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
+
         public IActionResult Decode()
         {
+            ViewBag.Total = _total;
+            ViewBag.Order = _order;
             return View();
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
         public IActionResult Decode(Barcode barcode)
         {
             if (ModelState.IsValid)
@@ -34,7 +38,7 @@ namespace Hyka.Controllers
                 Match rhMatch = Regex.Match(_code, @"(A|B|O|AB)(\+|-)", RegexOptions.Multiline);
                 if (rhMatch.Success && zeroMatch.Success)
                 {
-                    Person person = new Person();
+                    Person person = new();
                     String DaneId;
                     // Clean string Barcode
                     _code = _code.Substring(0, rhMatch.Index);
@@ -46,13 +50,6 @@ namespace Hyka.Controllers
 
                     }
                     person.Id = _code.Substring(i - 9, 10).TrimStart('0');
-
-                    if (_db.Users.Find(person.Id) != null)
-                    {
-                        TempData["error"] = "User already exists";
-                        return RedirectToAction("Decode");
-                    }
-
                     person.DocumentType = _code.ElementAt(0).Equals('I') ? "IT" : "CC";
                     person.BloodType = rhMatch.Value;
                     // Zero match onnly has 4 groups
@@ -64,7 +61,8 @@ namespace Hyka.Controllers
                     String fullName = _code.Substring(i + 1, _code.Length - 17 - i);
                     person.FullName = Regex.Replace(fullName, @"([^A-ZÑ])+", " ").TrimEnd();
 
-                    Territory territory = setTerritory(DaneId);
+                    person.Country = "COLOMBIA";
+                    Territory territory = getTerritory(DaneId);
                     if (territory != null)
                     {
                         person.Department = territory.DepartmentName;
@@ -76,10 +74,12 @@ namespace Hyka.Controllers
                         return RedirectToAction("Decode");
                     }
                     verifyOrCreateTariff();
-                    person.TariffId = setTariff(person);
-                    _db.Add(person);
-                    _db.SaveChanges();
-                    TempData["success"] = "User created correctly";
+                    Tariff tariff = getTariff(person);
+                    person.TariffId = tariff.Id;
+                    KeyValuePair<Person, Tariff> information = new(person, tariff);
+                    _order.Add(information);
+                    _total += tariff.Price;
+                    TempData["success"] = "User added correctly";
                     return RedirectToAction("Decode");
                 }
             }
@@ -87,47 +87,83 @@ namespace Hyka.Controllers
             return RedirectToAction("Decode");
         }
 
-        private void verifyOrCreateTariff()
+        public async Task<IActionResult> FinishOrder()
         {
-            if (_db.Tariff.Any())
+            foreach (var pair in _order)
+            {
+                Person person = pair.Key;
+                Tariff tariff = pair.Value;
+                History history = new(Guid.NewGuid(), person.Id, tariff.Name, tariff.Price);
+                if (await _db.People.FindAsync(person.Id) == null)
+                {
+                    await _db.People.AddAsync(person);
+                }
+                await _db.Histories.AddAsync(history);
+
+            }
+            await _db.SaveChangesAsync();
+            _order.Clear();
+            _total = 0;
+            TempData["success"] = "Order complete successful";
+            return RedirectToAction("Decode");
+        }
+
+        public IActionResult Delete(string id)
+        {
+            var pair = _order.Find(pair => pair.Key.Id == id);
+            _order.Remove(pair);
+            _total -= pair.Value.Price;
+            return RedirectToAction("Decode");
+        }
+
+        private async void verifyOrCreateTariff()
+        {
+            if (_db.Tariffs.Any())
                 return;
 
             List<Tariff> tariff = new(){
-                new Tariff("1C", "Facatativeño", 1500),
-                new Tariff("2C", "Colombiano", 10500),
-                new Tariff("3C", "Extranjero", 40500),
-                new Tariff("4C", "Exento", 0)
+                new Tariff("1C", "Exento", 0),
+                new Tariff("2C", "Local", 1500),
+                new Tariff("3C", "Infante", 6500),
+                new Tariff("4C", "Nacional", 10500),
+                new Tariff("5C", "Extranjero", 40500)
             };
-            _db.Tariff.AddRange(tariff);
-            _db.SaveChanges();
-
+            await _db.Tariffs.AddRangeAsync(tariff);
+            await _db.SaveChangesAsync();
         }
-        private string setTariff(Person person)
+
+        private Tariff getTariff(Person person)
         {
             Tariff tariff = null;
-            if (person.Age < 8)
+            if (person.Age < 5 || person.Age > 59)
             {
-                tariff = _db.Tariff
-                .Where(t => t.Name.Equals("Exento"))
-                .FirstOrDefault();
+                tariff = _db.Tariffs
+                    .Where(t => t.Name.Equals("Exento"))
+                    .FirstOrDefault();
             }
             else if (person.Municipality.Equals("FACATATIVA"))
             {
-                tariff = _db.Tariff
-                    .Where(t => t.Name.Equals("Facatativeño"))
+                tariff = _db.Tariffs
+                    .Where(t => t.Name.Equals("Local"))
                     .FirstOrDefault();
             }
-            else if (!person.Municipality.Equals("FACATATIVA"))
+            else if (person.Age > 5 && person.Age < 13)
             {
-                tariff = _db.Tariff
-                    .Where(t => t.Name.Equals("Colombiano"))
+                tariff = _db.Tariffs
+                    .Where(t => t.Name.Equals("Infante"))
+                    .FirstOrDefault();
+            }
+            else
+            {
+                tariff = _db.Tariffs
+                    .Where(t => t.Name.Equals("Nacional"))
                     .FirstOrDefault();
             }
 
-            return tariff != null ? tariff.Id : "3C";
+            return tariff != null ? tariff : _db.Tariffs.Where(t => t.Name.Equals("Nacional")).FirstOrDefault();
         }
 
-        private Territory setTerritory(String DaneId)
+        private Territory getTerritory(String DaneId)
         {
             Territory territory = _db.Territories
                                     .Where(t => t.DaneId == DaneId)

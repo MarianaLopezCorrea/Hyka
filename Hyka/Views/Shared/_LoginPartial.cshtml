@@ -1,87 +1,105 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Hyka.Areas.Identity.RolesDefinition
+@using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+@{
+    var user = SignInManager.UserManager.GetUserAsync(User).Result;
+    bool isAdmin = false;
+    bool isBlockbuster = false;
+    if (user != null)
+    {
+        isAdmin = SignInManager.UserManager.IsInRoleAsync(user, Roles.ADMIN).Result;
+        isBlockbuster = SignInManager.UserManager.IsInRoleAsync(user, Roles.BLOCKBUSTER).Result;
+    }
+}
 
 @if (SignInManager.IsSignedIn(User))
 {
     <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Decoder" asp-action="Decode">Ingreso</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Blockbuster" asp-action="Index">Taquilleros</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Tariff" asp-action="Index">Tarifas</a>
+        @if (isAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Blockbuster" asp-action="Index">Blockbuster</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Tariff" asp-action="Index">Tariff</a>
+            </li>
+        }
+        else if (isBlockbuster)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Decoder" asp-action="Decode">Ingress</a>
+            </li>
+        }
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+            aria-expanded="false">Reports</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" asp-controller="Report" asp-action="Sales">Sales report</a>
+                <a class="dropdown-item" asp-controller="Report" asp-action="Ingress">Ingress report</a>
+            </div>
         </li>
     </ul>
-
-    <ul class="navbar-nav ">
-        <li class="nav-item">
-            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/ChangePassword"
-            title="Manage"></a>
-        </li>
+    @* Manage user profile *@
+    <ul class="navbar-nav">
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
             aria-expanded="false">
                 @UserManager.GetUserName(User)
-                <i class="bi bi-person-circle"></i>
+                <em class="bi bi-person-circle"></em>
             </a>
             <div class="dropdown-menu">
 
-                <a class="dropdown-item" asp-controller="Home" asp-action="Index">Inicio</a>
-
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index"
-                title="Manage">Perfil</a>
+                title="Manage">Profile</a>
 
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Email"
-                title="Manage">Correo</a>
+                title="Manage">Email</a>
 
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/ChangePassword"
-                title="Manage"> Contraseña</a>
+                title="Manage"> Change Password</a>
 
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/PersonalData"
-                title="Manage"> Datos personales</a>
+                title="Manage"> Personal Info</a>
+
+                <div class="dropdown-divider"></div>
+
+                <form id="logoutForm" class="" asp-area="Identity" asp-page="/Account/Logout"
+                asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="text-danger dropdown-item">Logout</button>
+                </form>
 
             </div>
         </li>
-
-        <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-            asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
     </ul>
 }
+@* main view *@
 else
 {
     <ul class="navbar-nav me-auto">
 
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a>
+            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
             <span class="visually-hidden">(current)</span>
         </li>
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-            aria-expanded="false">Servicios</a>
+            aria-expanded="false">Services</a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Action</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Separated link</a>
             </div>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>
-
 
     </ul>
 
@@ -93,10 +111,5 @@ else
             <a class="nav-link btn btn-outline-light" id="register" asp-area="Identity"
             asp-page="/Account/Register">Register</a>
         </li>
-
     </ul>
-
-
-
-
 }

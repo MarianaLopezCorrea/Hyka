@@ -80,17 +80,18 @@ namespace Hyka.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "User don't found");
                     return Page();
                 }
-
                 var result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, lockoutOnFailure: false);
-
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError(string.Empty, "Incorrect Password");
+                    return Page();
+                }
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim> {
@@ -105,7 +106,7 @@ namespace Hyka.Areas.Identity.Pages.Account
                             claims.Add(new Claim(ClaimTypes.Role, role));
                         });
                     }
-
+                    
                     await _signInManager.SignInWithClaimsAsync(
                         user,
                         Input.RememberMe,
@@ -126,29 +127,30 @@ namespace Hyka.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-
             }
             // If we got this far, something failed, redisplay form
             return Page();
         }
 
-        // private object getToken(List<Claim> claims)
-        // {
-        //     var tokenHandler = new JwtSecurityTokenHandler();
-        //     var key = Encoding.ASCII.GetBytes(_config.GetSection("Keys")["TokenSignIn"]);
-        //     var tokenDescriptor = new SecurityTokenDescriptor
-        //     {
-        //         Subject = new ClaimsIdentity(new Claim[]
-        //         {
-        //                     new Claim(ClaimTypes.Name, loginModel.Email )
-        //         }),
-        //         Expires = DateTime.UtcNow.AddHours(1),
-        //         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        //     };
-        //     var token = tokenHandler.CreateToken(tokenDescriptor);
-        //     var tokenString = tokenHandler.WriteToken(token);
+        /* Use this function to generate token
+        private object getToken(List<Claim> claims)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_config.GetSection("Keys")["TokenSignIn"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                            new Claim(ClaimTypes.Name, loginModel.Email )
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
 
-        //     return Ok(new { Token = tokenString });
-        // }
+            return Ok(new { Token = tokenString });
+        }
+        */
     }
 }

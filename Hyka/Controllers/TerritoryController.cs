@@ -1,11 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 
 using Hyka.Data;
+using Microsoft.AspNetCore.Authorization;
+using Hyka.Areas.Identity.PoliciesDefinition;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Hyka.Service.Controllers
 {
     [ApiController]
     [Route("api/territories")]
+    [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class TerritoryController : ControllerBase
 
     {

@@ -1,13 +1,13 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Registrate";
+    ViewData["Title"] = "Sign up";
 }
 
-<div class="col-md-4 text-xxl-center" style="margin: 0 auto">
-    <h1 class="text-xxl-center">@ViewData["Title"]</h1>
+<div class="col-md-4 text-center" style="margin: 0 auto">
+    <h1 class="text--center">@ViewData["Title"]</h1>
     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-        <h2>Crea tu cuenta.</h2>
+        <h2>Create your account</h2>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -17,7 +17,7 @@
             <span asp-validation-for="Input.UserName" class="text-danger"></span>
         </div>
 
-        <div class="form-floating my-3">
+        <div class="form-floating input-group my-3">
             <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" />
             <label asp-for="Input.Email"></label>
             <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -49,29 +49,17 @@
     </form>
 
     <p>
-        Al registrarte, aceptas nuestros
-        <a asp-controller="Index" asp-action="Privacy"> Términos de servicio </a> y
-        <a asp-controller="Index" asp-action="Privacy"> nuestra Política de privacidad. </a>
+        By registering, you agree to our
+        <a asp-controller="Home" asp-action="Privacy"> Terms of Service</a> and
+        <a asp-controller="Home" asp-action="Privacy"> Privacy Policy</a>
     </p>
     <hr />
     <p>
-        ¿Ya tienes una cuenta? <a id="login" asp-area="Identity" asp-page="/Account/Login">Inicia sesion</a>
+        ¿Already have an account? <a id="login" asp-area="Identity" asp-page="/Account/Login">Log in</a>
     </p>
 
 </div>
 
-@*
-    <div class="col-md-6 col-md-offset-2">
-    <section>
-    <h3>¿Ya tienes una cuenta?</h3>
-    <hr />
-    <div>
-
-
-    </div>
-    </section>
-    </div>
-    </div> *@
 
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />

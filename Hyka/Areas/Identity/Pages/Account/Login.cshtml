@@ -2,16 +2,14 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Inicia sesión";
+    ViewData["Title"] = "Log in";
 }
 
-
-
 <div class="col-md-4" style="margin: 0 auto">
-    <h1 class="text-xxl-center">@ViewData["Title"]</h1>
+    <h1 class="text-center">@ViewData["Title"]</h1>
     <section>
         <form id="account" method="post">
-            <h2 class="text-xxl-center">Comieza ahora</h2>
+            <h2 class="text-center">Start now</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating my-3">
@@ -29,8 +27,7 @@
                 <div class="checkbox my-3">
                     <label asp-for="Input.RememberMe" class="form-label">
                         <input class="form-check-input" asp-for="Input.RememberMe" />
-                        Recuérdame
-                        @* @Html.DisplayNameFor(m => m.Input.RememberMe) *@
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
                     </label>
                 </div>
             </div>
@@ -39,14 +36,12 @@
                     in</button>
             </div>
             <hr />
-            <div class="text-xxl-center">
+            <div class="text-center">
                 <p>
-                    <a id="forgot-password" style="text-align: center;" asp-page="./ForgotPassword">Olvidaste tu
-                        contraseña?</a>
+                    <a id="forgot-password" style="text-align: center;" asp-page="./ForgotPassword">Forgot password?</a>
                 </p>
                 <p>
-                    ¿No tienes una cuenta? <a asp-page="./Register"
-                        asp-route-returnUrl="@Model.ReturnUrl">Registrate</a>
+                    ¿Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign up</a>
                 </p>
             </div>
         </form>

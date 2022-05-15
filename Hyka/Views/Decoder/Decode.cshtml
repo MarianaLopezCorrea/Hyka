@@ -4,42 +4,168 @@
     ViewData["Title"] = "Ingreso";
 }
 
+
 <form method="post" asp-action="Decode">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="~/js/site.js"></script>
-
     <div class="border p-3 mt-4" style="text-align: center;">
-
         <div classs="row pb-2">
             <h2 class="text-primary">
-                Scan PDF417
+                Ingress Register
             </h2>
         </div>
-
         <div class="mb-3">
-            @* <textarea class="form-control" asp-for="Code" maxlength="240"></textarea>
-            *@
             <input asp-for="Code" class="form-control" maxlength="300" type="password" autofocus />
             <span asp-validation-for="Code" class="text-danger"> </span>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:150px"> Decodificar </button>
-        <a asp-controller="Report" asp-action="CreateDocument" class="btn btn-secondary" style="width:150px">
-            Reportes</a>
-
+        <button type="submit" class="btn btn-primary" style="width:150px"> Register </button>
+        @* <!-- Button trigger modal --> *@
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">
+            Add manually
+        </button>
     </div>
-
 </form>
 
+@if (@ViewBag.Order.Count != 0)
+{
+    <div class="border p-3 mt-4" style="text-align: center;">
+        <form method="post" asp-action="FinishOrder">
 
-<button type="submit" onclick="getUsersTable()" class="btn btn-primary" style="width:150px"> Tabla </button>
+            <table class="table table-bordered table-striped">
+                <caption>Order summary</caption>
+                <thead>
+                    <tr class="table-primary" style="text-align: center;">
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Amount to be paid</th>
+                        <th>Ingress Date</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var obj in @ViewBag.Order)
+                    {
+                        <tr class="table-light">
+                            <td> @obj.Key.FullName</td>
+                            <td> @obj.Value.Name </td>
+                            <td> @obj.Value.Price.ToString("C0") </td>
+                            <td> @obj.Key.RegisterDateTime </td>
+
+                            <td style="text-align: center;">
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-controller="Decoder" asp-action="Delete" asp-route-id="@obj.Key.Id"
+                                class="btn btn-danger">
+                                        <i class="bi bi-x-square-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+                <tfoot>
+                    <tr class="table-active">
+                        <th> Number of visitors: &nbsp; @ViewBag.Order.Count</th>
+                        <th>Total</th>
+                        <td>@ViewBag.Total.ToString("C0")</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <button type="submit" class="btn btn-primary"> Proceed to payment </button>
+
+        </form>
+    </div>
+}
 
 
-<button type="submit" onclick="getImage('Hola')" class="btn btn-primary" style="width:150px"> QR </button>
-<img id="image">
+@* <!-- Modal --> *@
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="registerModalLabel">
+                    <i class="bi bi-person-plus-fill"></i> &nbsp;
+                    Register new visitor
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                    <script type="text/javascript" src="~/js/site.js"></script>
+
+                    <div class="mb-3">
+                        <label asp-for="Code">Identification document</label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"> </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Code">Name</label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"> </span>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label asp-for="Code">Age</label>
+                            <input type="number" class="form-control">
+                            <span asp-validation-for="Code" class="text-danger"> </span>
+                        </div>
+                        <div class="col">
+                            <label asp-for="Code">Gender</label>
+                            <select class="form-select">
+                                <option selected></option>
+                                <option value="F">Female</option>
+                                <option value="M">Male</option>
+                                <option value="NB">Non-Binary</option>
+                                <option value="UF">Undefined</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Code">Country</label>
+                        <select class="form-select">
+                            <option selected> </option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
 
 
-<div id="qr-image"> </div>
 
-<div  id="users-table"> </div>
+
+@* <button type="submit" onclick="getUsersTable()" class="btn btn-primary" style="width:150px"> Tabla </button>
+
+
+    <button type="submit" onclick="getImage('Hola')" class="btn btn-primary" style="width:150px"> QR </button>
+    <img id="image">
+
+
+    <div id="qr-image"> </div>
+
+    <div id="users-table"> </div> *@

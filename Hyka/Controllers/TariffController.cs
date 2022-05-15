@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hyka.Controllers
 {
+    [Authorize(Policy = Policy.REQUIRE_ADMIN)]
+    [Authorize(Roles = $"{Roles.ADMIN}")]
     public class TariffController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -15,11 +17,10 @@ namespace Hyka.Controllers
         {
             _db = db;
         }
-        // [Authorize(Policy = Policy.REQUIRE_ADMIN)]
-        [Authorize(Roles = $"{Roles.ADMIN}")]
+
         public IActionResult Index()
         {
-            IEnumerable<Tariff> tariffList = _db.Tariff;
+            var tariffList = _db.Tariffs;
             return View(tariffList);
         }
 
@@ -30,10 +31,9 @@ namespace Hyka.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Create(Tariff tariff)
         {
-            var result = await _db.Tariff.FindAsync(tariff.Id);
+            var result = await _db.Tariffs.FindAsync(tariff.Id);
             if (result != null)
             {
                 ModelState.AddModelError(string.Empty, "Tariff already exist");
@@ -42,8 +42,7 @@ namespace Hyka.Controllers
 
             if (ModelState.IsValid)
             {
-
-                _db.Tariff.Add(tariff);
+                _db.Tariffs.Add(tariff);
                 _db.SaveChanges();
                 TempData["success"] = "Tariff Created Correctly";
                 return RedirectToAction("Index");
@@ -51,21 +50,21 @@ namespace Hyka.Controllers
             return View(tariff);
         }
 
-        public IActionResult Edit(String id)
+        public async Task<IActionResult> Edit(String id)
         {
-            var TariffFromDb = _db.Tariff.Find(id);
+            var TariffFromDb = await _db.Tariffs.FindAsync(id);
             return TariffFromDb == null ?
                 NotFound() : View(TariffFromDb);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(Tariff tariff)
+        public async Task<IActionResult> Edit(Tariff tariff)
         {
             if (ModelState.IsValid)
             {
-                _db.Tariff.Update(tariff);
-                _db.SaveChanges();
+                _db.Tariffs.Update(tariff);
+                await _db.SaveChangesAsync();
                 TempData["success"] = "Tariff Updated Correctly";
                 return RedirectToAction("Index");
             }
