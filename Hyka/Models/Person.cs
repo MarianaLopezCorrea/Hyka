@@ -7,6 +7,7 @@ namespace Hyka.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required]
         public String Id { get; set; }
 
         public String DocumentType { get; set; }
@@ -14,6 +15,7 @@ namespace Hyka.Models
         [Required]
         public String FullName { get; set; }
 
+        [Required]
         public String Gender { get; set; }
 
         [Required]
@@ -24,14 +26,13 @@ namespace Hyka.Models
         public String Municipality { get; set; }
 
         public String BloodType { get; set; }
-        
+
         [Required]
         public int Age { get; set; }
 
         public DateTime RegisterDateTime { get; set; } = DateTime.Now;
 
         [ForeignKey("TariffId")]
-        [Required]
         public String TariffId { get; set; }
     }
 

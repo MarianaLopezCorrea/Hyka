@@ -30,17 +30,22 @@
         else if (isBlockbuster)
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Decoder" asp-action="Decode">Ingress</a>
+                <a class="nav-link" asp-controller="Ingress" asp-action="Ingress">Ingress</a>
             </li>
         }
-        <li class="nav-item dropdown">
+
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Report" asp-action="Report">Reports</a>
+        </li>
+        @* <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
             aria-expanded="false">Reports</a>
+
             <div class="dropdown-menu">
-                <a class="dropdown-item" asp-controller="Report" asp-action="Sales">Sales report</a>
-                <a class="dropdown-item" asp-controller="Report" asp-action="Ingress">Ingress report</a>
+            <a class="dropdown-item" asp-controller="Report" asp-action="Report">Reporte diario </a>
+            <a class="dropdown-item" asp-controller="Report" asp-action="GenerateReport">Opciones</a>
             </div>
-        </li>
+            </li> *@
     </ul>
     @* Manage user profile *@
     <ul class="navbar-nav">

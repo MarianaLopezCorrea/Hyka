@@ -15,12 +15,12 @@ async function getUsersTable() {
                         <th>Nombre</th>
                     </tr>
                 </thead>`;
-            for (i = 0; i < users.length; i++) {
+            for (const user of users) {
                 table += `
                 <tbody>
                     <tr class="table-light">
-                        <td>${users[i].id}</td>
-                        <td>${users[i].fullName}</td>
+                        <td>${user.id}</td>
+                        <td>${user.fullName}</td>
                     </tr>
                 </tbody>`
             }
@@ -31,8 +31,8 @@ async function getUsersTable() {
 }
 
 
-async function getImage(data) {
-    const url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + data
+async function getImage(text) {
+    const url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + text
     let image = document.getElementById('image')
     await fetch(url)
         .then(response => { return response.url })
@@ -41,13 +41,27 @@ async function getImage(data) {
         })
 }
 
+function getFlagEmoji(countryCode) {
+    const codePoints = countryCode
+        .toUpperCase()
+        .split('')
+        .map(char => 127397 + char.charCodeAt());
+    return String.fromCodePoint(...codePoints);
+}
 
-window.onload = async function getAllContries() {
-    const url = 'https://restcountries.com/v3.1/all'
+async function getAllContries() {
+    const url = 'https://restcountries.com/v2/all'
+    let selector = document.querySelector("#countries")
     await fetch(url)
         .then(response => { return response.json() })
-        .then(data => {
-            console.log(data)
+        .then(countries => {
+            let data = '';
+            for (const country of countries) {
+                let emoji = getFlagEmoji(country.alpha3Code);
+                let name = country.translations.es
+                data += `<option value="${name.toUpperCase()}"> ${name} ${emoji}</option>`
+            }
+            selector.innerHTML = data
         })
 }
 

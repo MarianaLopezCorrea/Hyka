@@ -1,4 +1,4 @@
-﻿@model Barcode
+﻿@model Ingress
 
 @{
     ViewData["Title"] = "Ingreso";
@@ -14,22 +14,24 @@
             </h2>
         </div>
         <div class="mb-3">
-            <input asp-for="Code" class="form-control" maxlength="300" type="password" autofocus />
-            <span asp-validation-for="Code" class="text-danger"> </span>
+            <input asp-for="Barcode.Code" class="form-control" maxlength="300" type="password" autofocus />
+            <span asp-validation-for="Barcode.Code" class="text-danger"> </span>
         </div>
 
         <button type="submit" class="btn btn-primary" style="width:150px"> Register </button>
         @* <!-- Button trigger modal --> *@
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">
+        <button type="button" onclick="getAllContries()" class=" btn btn-secondary" data-bs-toggle="modal"
+            data-bs-target="#registerModal">
             Add manually
         </button>
     </div>
 </form>
 
-@if (@ViewBag.Order.Count != 0)
+
+@if (@Group.PeopleList.Any())
 {
     <div class="border p-3 mt-4" style="text-align: center;">
-        <form method="post" asp-action="FinishOrder">
+        <form method="post" asp-action="SaveGroup">
 
             <table class="table table-bordered table-striped">
                 <caption>Order summary</caption>
@@ -45,7 +47,7 @@
 
                 <tbody>
 
-                    @foreach (var obj in @ViewBag.Order)
+                    @foreach (var obj in @Group.PeopleList)
                     {
                         <tr class="table-light">
                             <td> @obj.Key.FullName</td>
@@ -55,7 +57,7 @@
 
                             <td style="text-align: center;">
                                 <div class="w-75 btn-group" role="group">
-                                    <a asp-controller="Decoder" asp-action="Delete" asp-route-id="@obj.Key.Id"
+                                    <a asp-controller="Ingress" asp-action="Delete" asp-route-id="@obj.Key.Id"
                                 class="btn btn-danger">
                                         <i class="bi bi-x-square-fill"></i>
                                     </a>
@@ -68,9 +70,9 @@
 
                 <tfoot>
                     <tr class="table-active">
-                        <th> Number of visitors: &nbsp; @ViewBag.Order.Count</th>
+                        <th> Number of visitors: &nbsp; @Group.PeopleList.Count</th>
                         <th>Total</th>
-                        <td>@ViewBag.Total.ToString("C0")</td>
+                        <td>@Group.Total.ToString("C0")</td>
                     </tr>
                 </tfoot>
             </table>
@@ -80,7 +82,6 @@
         </form>
     </div>
 }
-
 
 @* <!-- Modal --> *@
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -94,60 +95,57 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form method="post" asp-action="SaveManual">
+                <div class="modal-body">
 
-            <div class="modal-body">
-                <form>
-                    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
                     <script type="text/javascript" src="~/js/site.js"></script>
 
                     <div class="mb-3">
-                        <label asp-for="Code">Identification document</label>
-                        <input asp-for="Code" class="form-control" />
-                        <span asp-validation-for="Code" class="text-danger"> </span>
+                        <label asp-for="Manual.Person.Id">Identification document</label>
+                        <input asp-for="Manual.Person.Id" class="form-control" />
+                        <span asp-validation-for="Manual.Person.Id" class="text-danger"> </span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Code">Name</label>
-                        <input asp-for="Code" class="form-control" />
-                        <span asp-validation-for="Code" class="text-danger"> </span>
+                        <label asp-for="Manual.Person.FullName">Name</label>
+                        <input asp-for="Manual.Person.FullName" class="form-control text-uppercase" />
+                        <span asp-validation-for="Manual.Person.FullName" class="text-danger"> </span>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col">
-                            <label asp-for="Code">Age</label>
-                            <input type="number" class="form-control">
-                            <span asp-validation-for="Code" class="text-danger"> </span>
+                            <label asp-for="Manual.Person.Age">Age</label>
+                            <input asp-for="Manual.Person.Age" type="number" class="form-control">
+                            <span asp-validation-for="Manual.Person.Age" class="text-danger"> </span>
                         </div>
                         <div class="col">
-                            <label asp-for="Code">Gender</label>
-                            <select class="form-select">
+                            <label asp-for="Manual.Person.Gender">Gender</label>
+                            <select class="form-select" asp-for="Manual.Person.Gender">
                                 <option selected></option>
                                 <option value="F">Female</option>
                                 <option value="M">Male</option>
                                 <option value="NB">Non-Binary</option>
                                 <option value="UF">Undefined</option>
                             </select>
+                            <span asp-validation-for="Manual.Person.Gender" class="text-danger"> </span>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Code">Country</label>
-                        <select class="form-select">
+                        <label asp-for="Manual.Person.Country">Country</label>
+                        <select id="countries" class="form-select" asp-for="Manual.Person.Country">
                             <option selected> </option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
                         </select>
+                        <span asp-validation-for="Manual.Person.Country" class="text-danger"> </span>
                     </div>
+                </div>
 
-                </form>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-
+            </form>
         </div>
     </div>
 </div>

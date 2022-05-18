@@ -4,6 +4,8 @@ using Hyka.Data;
 using Microsoft.AspNetCore.Authorization;
 using Hyka.Areas.Identity.PoliciesDefinition;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Hyka.Models;
+using Hyka.Services;
 
 namespace Hyka.Service.Controllers
 {
@@ -15,25 +17,28 @@ namespace Hyka.Service.Controllers
     public class TerritoryController : ControllerBase
 
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ITerritoryService _territoryService;
 
-        public TerritoryController(ApplicationDbContext db)
+        public TerritoryController(ITerritoryService territoryService)
         {
-            _db = db;
+            _territoryService = territoryService;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_db.Territories);
+            return Ok(_territoryService.Get());
         }
 
         [HttpGet("{daneId}")]
         public IActionResult GetById(string daneId)
         {
-            var territory = _db.Territories.Find(daneId);
+            if (daneId == null)
+                return BadRequest();
+            var territory = _territoryService.GetById(daneId);
             return territory != null ? Ok(territory) : NotFound();
         }
+
 
     }
 }
