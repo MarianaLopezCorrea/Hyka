@@ -14,6 +14,7 @@ namespace Hyka.Models
         public String DepartmentName { get; set; }
 
         public Territory() { }
+
         public Territory(String daneId, String municipalityName, String departmentName)
         {
             this.DaneId = daneId;

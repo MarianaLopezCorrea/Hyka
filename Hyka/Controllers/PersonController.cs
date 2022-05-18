@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Hyka.Areas.Identity.RolesDefinition;
 using Hyka.Areas.Identity.PoliciesDefinition;
+using Hyka.Services;
 
 namespace Hyka.Service.Controllers
 {
@@ -13,20 +14,29 @@ namespace Hyka.Service.Controllers
     [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PersonController : Controller
-
     {
-        private readonly ApplicationDbContext _db;
 
-        public PersonController(ApplicationDbContext db)
+        private readonly IPersonService _personService;
+        
+
+        public PersonController(IPersonService personService)
         {
-            _db = db;
+            _personService = personService;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_db.People);
+            return Ok(_personService.Get());
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(string id)
+        {
+            if (id == null)
+                return BadRequest();
+            var person = _personService.GetById(id);
+            return person != null ? Ok(person) : NotFound();
+        }
     }
 }

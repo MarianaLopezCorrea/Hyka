@@ -3,12 +3,12 @@ using Hyka.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Hyka.Areas.Identity.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Hyka.Areas.Identity.PoliciesDefinition;
 using System.Security.Claims;
 using Hyka.Areas.Identity.RolesDefinition;
+using Hyka.Services;
 
 /*
     vs-code
@@ -65,11 +65,9 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     };
 });
 
-
 // API
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddScoped<Territory>();
 builder.Services.AddCors(options =>
   {
       // this defines a CORS policy called "default"
@@ -94,6 +92,13 @@ builder.Services.AddAuthorization(options =>
     }
 );
 
+// Dependency Injection
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<ITerritoryService, TerritoryService>();
+builder.Services.AddScoped<ITariffService, TariffService>();
+builder.Services.AddScoped<IHistoryService, HistoryService>();
+builder.Services.AddScoped<IIngressService, IngressService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 var app = builder.Build();
 
