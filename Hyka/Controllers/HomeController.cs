@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Hyka.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 
 namespace Hyka.Controllers;
 
@@ -30,4 +31,12 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
+    [HttpPost]
+    public IActionResult ManejadorLenguaje(string lenguaje, string urlRetorno)
+    {
+        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lenguaje)),
+            new CookieOptions {Expires = DateTimeOffset.Now.AddDays(10)});
+        //return RedirectToAction(nameof(Index));
+        return LocalRedirect(urlRetorno);
+    }
 }

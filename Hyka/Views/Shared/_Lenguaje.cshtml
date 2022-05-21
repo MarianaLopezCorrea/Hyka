@@ -1,0 +1,14 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
+@inject Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Builder.RequestLocalizationOptions> opcionesLocaliza
+
+@{
+    var lenguaje = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>();
+    var listaLenguajes = opcionesLocaliza.Value.SupportedUICultures.Select(x => new SelectListItem { Value = x.Name, Text = x.Name }).ToList();
+    var urlRetorno = string.IsNullOrWhiteSpace(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
+}
+
+<div>
+    <form asp-action="ManejadorLenguaje" asp-controller="Home" method="post" asp-route-urlRetorno="@urlRetorno">
+        <select name="lenguaje" asp-for="@lenguaje.RequestCulture.UICulture.Name" asp-items="listaLenguajes" onchange="this.form.submit();"></select>
+    </form>
+</div>

@@ -1,61 +1,59 @@
 ﻿@page
 @model RegisterModel
-@{
-    ViewData["Title"] = "Sign up";
-}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
 
 <div class="col-md-4 text-center" style="margin: 0 auto">
-    <h1 class="text--center">@ViewData["Title"]</h1>
+    <h1 class="text--center">@localiza["reg"]</h1>
     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-        <h2>Create your account</h2>
+        <h2>@localiza["crea"]</h2>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-floating my-3">
             <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" />
-            <label asp-for="Input.UserName"></label>
+            <label asp-for="Input.UserName">@localiza["us"]</label>
             <span asp-validation-for="Input.UserName" class="text-danger"></span>
         </div>
 
         <div class="form-floating input-group my-3">
             <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" />
-            <label asp-for="Input.Email"></label>
+            <label asp-for="Input.Email">@localiza["em"]</label>
             <span asp-validation-for="Input.Email" class="text-danger"></span>
         </div>
 
         <div class="form-floating my-3">
             <select class="form-select" asp-for="Input.Rol">
                 <option value=""></option>
-                <option>Administrador</option>
-                <option>Taquillero</option>
+                <option>@localiza["rolAd"]</option>
+                <option>@localiza["rolTaq"]</option>
             </select>
-            <label asp-for="Input.Rol"></label>
+            <label asp-for="Input.Rol">@localiza["rol"]</label>
             <span asp-validation-for="Input.Rol" class="text-danger"></span>
         </div>
 
         <div class=" form-floating my-3">
             <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.Password"></label>
+            <label asp-for="Input.Password">@localiza["pass"]</label>
             <span asp-validation-for="Input.Password" class="text-danger"></span>
         </div>
 
         <div class="form-floating my-3">
             <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password"
                 aria-required="true" />
-            <label asp-for="Input.ConfirmPassword"></label>
+            <label asp-for="Input.ConfirmPassword">@localiza["conpass"]</label>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
         </div>
-        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">@localiza["reg"]</button>
     </form>
 
     <p>
-        By registering, you agree to our
-        <a asp-controller="Home" asp-action="Privacy"> Terms of Service</a> and
-        <a asp-controller="Home" asp-action="Privacy"> Privacy Policy</a>
+        @localiza["by"]
+        <a asp-controller="Home" asp-action="Privacy"> @localiza["terms"]</a> @localiza["and"]
+        <a asp-controller="Home" asp-action="Privacy"> @localiza["priv"]</a>
     </p>
     <hr />
     <p>
-        ¿Already have an account? <a id="login" asp-area="Identity" asp-page="/Account/Login">Log in</a>
+        @localiza["alre"] <a id="login" asp-area="Identity" asp-page="/Account/Login">@localiza["login"]</a>
     </p>
 
 </div>

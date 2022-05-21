@@ -9,6 +9,10 @@ using Hyka.Areas.Identity.PoliciesDefinition;
 using System.Security.Claims;
 using Hyka.Areas.Identity.RolesDefinition;
 using Hyka.Services;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Builder;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 /*
     vs-code
@@ -26,6 +30,26 @@ PM> update-database
 */
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddLocalization(option => { option.ResourcesPath = "Recursos";});
+builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
+
+//Mas soporte
+builder.Services.Configure<RequestLocalizationOptions>(
+    option =>
+    {
+        var lenguajesSoportados = new List<CultureInfo>
+        {
+            new CultureInfo("es"),
+            new CultureInfo("en"),
+            new CultureInfo("fr")
+        };
+        option.DefaultRequestCulture = new RequestCulture("en");
+        option.SupportedCultures = lenguajesSoportados;
+        option.SupportedUICultures = lenguajesSoportados;
+    }
+);
+
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
 var isUserSignInKey = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("Keys")["TokenSignIn"]);
 
@@ -117,6 +141,14 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRequestLocalization();
+
+// var lenguajesSoportados = new[] {"en", "es", "fr"};
+// var opcionesLocalizacion = new RequestLocalizationOptions().SetDefaultCulture(lenguajesSoportados[0])
+//     .AddSupportedCultures(lenguajesSoportados)
+//     .AddSupportedUICultures(lenguajesSoportados);
+
+// app.UseRequestLocalization(opcionesLocalizacion);
 
 app.UseCors();
 
