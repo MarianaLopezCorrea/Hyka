@@ -1,4 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -17,22 +17,22 @@
             <div class="carousel-item active">
                 <img src="https://picsum.photos/id/10/1920/1080" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>@localiza["slide1"]</h5>
-                    <p>@localiza["text1"]</p>
+                    <h5>@localize["slide1"]</h5>
+                    <p>@localize["text1"]</p>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="https://picsum.photos/id/11/1920/1080" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>@localiza["slide2"]</h5>
-                    <p>@localiza["text2"]</p>
+                    <h5>@localize["slide2"]</h5>
+                    <p>@localize["text2"]</p>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="https://picsum.photos/id/13/1920/1080" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>@localiza["slide3"]</h5>
-                    <p>@localiza["text3"]</p>
+                    <h5>@localize["slide3"]</h5>
+                    <p>@localize["text3"]</p>
                 </div>
             </div>
         </div>

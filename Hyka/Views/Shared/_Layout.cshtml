@@ -2,50 +2,48 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@ViewData["Title"] Hyka </title>
-  @* Default *@
-  @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
-  <link rel="stylesheet" href="~/example.styles.css" asp-append-version="true" />
-  @* BootsWatch Theme *@
-  <link rel="stylesheet" href="~/css/bootWatchTheme.css" asp-append-version="true" />
-  @* Toastr Alerts*@
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] Hyka </title>
+	@* Default *@
+	@* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+	<link rel="stylesheet" href="~/example.styles.css" asp-append-version="true" />
+	@* BootsWatch Theme *@
+	<link rel="stylesheet" href="~/css/bootWatchTheme.css" asp-append-version="true" />
+	@* Toastr Alerts*@
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
 </head>
 
 <body>
 
-  <header>
-    <partial name="_Navbar" />
-  </header>
+	<header>
+		<partial name="_Navbar" />
+	</header>
 
-  <div class="container">
-    <main role="main" class="pb-3">
-      <partial name="_Notifications" />
-      @RenderBody()
-    </main>
-  </div>
+	<div class="container">
+		<main role="main" class="pb-3">
+			<partial name="_Notifications" />
+			@RenderBody()
+		</main>
+	</div>
 
+	@* <footer class="border-bottom footer text-muted">
+		<div class="container">
+			&copy; 2022 - Hyka - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer> *@
 
-
-  @* <footer class="border-top footer text-muted">
-    <div class="container">
-    &copy; 2022 - Hyka - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
-    </footer> *@
-
-  <script src="~/lib/jquery/dist/jquery.min.js"></script>
-  @* BootsWatch Theme *@
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-  @* Default *@
-  @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
-  <script src="~/js/site.js" asp-append-version="true"></script>
-  @await RenderSectionAsync("Scripts", required: false)
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	@* BootsWatch Theme *@
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	@* Default *@
+	@* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 
 </body>
 

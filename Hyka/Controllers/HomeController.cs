@@ -8,7 +8,7 @@ namespace Hyka.Controllers;
 
 public class HomeController : Controller
 {
-    
+
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -32,11 +32,14 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult ManejadorLenguaje(string lenguaje, string urlRetorno)
+    public IActionResult LanguageHandler(string language, string returnUrl)
     {
-        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lenguaje)),
-            new CookieOptions {Expires = DateTimeOffset.Now.AddDays(10)});
+        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                                CookieRequestCultureProvider.MakeCookieValue(
+                                    new RequestCulture(language)),
+                                    new CookieOptions { Expires = DateTimeOffset.Now.AddDays(10) }
+                                 );
         //return RedirectToAction(nameof(Index));
-        return LocalRedirect(urlRetorno);
+        return LocalRedirect(returnUrl);
     }
 }

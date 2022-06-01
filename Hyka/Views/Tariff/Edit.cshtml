@@ -1,5 +1,5 @@
 @model Tariff
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
 <form method="post" asp-action="Edit">
 
     <input asp-for="Id" hidden />
@@ -9,22 +9,22 @@
 
         <div class="row pb-2">
             <h2 class="text-primary">
-                @localiza["editInformation"]
+                @localize["editInformation"]
             </h2>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Name">@localiza["tariff"]</label>
+            <label asp-for="Name">@localize["tariff"]</label>
             <input asp-for="Name" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Price">@localiza["price"]</label>
+            <label asp-for="Price">@localize["price"]</label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"> </span>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">@localiza["update"]</button>
-        <a asp-controller="Tariff" asp-action="Index" class="btn btn-secondary" style="width:150px">@localiza["viewList"]</a>
+        <button type="submit" class="btn btn-primary" style="width:150px">@localize["update"]</button>
+        <a asp-controller="Tariff" asp-action="Index" class="btn btn-secondary" style="width:150px">@localize["viewList"]</a>
     </div>
 
 </form>

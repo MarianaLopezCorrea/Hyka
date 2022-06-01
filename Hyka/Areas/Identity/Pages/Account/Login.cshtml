@@ -1,43 +1,43 @@
 ﻿@page
 @model LoginModel 
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
 
 <div class="col-md-4" style="margin: 0 auto">
-    <h1 class="text-center">@localiza["text1"]</h1>
+    <h1 class="text-center">@localize["text1"]</h1>
     <section>
         <form id="account" method="post">
-            <h2 class="text-center">@localiza["text2"]</h2>
+            <h2 class="text-center">@localize["text2"]</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating my-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email" class="form-label">@localiza["em"]</label>
+                <label asp-for="Input.Email" class="form-label">@localize["em"]</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating my-3 caption">
                 <input asp-for="Input.Password" class="form-control" autocomplete="current-password"
                     aria-required="true" />
-                <label asp-for="Input.Password" class="form-label">@localiza["pass"]</label>
+                <label asp-for="Input.Password" class="form-label">@localize["pass"]</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div>
                 <div class="checkbox my-3">
                     <label asp-for="Input.RememberMe" class="form-label">
                         <input class="form-check-input" asp-for="Input.RememberMe" />
-                            @localiza["remem"]
+                            @localize["remem"]
                     </label>
                 </div>
             </div>
             <div>
-                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">@localiza["text1"]</button>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">@localize["text1"]</button>
             </div>
             <hr />
             <div class="text-center">
                 <p>
-                    <a id="forgot-password" style="text-align: center;" asp-page="./ForgotPassword">@localiza["forgot"]</a>
+                    <a id="forgot-password" style="text-align: center;" asp-page="./ForgotPassword">@localize["forgot"]</a>
                 </p>
                 <p>
-                    @localiza["dontacc"] <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@localiza["reg"]</a>
+                    @localize["dontacc"] <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@localize["reg"]</a>
                 </p>
             </div>
         </form>

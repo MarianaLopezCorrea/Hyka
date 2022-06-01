@@ -1,13 +1,13 @@
 @model IEnumerable<Tariff>
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
 @{
-    ViewData["Title"] = @localiza["tariffs"];
+    ViewData["Title"] = @localize["tariffs"];
 }
 
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">@localiza["tariffsList"]</h2>
+            <h2 class="text-primary">@localize["tariffsList"]</h2>
         </div>
         @* <div class="col-6 text-end">
             <a asp-controller="Tariff" asp-action="Create" class="btn btn-success btn-lg">
@@ -21,9 +21,9 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr class="table-primary" style="text-align: center;">
-            <th>@localiza["nameTariff"]</th>
-            <th>@localiza["priceTariff"]</th>
-            <th>@localiza["options"]</th>
+            <th>@localize["nameTariff"]</th>
+            <th>@localize["priceTariff"]</th>
+            <th>@localize["options"]</th>
         </tr>
     </thead>
 

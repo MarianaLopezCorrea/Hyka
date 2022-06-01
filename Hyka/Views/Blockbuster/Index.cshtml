@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<Blockbuster>
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
 @{
-    ViewData["Title"] = @localiza["blockbusters"];
+    ViewData["Title"] = @localize["blockbusters"];
 }
 
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">@localiza["bluckbustersList"]</h2>
+            <h2 class="text-primary">@localize["bluckbustersList"]</h2>
         </div>
         <div class="col-6 text-end">
             <a asp-controller="Blockbuster" asp-action="Create" class="btn btn-success btn-lg">
-                @localiza["addNew"] &nbsp; <i class="bi bi-plus-square-dotted"></i>
+                @localize["addNew"] &nbsp; <i class="bi bi-plus-square-dotted"></i>
             </a>
         </div>
     </div>
@@ -21,11 +21,11 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr class="table-primary" style="text-align: center;">
-            <th>@localiza["name"]</th>
-            <th>@localiza["surname"]</th>
-            <th>@localiza["email"]</th>
-            <th>@localiza["creationDate"]</th>
-            <th>@localiza["options"]</th>
+            <th>@localize["name"]</th>
+            <th>@localize["surname"]</th>
+            <th>@localize["email"]</th>
+            <th>@localize["creationDate"]</th>
+            <th>@localize["options"]</th>
         </tr>
     </thead>
 

@@ -31,21 +31,20 @@ PM> update-database
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddLocalization(option => { option.ResourcesPath = "Resources";});
+builder.Services.AddLocalization(option => { option.ResourcesPath = "Resources"; });
 builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
-//Mas soporte
 builder.Services.Configure<RequestLocalizationOptions>(
     option =>
     {
-        var lenguajesSoportados = new List<CultureInfo>
+        var supportedLanguages = new List<CultureInfo>
         {
-            new CultureInfo("es"),
-            new CultureInfo("en")
+            new CultureInfo("es-CO"),
+            new CultureInfo("en-US")
         };
-        option.DefaultRequestCulture = new RequestCulture("en");
-        option.SupportedCultures = lenguajesSoportados;
-        option.SupportedUICultures = lenguajesSoportados;
+        option.DefaultRequestCulture = new RequestCulture("es-CO");
+        option.SupportedCultures = supportedLanguages;
+        option.SupportedUICultures = supportedLanguages;
     }
 );
 
@@ -141,13 +140,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRequestLocalization();
-
-// var lenguajesSoportados = new[] {"en", "es", "fr"};
-// var opcionesLocalizacion = new RequestLocalizationOptions().SetDefaultCulture(lenguajesSoportados[0])
-//     .AddSupportedCultures(lenguajesSoportados)
-//     .AddSupportedUICultures(lenguajesSoportados);
-
-// app.UseRequestLocalization(opcionesLocalizacion);
 
 app.UseCors();
 
