@@ -6,21 +6,39 @@ namespace Hyka.Models
     public class Tariff
     {
         [Key]
-        public String Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+
         [Required]
         public String Name { get; set; }
+
         [Required]
         public int Price { get; set; }
 
-        public Tariff(string id, string name, int price)
-        {
-            Id = id;
-            Name = name;
-            Price = price;
-        }
+        [Required]
+        public Rule Rule { get; set; }
 
-        public Tariff()
-        {
-        }
+        
+        public Guid RuleId { get; set; }
+
+        public Tariff() { }
     }
+
+    public class Rule
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
+
+        [Required]
+        public String Attribute { get; set; }
+
+        [Required]
+        public String Condition { get; set; }
+
+        [Required]
+        public String Value { get; set; }
+
+    }
+
 }

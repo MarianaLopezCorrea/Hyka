@@ -7,7 +7,13 @@ namespace Hyka.Services
 
         public IEnumerable<Tariff> Get();
 
-        public Tariff GetById(String id);
+        public bool Create(Tariff tariff);
+
+        public bool Update(Tariff tariff);
+
+        public bool Delete(Guid id);
+
+        public Tariff GetById(Guid id);
 
         public Tariff GetByPerson(Person person);
 

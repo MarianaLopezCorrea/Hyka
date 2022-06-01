@@ -1,4 +1,4 @@
-﻿using Hyka.Models;
+using Hyka.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +7,7 @@ namespace Hyka.Data;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 
@@ -20,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Person> People { get; set; }
     public DbSet<Territory> Territories { get; set; }
     public DbSet<Tariff> Tariffs { get; set; }
-    public DbSet<History> Histories { get; set; } 
+    public DbSet<History> Histories { get; set; }
+    public DbSet<Rule> Rules { get; set; }
 
 }

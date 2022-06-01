@@ -33,7 +33,7 @@ namespace Hyka.Services
                 return false;
             var tariff = _tariffService.GetByPerson(person);
             if (person.TariffId == null)
-                person.TariffId = tariff.Id;
+                person.TariffId = tariff.Id.ToString();
             KeyValuePair<Person, Tariff> personInfo = new(person, tariff);
             Group.PeopleList.Add(personInfo);
             Group.Total = Group.PeopleList.Sum(t => t.Value.Price);
@@ -65,6 +65,18 @@ namespace Hyka.Services
             }
             Group.PeopleList.Clear();
             Group.Total = 0;
+        }
+
+        public bool SetAsLocal(string id)
+        {
+            var person = Group.PeopleList.Find(p => p.Key.Id == id).Key;
+            if (person == null)
+                return false;
+            person.Department = "CUNDINAMARCA";
+            person.Municipality = "FACATATIVA";
+            RemovePersonFromGroup(id);
+            AddToGroup(person);
+            return true;
         }
     }
 }

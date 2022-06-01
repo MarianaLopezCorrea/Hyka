@@ -1,153 +1,170 @@
 ﻿@model Ingress
 
 @{
-    ViewData["Title"] = "Ingreso";
+	ViewData["Title"] = "Ingreso";
 }
 
 
-<form method="post" asp-action="Decode">
+<form id="ingress-form" method="post" asp-action="Decode">
+	<div class="border p-3 mt-4" style="text-align: center;">
+		<div classs="row pb-2">
+			<h2 class="text-primary">
+				Ingress Register
+			</h2>
+		</div>
+		<div class="mb-3">
+			<input asp-for="Barcode.Code" class="form-control" maxlength="300" type="password" autofocus />
+			<span asp-validation-for="Barcode.Code" class="text-danger"> </span>
+		</div>
 
-    <div class="border p-3 mt-4" style="text-align: center;">
-        <div classs="row pb-2">
-            <h2 class="text-primary">
-                Ingress Register
-            </h2>
-        </div>
-        <div class="mb-3">
-            <input asp-for="Barcode.Code" class="form-control" maxlength="300" type="password" autofocus />
-            <span asp-validation-for="Barcode.Code" class="text-danger"> </span>
-        </div>
-
-        <button type="submit" class="btn btn-primary" style="width:150px"> Register </button>
-        @* <!-- Button trigger modal --> *@
-        <button type="button" onclick="getAllContries()" class=" btn btn-secondary" data-bs-toggle="modal"
-            data-bs-target="#registerModal">
-            Add manually
-        </button>
-    </div>
+		<button type="submit" class="btn btn-primary" style="width:150px"> Register </button>
+		@* <!-- Button trigger modal --> *@
+		<button type="button" onclick="getAllContries()" class=" btn btn-secondary" data-bs-toggle="modal"
+			data-bs-target="#registerModal">
+			Add manually
+		</button>
+	</div>
 </form>
-
 
 @if (@Group.PeopleList.Any())
 {
-    <div class="border p-3 mt-4" style="text-align: center;">
-        <form method="post" asp-action="SaveGroup">
+	<div class="border p-3 mt-4 text-center">
+		<form method="post" asp-action="SaveGroup">
 
-            <table class="table table-bordered table-striped">
-                <caption>Order summary</caption>
-                <thead>
-                    <tr class="table-primary" style="text-align: center;">
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Amount to be paid</th>
-                        <th>Ingress Date</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
+			<table class="table table-bordered table-striped">
+				<caption>Order summary</caption>
+				<thead>
+					<tr class="table-primary" style="text-align: center;">
+						<th>Name</th>
+						<th>Category</th>
+						<th>Amount to be paid</th>
+						<th>Ingress Date</th>
+						<th>Local</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
 
-                <tbody>
+				<tbody>
+					@foreach (var obj in @Group.PeopleList)
+					{
+						<tr class="table-light">
+							<td> @obj.Key.FullName</td>
+							<td> @obj.Value.Name </td>
+							<td> @obj.Value.Price.ToString("C0") </td>
+							<td> @obj.Key.RegisterDateTime </td>
+							@if (@obj.Key.Municipality.Equals("FACATATIVA"))
+							{
+								<td>
+									<span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip"
+							title="This person already is local">
+										<div class="form-check form-switch d-flex justify-content-center align-items-center">
+											<input class="form-check-input" type="checkbox" checked disabled>
+										</div>
+									</span>
+								</td>
+							}
+							else
+							{
+								<td>
+									<div class="form-check form-switch d-flex justify-content-center align-items-center">
+										<a class="form-check-input" asp-route-id="@obj.Key.Id" asp-controller="Ingress"
+								asp-action="SetAsLocal" type="checkbox" data-bs-toggle="tooltip"
+								title="Change a local. Cannot be reversed">
+										</a>
+									</div>
+								</td>
+							}
+							<td>
+								<div class="w-75 btn-group" role="group">
+									<a asp-controller="Ingress" asp-action="Delete" asp-route-id="@obj.Key.Id"
+								class="btn btn-danger" data-bs-toggle="tooltip"
+								title="Delete this person from list. Cannot be reversed">
+										<i class="bi bi-x-square-fill"></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+					}
 
-                    @foreach (var obj in @Group.PeopleList)
-                    {
-                        <tr class="table-light">
-                            <td> @obj.Key.FullName</td>
-                            <td> @obj.Value.Name </td>
-                            <td> @obj.Value.Price.ToString("C0") </td>
-                            <td> @obj.Key.RegisterDateTime </td>
+				</tbody>
 
-                            <td style="text-align: center;">
-                                <div class="w-75 btn-group" role="group">
-                                    <a asp-controller="Ingress" asp-action="Delete" asp-route-id="@obj.Key.Id"
-                                class="btn btn-danger">
-                                        <i class="bi bi-x-square-fill"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
+				<tfoot>
+					<tr class="table-active">
+						<th> Number of visitors: &nbsp; @Group.PeopleList.Count</th>
+						<th>Total</th>
+						<td>@Group.Total.ToString("C0")</td>
+					</tr>
+				</tfoot>
+			</table>
 
-                </tbody>
+			<button type="submit" class="btn btn-primary"> Proceed to payment </button>
 
-                <tfoot>
-                    <tr class="table-active">
-                        <th> Number of visitors: &nbsp; @Group.PeopleList.Count</th>
-                        <th>Total</th>
-                        <td>@Group.Total.ToString("C0")</td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <button type="submit" class="btn btn-primary"> Proceed to payment </button>
-
-        </form>
-    </div>
+		</form>
+	</div>
 }
 
 @* <!-- Modal --> *@
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
 
-            <div class="modal-header bg-light">
-                <h5 class="modal-title" id="registerModalLabel">
-                    <i class="bi bi-person-plus-fill"></i> &nbsp;
-                    Register new visitor
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="post" asp-action="SaveManual">
-                <div class="modal-body">
+			<div class="modal-header bg-light">
+				<h5 class="modal-title" id="registerModalLabel">
+					<i class="bi bi-person-plus-fill"></i> &nbsp;
+					Register new visitor
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form method="post" asp-action="SaveManual">
+				<div class="modal-body">
+					<div class="mb-3">
+						<label asp-for="Manual.Person.Id">Identification document</label>
+						<input asp-for="Manual.Person.Id" class="form-control" />
+						<span asp-validation-for="Manual.Person.Id" class="text-danger"> </span>
+					</div>
 
-                    <script type="text/javascript" src="~/js/site.js"></script>
+					<div class="mb-3">
+						<label asp-for="Manual.Person.FullName">Name</label>
+						<input asp-for="Manual.Person.FullName" class="form-control text-uppercase" />
+						<span asp-validation-for="Manual.Person.FullName" class="text-danger"> </span>
+					</div>
 
-                    <div class="mb-3">
-                        <label asp-for="Manual.Person.Id">Identification document</label>
-                        <input asp-for="Manual.Person.Id" class="form-control" />
-                        <span asp-validation-for="Manual.Person.Id" class="text-danger"> </span>
-                    </div>
+					<div class="row mb-3">
+						<div class="col">
+							<label asp-for="Manual.Person.Age">Age</label>
+							<input asp-for="Manual.Person.Age" type="number" class="form-control">
+							<span asp-validation-for="Manual.Person.Age" class="text-danger"> </span>
+						</div>
+						<div class="col">
+							<label asp-for="Manual.Person.Gender">Gender</label>
+							<select class="form-select" asp-for="Manual.Person.Gender">
+								<option selected></option>
+								<option value="F">Female</option>
+								<option value="M">Male</option>
+								<option value="NB">Non-Binary</option>
+								<option value="UF">Undefined</option>
+							</select>
+							<span asp-validation-for="Manual.Person.Gender" class="text-danger"> </span>
+						</div>
+					</div>
 
-                    <div class="mb-3">
-                        <label asp-for="Manual.Person.FullName">Name</label>
-                        <input asp-for="Manual.Person.FullName" class="form-control text-uppercase" />
-                        <span asp-validation-for="Manual.Person.FullName" class="text-danger"> </span>
-                    </div>
+					<div class="mb-3">
+						<label asp-for="Manual.Person.Country">Country</label>
+						<select id="countries" class="form-select" asp-for="Manual.Person.Country">
+							<option selected> </option>
+						</select>
+						<span asp-validation-for="Manual.Person.Country" class="text-danger"> </span>
+					</div>
+				</div>
 
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label asp-for="Manual.Person.Age">Age</label>
-                            <input asp-for="Manual.Person.Age" type="number" class="form-control">
-                            <span asp-validation-for="Manual.Person.Age" class="text-danger"> </span>
-                        </div>
-                        <div class="col">
-                            <label asp-for="Manual.Person.Gender">Gender</label>
-                            <select class="form-select" asp-for="Manual.Person.Gender">
-                                <option selected></option>
-                                <option value="F">Female</option>
-                                <option value="M">Male</option>
-                                <option value="NB">Non-Binary</option>
-                                <option value="UF">Undefined</option>
-                            </select>
-                            <span asp-validation-for="Manual.Person.Gender" class="text-danger"> </span>
-                        </div>
-                    </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
 
-                    <div class="mb-3">
-                        <label asp-for="Manual.Person.Country">Country</label>
-                        <select id="countries" class="form-select" asp-for="Manual.Person.Country">
-                            <option selected> </option>
-                        </select>
-                        <span asp-validation-for="Manual.Person.Country" class="text-danger"> </span>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
+			</form>
+		</div>
+	</div>
 </div>
 
 @section Scripts {
@@ -160,10 +177,10 @@
 @* <button type="submit" onclick="getUsersTable()" class="btn btn-primary" style="width:150px"> Tabla </button>
 
 
-    <button type="submit" onclick="getImage('Hola')" class="btn btn-primary" style="width:150px"> QR </button>
-    <img id="image">
+	<button type="submit" onclick="getImage('Hola')" class="btn btn-primary" style="width:150px"> QR </button>
+	<img id="image">
 
 
-    <div id="qr-image"> </div>
+	<div id="qr-image"> </div>
 
-    <div id="users-table"> </div> *@
+	<div id="users-table"> </div> *@

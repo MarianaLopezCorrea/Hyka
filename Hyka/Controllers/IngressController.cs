@@ -78,5 +78,19 @@ namespace Hyka.Controllers
             return RedirectToAction("Ingress");
         }
 
+        public IActionResult SetAsLocal(string id)
+        {
+            if (id == null)
+            {
+                TempData["error"] = "Invalid ID";
+                return RedirectToAction("Ingress");
+            }
+            if (_ingressService.SetAsLocal(id))
+                TempData["success"] = "Set as local successful";
+            else
+                TempData["error"] = "Invalid ID";
+            return RedirectToAction("Ingress");
+        }
+
     }
 }

@@ -1,14 +1,12 @@
-@model Tariff
+﻿@model Tariff
 
-<form method="post" asp-action="Edit">
-
-    <input asp-for="Id" hidden />
+<form method="post">
 
     <div class="border p-3 mt-4">
 
-        <div class="row pb-2">
-            <h2 class="text-primary">
-                Edit tariff information
+        <div classs="row pb-2">
+            <h2 class="text-primary text-center">
+                Create Tariff
             </h2>
         </div>
 
@@ -37,9 +35,8 @@
             </div>
             <div class="col">
                 <label asp-for="Rule.Condition">Condition</label>
-                <select asp-for="Rule.Condition" id="condition" class="form-select" onchange="setValueExample()">
-                    <option value="@Html.DisplayTextFor(model => model.Rule.Condition)">
-                        @Html.DisplayTextFor(model =>model.Rule.Condition)</option>
+                <select asp-for="Rule.Condition" id="condition" onchange="setValueExample()" class="form-select">
+                    <option value=""></option>
                 </select>
                 <span asp-validation-for="Rule.Condition" class="text-danger"></span>
             </div>
@@ -56,10 +53,10 @@
             <span asp-validation-for="Price" class="text-danger"> </span>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:150px"> Update </button>
-        <a asp-controller="Tariff" asp-action="Index" class="btn btn-secondary" style="width:150px"> View list</a>
-    </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-controller="Tariff" asp-action="Index" class="btn btn-secondary" style="width:150px">View list</a>
 
+    </div>
 </form>
 
 @*Allows to validate form without recharge the pages -> Client side*@

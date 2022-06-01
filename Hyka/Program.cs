@@ -40,11 +40,11 @@ builder.Services.Configure<RequestLocalizationOptions>(
     {
         var lenguajesSoportados = new List<CultureInfo>
         {
-            new CultureInfo("es"),
-            new CultureInfo("en"),
+            new CultureInfo("es-CO"),
+            new CultureInfo("en-US"),
             new CultureInfo("fr")
         };
-        option.DefaultRequestCulture = new RequestCulture("en");
+        option.DefaultRequestCulture = new RequestCulture("en-US");
         option.SupportedCultures = lenguajesSoportados;
         option.SupportedUICultures = lenguajesSoportados;
     }

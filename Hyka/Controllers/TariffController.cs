@@ -2,6 +2,7 @@
 using Hyka.Areas.Identity.RolesDefinition;
 using Hyka.Data;
 using Hyka.Models;
+using Hyka.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,17 +12,16 @@ namespace Hyka.Controllers
     [Authorize(Roles = $"{Roles.ADMIN}")]
     public class TariffController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ITariffService _tariffService;
 
-        public TariffController(ApplicationDbContext db)
+        public TariffController(ITariffService tariffService)
         {
-            _db = db;
+            _tariffService = tariffService;
         }
 
         public IActionResult Index()
         {
-            var tariffList = _db.Tariffs;
-            return View(tariffList);
+            return View(_tariffService.Get());
         }
 
         public IActionResult Create()
@@ -31,44 +31,64 @@ namespace Hyka.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Create(Tariff tariff)
+        public IActionResult Create(Tariff tariff)
         {
-            var result = await _db.Tariffs.FindAsync(tariff.Id);
+            var result = _tariffService.GetById(tariff.Id);
             if (result != null)
             {
                 ModelState.AddModelError(string.Empty, "Tariff already exist");
                 return View();
             }
-
             if (ModelState.IsValid)
             {
-                _db.Tariffs.Add(tariff);
-                _db.SaveChanges();
+                _tariffService.Create(tariff);
                 TempData["success"] = "Tariff Created Correctly";
                 return RedirectToAction("Index");
             }
+            TempData["error"] = "Invalid tariff";
             return View(tariff);
         }
 
-        public async Task<IActionResult> Edit(String id)
+        public ActionResult Edit(Guid id)
         {
-            var TariffFromDb = await _db.Tariffs.FindAsync(id);
-            return TariffFromDb == null ?
-                NotFound() : View(TariffFromDb);
+            var tariff = _tariffService.GetById(id);
+            if (tariff == null)
+            {
+                TempData["error"] = "Tariff don't found";
+                return RedirectToAction("Edit");
+            }
+            return View(tariff);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Edit(Tariff tariff)
+        public IActionResult Edit(Tariff tariff)
         {
+            var result = _tariffService.GetById(tariff.Id);
+            if (result == null)
+            {
+                TempData["error"] = "Tariff don't found";
+                return RedirectToAction("Edit");
+            }
             if (ModelState.IsValid)
             {
-                _db.Tariffs.Update(tariff);
-                await _db.SaveChangesAsync();
+                _tariffService.Update(tariff);
                 TempData["success"] = "Tariff Updated Correctly";
                 return RedirectToAction("Index");
             }
+            TempData["error"] = "Invalid tariff";
             return View(tariff);
+        }
+
+        public ActionResult Delete(Guid id)
+        {
+            if (_tariffService.Delete(id))
+            {
+                TempData["success"] = "Tariff Deleted Correctly";
+                return RedirectToAction("Index");
+            }
+            TempData["error"] = "Error removing tariff";
+            return RedirectToAction("Index");
         }
 
     }

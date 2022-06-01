@@ -1,5 +1,4 @@
-﻿
-async function getUsersTable() {
+﻿async function getUsersTable() {
     await $.ajax({
         url: 'https://localhost:8080/api/person/get',
         type: 'GET',
@@ -29,7 +28,6 @@ async function getUsersTable() {
         },
     });
 }
-
 
 async function getImage(text) {
     const url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + text
@@ -65,3 +63,43 @@ async function getAllContries() {
         })
 }
 
+function setTariffRules() {
+    const attribute = document.getElementById('attribute');
+    const condition = document.getElementById('condition');
+    let value = attribute.options[attribute.selectedIndex].value;
+    const intConditions = `
+        <option value=""></option>                
+        <option value=">">Greater Than (&gt;)</option>
+        <option value="<">Less Than (&lt;)</option>
+        <option value=">=">Greater Than Or Equal (&le;)</option>
+        <option value="<=">Less Than Or Equal (&ge;)</option>
+        <option value="or">Or(&or;)</option>
+        <option value="<>">Between(&between;)</option>`;
+    const stringConditions = `
+        <option value=""></option>
+        <option value="==">Equal</option>   
+        <option value="!=">Not Equal</option>`;
+    const DEFAULT_CONDITION = '<option value="">Select an attribute</option>';
+    const RULES = {
+        '': DEFAULT_CONDITION,
+        'Age': intConditions,
+    }
+    condition.innerHTML = RULES[value] || stringConditions;
+}
+
+function setValueExample() {
+    const condition = document.getElementById('condition').value;
+    let inputValue = document.getElementById('value');
+    const HINTS = {
+        '': '',
+        '>': '18',
+        '<': '6',
+        '>=': '18',
+        '<=': '6',
+        '<>': '30-75',
+        'or': '<5 or >10',
+        '==': 'FACATATIVA',
+        '!=': 'BOGOTA',
+    }
+    inputValue.setAttribute('placeholder', HINTS[condition]);
+}

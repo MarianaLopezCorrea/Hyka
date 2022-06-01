@@ -12,5 +12,7 @@ namespace Hyka.Services
 
         public int RemovePersonFromGroup(String id);
 
+        public bool SetAsLocal(String id);
+
     }
 }

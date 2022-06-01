@@ -104,11 +104,11 @@ namespace Hyka.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     await validateAndCreateRoles();
-                    if (Input.Rol.Equals("Taquillero"))
+                    if (Input.Rol.Equals(Roles.BLOCKBUSTER))
                     {
                         await _userManager.AddToRoleAsync(user, Roles.BLOCKBUSTER);
                     }
-                    else if (Input.Rol.Equals("Administrador"))
+                    else if (Input.Rol.Equals(Roles.ADMIN))
                     {
                         await _userManager.AddToRoleAsync(user, Roles.ADMIN);
                     }

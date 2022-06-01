@@ -76,7 +76,7 @@ namespace Hyka.Services
                     _tariffService.CreateDefaultTariffs();
                 var tariff = _tariffService.GetByPerson(person);
                 if (tariff != null)
-                    person.TariffId = tariff.Id;
+                    person.TariffId = tariff.Id.ToString();
                 return person;
             }
             return null;
