@@ -31,7 +31,7 @@ PM> update-database
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddLocalization(option => { option.ResourcesPath = "Recursos";});
+builder.Services.AddLocalization(option => { option.ResourcesPath = "Resources";});
 builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
 //Mas soporte
@@ -41,8 +41,7 @@ builder.Services.Configure<RequestLocalizationOptions>(
         var lenguajesSoportados = new List<CultureInfo>
         {
             new CultureInfo("es"),
-            new CultureInfo("en"),
-            new CultureInfo("fr")
+            new CultureInfo("en")
         };
         option.DefaultRequestCulture = new RequestCulture("en");
         option.SupportedCultures = lenguajesSoportados;

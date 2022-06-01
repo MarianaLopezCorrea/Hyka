@@ -1,7 +1,7 @@
 @model Report
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
 @{
-    ViewData["Title"] = "Generate Report";
+    ViewData["Title"] = @localiza["genReport"];
 }
 
 
@@ -12,25 +12,25 @@
 
             <div classs="row pb-2">
                 <h2 class="text-xxl-center">
-                    Generate Report
+                    @localiza["genReport"]
                 </h2>
             </div>
 
             <div class="form-floating my-3">
                 <input asp-for="StartDate" class="form-control" pattern="\d{4}-\d{2}-\d{2}" type="date"
                     value='@DateTime.Now.ToString("yyyy-MM-dd")'>
-                <label asp-for="StartDate" class="form-label"> Start date</label>
+                <label asp-for="StartDate" class="form-label">@localiza["startDate"]</label>
                 <span asp-validation-for="StartDate" class="text-danger"> </span>
             </div>
 
             <div class="form-floating my-3">
                 <input asp-for="EndDate" class="form-control" pattern="\d{4}-\d{2}-\d{2}" type="date"
                     value='@DateTime.Now.ToString("yyyy-MM-dd")' max='@DateTime.Now.ToString("yyyy-MM-dd")'>
-                <label asp-for="EndDate" class="form-label">End date</label>
+                <label asp-for="EndDate" class="form-label">@localiza["endDate"]</label>
                 <span asp-validation-for="EndDate" class="text-danger"> </span>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width:150px"> Export </button>
+            <button type="submit" class="btn btn-primary" style="width:150px">@localiza["export"]</button>
 
         </section>
     </div>

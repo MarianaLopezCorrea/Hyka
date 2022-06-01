@@ -22,21 +22,21 @@
         @if (isAdmin)
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Blockbuster" asp-action="Index">Blockbuster</a>
+                <a class="nav-link" asp-controller="Blockbuster" asp-action="Index">@localiza["blockbusters"]</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Tariff" asp-action="Index">Tariff</a>
+                <a class="nav-link" asp-controller="Tariff" asp-action="Index">@localiza["tariffs"]</a>
             </li>
         }
         else if (isBlockbuster)
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Ingress" asp-action="Ingress">Ingress</a>
+                <a class="nav-link" asp-controller="Ingress" asp-action="Ingress">@localiza["ingress"]</a>
             </li>
         }
 
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Report" asp-action="Report">Reports</a>
+            <a class="nav-link" asp-controller="Report" asp-action="Report">@localiza["reports"]</a>
         </li>
         @* <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -60,22 +60,22 @@
             <div class="dropdown-menu">
 
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index"
-                title="Manage">Profile</a>
+                title="Manage">@localiza["profile"]</a>
 
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Email"
-                title="Manage">Email</a>
+                title="Manage">@localiza["email"]</a>
 
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/ChangePassword"
-                title="Manage"> Change Password</a>
+                title="Manage">@localiza["chaPassword"]</a>
 
                 <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/PersonalData"
-                title="Manage"> Personal Info</a>
+                title="Manage">@localiza["personalInfo"]</a>
 
                 <div class="dropdown-divider"></div>
 
                 <form id="logoutForm" class="" asp-area="Identity" asp-page="/Account/Logout"
                 asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button id="logout" type="submit" class="text-danger dropdown-item">Logout</button>
+                    <button id="logout" type="submit" class="text-danger dropdown-item">@localiza["logout"]</button>
                 </form>
 
             </div>

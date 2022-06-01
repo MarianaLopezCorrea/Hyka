@@ -1,7 +1,7 @@
 ﻿@model Ingress
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
 @{
-    ViewData["Title"] = "Ingreso";
+    ViewData["Title"] = @localiza["ingress"];
 }
 
 
@@ -10,7 +10,7 @@
     <div class="border p-3 mt-4" style="text-align: center;">
         <div classs="row pb-2">
             <h2 class="text-primary">
-                Ingress Register
+                @localiza["ingressRegis"]
             </h2>
         </div>
         <div class="mb-3">
@@ -18,11 +18,11 @@
             <span asp-validation-for="Barcode.Code" class="text-danger"> </span>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:150px"> Register </button>
+        <button type="submit" class="btn btn-primary" style="width:150px">@localiza["register"]</button>
         @* <!-- Button trigger modal --> *@
         <button type="button" onclick="getAllContries()" class=" btn btn-secondary" data-bs-toggle="modal"
             data-bs-target="#registerModal">
-            Add manually
+            @localiza["addManually"]
         </button>
     </div>
 </form>
@@ -34,14 +34,14 @@
         <form method="post" asp-action="SaveGroup">
 
             <table class="table table-bordered table-striped">
-                <caption>Order summary</caption>
+                <caption>@localiza["orderSummary"]</caption>
                 <thead>
                     <tr class="table-primary" style="text-align: center;">
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Amount to be paid</th>
-                        <th>Ingress Date</th>
-                        <th>Delete</th>
+                        <th>@localiza["name"]</th>
+                        <th>@localiza["category"]</th>
+                        <th>@localiza["amountPaid"]</th>
+                        <th>@localiza["ingressDate"]</th>
+                        <th>@localiza["delete"]</th>
                     </tr>
                 </thead>
 
@@ -70,14 +70,14 @@
 
                 <tfoot>
                     <tr class="table-active">
-                        <th> Number of visitors: &nbsp; @Group.PeopleList.Count</th>
-                        <th>Total</th>
+                        <th>@localiza["numberVisitors"] &nbsp; @Group.PeopleList.Count</th>
+                        <th>@localiza["total"]</th>
                         <td>@Group.Total.ToString("C0")</td>
                     </tr>
                 </tfoot>
             </table>
 
-            <button type="submit" class="btn btn-primary"> Proceed to payment </button>
+            <button type="submit" class="btn btn-primary">@localiza["procedPayment"]</button>
 
         </form>
     </div>
@@ -91,7 +91,7 @@
             <div class="modal-header bg-light">
                 <h5 class="modal-title" id="registerModalLabel">
                     <i class="bi bi-person-plus-fill"></i> &nbsp;
-                    Register new visitor
+                    @localiza["regNewVisitor"]
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -101,38 +101,38 @@
                     <script type="text/javascript" src="~/js/site.js"></script>
 
                     <div class="mb-3">
-                        <label asp-for="Manual.Person.Id">Identification document</label>
+                        <label asp-for="Manual.Person.Id">@localiza["id"]</label>
                         <input asp-for="Manual.Person.Id" class="form-control" />
                         <span asp-validation-for="Manual.Person.Id" class="text-danger"> </span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Manual.Person.FullName">Name</label>
+                        <label asp-for="Manual.Person.FullName">@localiza["name"]</label>
                         <input asp-for="Manual.Person.FullName" class="form-control text-uppercase" />
                         <span asp-validation-for="Manual.Person.FullName" class="text-danger"> </span>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col">
-                            <label asp-for="Manual.Person.Age">Age</label>
+                            <label asp-for="Manual.Person.Age">@localiza["age"]</label>
                             <input asp-for="Manual.Person.Age" type="number" class="form-control">
                             <span asp-validation-for="Manual.Person.Age" class="text-danger"> </span>
                         </div>
                         <div class="col">
-                            <label asp-for="Manual.Person.Gender">Gender</label>
+                            <label asp-for="Manual.Person.Gender">@localiza["gender"]</label>
                             <select class="form-select" asp-for="Manual.Person.Gender">
                                 <option selected></option>
-                                <option value="F">Female</option>
-                                <option value="M">Male</option>
-                                <option value="NB">Non-Binary</option>
-                                <option value="UF">Undefined</option>
+                                <option value="F">@localiza["female"]</option>
+                                <option value="M">@localiza["male"]</option>
+                                <option value="NB">@localiza["nonBinary"]</option>
+                                <option value="UF">@localiza["undefined"]</option>
                             </select>
                             <span asp-validation-for="Manual.Person.Gender" class="text-danger"> </span>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Manual.Person.Country">Country</label>
+                        <label asp-for="Manual.Person.Country">@localiza["country"]</label>
                         <select id="countries" class="form-select" asp-for="Manual.Person.Country">
                             <option selected> </option>
                         </select>
@@ -141,8 +141,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@localiza["close"]</button>
+                    <button type="submit" class="btn btn-primary">@localiza["save"]</button>
                 </div>
 
             </form>

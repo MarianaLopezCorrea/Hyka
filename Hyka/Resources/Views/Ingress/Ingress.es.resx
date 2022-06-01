@@ -117,22 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="inicio" xml:space="preserve">
-    <value>Début</value>
+  <data name="addManually" xml:space="preserve">
+    <value>Agregar manualmente</value>
   </data>
-  <data name="login" xml:space="preserve">
-    <value>Connexion</value>
+  <data name="age" xml:space="preserve">
+    <value>Edad</value>
   </data>
-  <data name="priv" xml:space="preserve">
-    <value>Confidentialité</value>
+  <data name="amountPaid" xml:space="preserve">
+    <value>Monto a pagar</value>
   </data>
-  <data name="reg" xml:space="preserve">
-    <value>S'inscrire</value>
+  <data name="category" xml:space="preserve">
+    <value>Categoria</value>
   </data>
-  <data name="serv" xml:space="preserve">
-    <value>Prestations de service</value>
+  <data name="close" xml:space="preserve">
+    <value>Cerrar</value>
   </data>
-  <data name="serv_in" xml:space="preserve">
-    <value>Action</value>
+  <data name="country" xml:space="preserve">
+    <value>País</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="female" xml:space="preserve">
+    <value>Femenino</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Genero</value>
+  </data>
+  <data name="id" xml:space="preserve">
+    <value>Documento de Identificación</value>
+  </data>
+  <data name="ingress" xml:space="preserve">
+    <value>Ingreso</value>
+  </data>
+  <data name="ingressDate" xml:space="preserve">
+    <value>Fecha de ingreso</value>
+  </data>
+  <data name="ingressRegis" xml:space="preserve">
+    <value>Registro de ingreso</value>
+  </data>
+  <data name="male" xml:space="preserve">
+    <value>Masculino</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="nonBinary" xml:space="preserve">
+    <value>Género fluido</value>
+  </data>
+  <data name="numberVisitors" xml:space="preserve">
+    <value>Numero de visitantes</value>
+  </data>
+  <data name="orderSummary" xml:space="preserve">
+    <value>Resumen del pedido</value>
+  </data>
+  <data name="procedPayment" xml:space="preserve">
+    <value>Proceder al pago</value>
+  </data>
+  <data name="register" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="regNewVisitor" xml:space="preserve">
+    <value>Registrar nuevo visitante</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="undefined" xml:space="preserve">
+    <value>Indefinido</value>
   </data>
 </root>

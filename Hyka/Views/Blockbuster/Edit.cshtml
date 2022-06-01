@@ -1,5 +1,5 @@
 ﻿@model Blockbuster
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
 <form method="post" asp-action="Edit">
     <input asp-for="Id" hidden />
     <input asp-for="Email" hidden />
@@ -9,51 +9,51 @@
 
         <div class="row pb-2">
             <h2 class="text-primary">
-                Editar información de taquillero
+                @localiza["editInformation"]
             </h2>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Id">Cédula</label>
+            <label asp-for="Id">@localiza["id"]</label>
             <input asp-for="Id" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Names">Nombres</label>
+            <label asp-for="Names">@localiza["name"]</label>
             <input asp-for="Names" class="form-control" />
             <span asp-validation-for="Names" class="text-danger"> </span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Surnames">Apellidos</label>
+            <label asp-for="Surnames">@localiza["surname"]</label>
             <input asp-for="Surnames" class="form-control" />
             <span asp-validation-for="Surnames" class="text-danger"> </span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Age">Edad</label>
+            <label asp-for="Age">@localiza["age"]</label>
             <input asp-for="Age" class="form-control" />
             <span asp-validation-for="Age" class="text-danger"> </span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Gender">Genero</label>
+            <label asp-for="Gender">@localiza["gender"]</label>
             <input asp-for="Gender" class="form-control" />
             <span asp-validation-for="Gender" class="text-danger"> </span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Email">Email</label>
+            <label asp-for="Email">@localiza["email"]</label>
             <input asp-for="Email" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Password">Password</label>
+            <label asp-for="Password">@localiza["password"]</label>
             <input asp-for="Password" disabled class="form-control" />
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:150px"> Update </button>
-        <a asp-controller="Blockbuster" asp-action="Index" class="btn btn-secondary" style="width:150px"> View list</a>
+        <button type="submit" class="btn btn-primary" style="width:150px">@localiza["update"]</button>
+        <a asp-controller="Blockbuster" asp-action="Index" class="btn btn-secondary" style="width:150px">@localiza["viewList"]</a>
     </div>
 
 </form>

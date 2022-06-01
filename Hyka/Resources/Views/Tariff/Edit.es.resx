@@ -117,22 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="slide1" xml:space="preserve">
-    <value>Première étiquette de diapositive</value>
+  <data name="editInformation" xml:space="preserve">
+    <value>Editar información de la tarifa</value>
   </data>
-  <data name="slide2" xml:space="preserve">
-    <value>Deuxième étiquette de diapositive</value>
+  <data name="price" xml:space="preserve">
+    <value>Precio</value>
   </data>
-  <data name="slide3" xml:space="preserve">
-    <value>Étiquette de la troisième diapositive</value>
+  <data name="tariff" xml:space="preserve">
+    <value>Tarifa</value>
   </data>
-  <data name="text1" xml:space="preserve">
-    <value>Un contenu d'espace réservé représentatif pour la première diapositive.</value>
+  <data name="update" xml:space="preserve">
+    <value>Actualizar</value>
   </data>
-  <data name="text2" xml:space="preserve">
-    <value>Un contenu d'espace réservé représentatif pour la deuxième diapositive.</value>
-  </data>
-  <data name="text3" xml:space="preserve">
-    <value>Un contenu d'espace réservé représentatif pour la troisième diapositive.</value>
+  <data name="viewList" xml:space="preserve">
+    <value>Ver lista</value>
   </data>
 </root>

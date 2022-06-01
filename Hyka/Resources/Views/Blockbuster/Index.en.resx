@@ -117,22 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="inicio" xml:space="preserve">
-    <value>Home</value>
+  <data name="addNew" xml:space="preserve">
+    <value>Add new</value>
   </data>
-  <data name="login" xml:space="preserve">
-    <value>Login</value>
+  <data name="blockbusters" xml:space="preserve">
+    <value>Blockbusters</value>
   </data>
-  <data name="priv" xml:space="preserve">
-    <value>Privacy</value>
+  <data name="bluckbustersList" xml:space="preserve">
+    <value>Bluckbusters List</value>
   </data>
-  <data name="reg" xml:space="preserve">
-    <value>Register</value>
+  <data name="creationDate" xml:space="preserve">
+    <value>Creation date</value>
   </data>
-  <data name="serv" xml:space="preserve">
-    <value>Services</value>
+  <data name="email" xml:space="preserve">
+    <value>Email</value>
   </data>
-  <data name="serv_in" xml:space="preserve">
-    <value>Action</value>
+  <data name="name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="surname" xml:space="preserve">
+    <value>Surname</value>
   </data>
 </root>

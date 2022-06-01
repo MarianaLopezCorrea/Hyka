@@ -1,5 +1,5 @@
 ﻿@model Blockbuster
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localiza
 <form method="post" asp-action="Delete">
 
     <input asp-for="Id" hidden />
@@ -8,41 +8,41 @@
 
         <div classs="row pb-2">
             <h2 class="text-primary">
-                Delete Blockbuster
+                @localiza["deleteBlockbuster"]
             </h2>
         </div>
         <div class="mb-3">
-            <label asp-for="Id">Id</label>
+            <label asp-for="Id">@localiza["id"]</label>
             <input asp-for="Id" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Names">Names</label>
+            <label asp-for="Names">@localiza["name"]</label>
             <input asp-for="Names" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Surnames">Surnames</label>
+            <label asp-for="Surnames">@localiza["surname"]</label>
             <input asp-for="Surnames" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Age">Age</label>
+            <label asp-for="Age">@localiza["age"]</label>
             <input asp-for="Age" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Gender">Gender</label>
+            <label asp-for="Gender">@localiza["gender"]</label>
             <input asp-for="Gender" disabled class="form-control" />
         </div>
 
         <div class="mb-3">
-            <label asp-for="Email">Email</label>
+            <label asp-for="Email">@localiza["email"]</label>
             <input asp-for="Email" disabled class="form-control" />
         </div>
 
-        <button type="submit" class="btn btn-danger" style="width:150px"> Eliminar </button>
-        <a asp-controller="Blockbuster" asp-action="Index" class="btn btn-primary" style="width:150px"> View list</a>
+        <button type="submit" class="btn btn-danger" style="width:150px">@localiza["delete"]</button>
+        <a asp-controller="Blockbuster" asp-action="Index" class="btn btn-primary" style="width:150px">@localiza["viewList"]</a>
     
     </div>
 
