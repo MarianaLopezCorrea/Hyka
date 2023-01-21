@@ -2,20 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
+using Hyka.Extensions;
+using Hyka.Models;
 
 namespace Hyka.Areas.Identity.Pages.Account
 {
@@ -86,18 +80,12 @@ namespace Hyka.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, "User don't found");
                     return Page();
                 }
-                var result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, lockoutOnFailure: false);
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError(string.Empty, "Incorrect Password");
-                    return Page();
-                }
+                var result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim> {
                         new Claim(ClaimTypes.Name, user.UserName)
                     };
-
                     var userRoles = await _signInManager.UserManager.GetRolesAsync(user);
                     if (userRoles.Any())
                     {
@@ -106,15 +94,11 @@ namespace Hyka.Areas.Identity.Pages.Account
                             claims.Add(new Claim(ClaimTypes.Role, role));
                         });
                     }
-                    
                     await _signInManager.SignInWithClaimsAsync(
                         user,
                         Input.RememberMe,
                         claims
                     );
-
-                    // var token = getToken(claims);
-
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
@@ -126,6 +110,11 @@ namespace Hyka.Areas.Identity.Pages.Account
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
                 }
             }
             // If we got this far, something failed, redisplay form

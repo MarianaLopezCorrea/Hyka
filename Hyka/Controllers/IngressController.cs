@@ -1,81 +1,124 @@
-using Hyka.Data;
 using Microsoft.AspNetCore.Mvc;
 using Hyka.Models;
-using System.Text.Json;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
-using Hyka.Areas.Identity.PoliciesDefinition;
-using static Hyka.Models.Ingress;
+
 using Hyka.Services;
+using Hyka.Extensions;
+using System.Text.Json;
+using Hyka.Dtos;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using Hyka.Areas.Identity.RolesDefinition;
 
 namespace Hyka.Controllers
 {
-    [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
+    [Authorize(Roles = $"{Roles.BLOCKBUSTER}")]
+    [AutoValidateAntiforgeryToken]
     public class IngressController : Controller
     {
 
         private readonly IIngressService _ingressService;
+        private readonly ITariffService _tariffService;
 
-        public IngressController(IIngressService ingressService)
+        public IngressController(IIngressService ingressService, ITariffService tariffService)
         {
             _ingressService = ingressService;
+            _tariffService = tariffService;
         }
 
         public IActionResult Ingress()
         {
+            _setSessionVaribles(HttpContext.Session);
             return View();
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult SaveManual(Manual manual)
+        public IActionResult SaveManually(PersonDto personDto)
         {
             if (ModelState.IsValid)
             {
-                manual.Person.FullName = manual.Person.FullName.ToUpper();
-                if (_ingressService.AddToGroup(manual.Person))
-                    TempData["success"] = "User added correctly";
+                if (_ingressService.AddToIngressList(HttpContext.Session, personDto))
+                    TempData["status"] = JsonSerializer.Serialize(new { type = "success", message = "Lista de ingreso actualizada" });
                 else
-                    TempData["error"] = "User already exists";
+                    TempData["status"] = JsonSerializer.Serialize(new { type = "error", message = "Error, por favor, intente de nuevo" });
             }
             return RedirectToAction("Ingress");
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult Decode(Barcode barcode)
+        public IActionResult Decode(String barcode)
         {
             if (ModelState.IsValid)
             {
-                var person = _ingressService.Decode(barcode);
-                if (_ingressService.AddToGroup(person))
-                    TempData["success"] = "User added correctly";
+                var personDto = _ingressService.Decode(barcode);
+
+                if (personDto == null)
+                {
+                    TempData["status"] = JsonSerializer.Serialize(new
+                    {
+                        type = "error",
+                        message = "Código PDF417 inválido o Documento no encontrado"
+                    });
+                    return RedirectToAction("Ingress");
+                }
+                if (_ingressService.AddToIngressList(HttpContext.Session, personDto))
+                    TempData["status"] = JsonSerializer.Serialize(new { type = "success", message = "Lista de ingreso actualizada" });
                 else
-                    TempData["error"] = "User already exists";
+                    TempData["status"] = JsonSerializer.Serialize(new { type = "error", message = "Error, por favor, intente de nuevo" });
             }
             return RedirectToAction("Ingress");
         }
 
-        public IActionResult SaveGroup()
+        [HttpPost]
+        public IActionResult SaveIngressList()
         {
             if (ModelState.IsValid)
             {
-                _ingressService.SaveGroup();
-                TempData["success"] = "Order complete successful";
+                _ingressService.SaveIngressList(HttpContext);
+                TempData["status"] = JsonSerializer.Serialize(new { type = "success", message = "Lista guardada exitosamente" });
             }
             return RedirectToAction("Ingress");
         }
 
+        [HttpGet]
         public IActionResult Delete(string id)
         {
             if (id == null)
             {
-                TempData["error"] = "Invalid ID";
+                TempData["status"] = JsonSerializer.Serialize(new { type = "error", message = "ID inválida" });
                 return RedirectToAction("Ingress");
             }
-            _ingressService.RemovePersonFromGroup(id);
-            TempData["success"] = "Deleted successfully";
+            if (_ingressService.RemovePersonFromIngressList(HttpContext.Session, id))
+                TempData["status"] = JsonSerializer.Serialize(new { type = "success", message = "Lista de ingreso actualizada" });
+            else
+                TempData["status"] = JsonSerializer.Serialize(new { type = "error", message = "El usuario no se encuentra en la lista" });
+
             return RedirectToAction("Ingress");
+        }
+
+
+        [HttpGet]
+        public IActionResult HasPet(string id)
+        {
+            if (id == null)
+            {
+                TempData["status"] = JsonSerializer.Serialize(new { type = "error", message = "ID inválida" });
+                return RedirectToAction("Ingress");
+            }
+            if (!_ingressService.HasPet(HttpContext.Session, id))
+                TempData["status"] = JsonSerializer.Serialize(new { type = "error", message = "ID inválida" });
+
+            return RedirectToAction("Ingress");
+        }
+
+        private void _setSessionVaribles(ISession session)
+        {
+            var ingressList = session.GetObject<List<KeyValuePair<PersonDto, Tariff>>>("INGRESS_LIST");
+            int? total = session.GetObject<Int32>("TOTAL");
+            if (ingressList == null)
+                session.SetObject("INGRESS_LIST", new List<KeyValuePair<PersonDto, Tariff>>());
+            if (total == null)
+                session.SetObject("TOTAL", 0);
         }
 
     }

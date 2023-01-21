@@ -1,94 +1,107 @@
-﻿using Hyka.Data;
+﻿using Hyka.Areas.Identity.RolesDefinition;
 using Hyka.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text.Json;
+using Hyka.Dtos;
 
 namespace Hyka.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = $"{Roles.ADMIN}")]
+    [AutoValidateAntiforgeryToken]
     public class BlockbusterController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public BlockbusterController(ApplicationDbContext db)
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly IEmailSender _emailSender;
+        private readonly ILogger<Blockbuster> _logger;
+
+        public BlockbusterController(
+            UserManager<IdentityUser> userManager,
+            IUserStore<IdentityUser> userStore,
+            IEmailSender emailSender,
+            ILogger<Blockbuster> logger)
         {
-            _db = db;
+            _emailSender = emailSender;
+            _userManager = userManager;
+            _userStore = userStore;
+            _emailStore = _getEmailStore();
+            _logger = logger;
         }
         public IActionResult Index()
-        {
-            IEnumerable<Blockbuster> objBlockbusterList = _db.Blockbusters;
-            return View(objBlockbusterList);
-        }
-
-        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Create(Blockbuster obj)
+        public async Task<IActionResult> CreateAsync(Blockbuster blockbuster)
         {
             if (ModelState.IsValid)
             {
-                await _db.Blockbusters.AddAsync(obj);
-                await _db.SaveChangesAsync();
-                TempData["success"] = "Blockbuster Created Correctly";
-                return RedirectToAction("Index");
+                var user = _createUser();
+                await _userStore.SetUserNameAsync(user, blockbuster.UserName, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, blockbuster.Email, CancellationToken.None);
+                var bytes = RandomNumberGenerator.GetBytes(128 / 8);
+                var randomPassword = Convert.ToBase64String(bytes);
+                var result = await _userManager.CreateAsync(user, randomPassword);
+                if (result.Succeeded)
+                {
+                    var currentAdmin = await _userManager.GetUserAsync(User);
+                    await _userManager.AddToRoleAsync(user, Roles.BLOCKBUSTER);
+                    _logger.LogInformation($"{User.Identity.Name} has registered a new user {user.UserName}");
+                    var loginUrl = Url.Page("/Account/Login", values: new { area = "Identity" });
+                    var message = new MessageDto
+                    {
+                        Head = $"Hola, {user.UserName}. Bienvenid@ al PAF!",
+                        Body = $"Ahora eres taquillero." +
+                               $"Tus credenciales de acceso:\n" +
+                               $"Usuario: {user.UserName}\n" +
+                               $"Correo: {user.Email}\n" +
+                               $"Contraseña: {randomPassword}\n\n" +
+                               $"Clic en el boton para logearte",
+                        Url = loginUrl
+                    };
+                    await _emailSender.SendEmailAsync(
+                        user.Email,
+                        $"Cuenta para taquilla PAF creada",
+                        JsonSerializer.Serialize(message)
+                    );
+                    TempData["status"] = JsonSerializer.Serialize(new { type = "success", message = "Se ha notificado al correo." });
+                    return RedirectToAction("Index");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
-            return View(obj);
+            return View("Index", blockbuster);
         }
 
-        public IActionResult Edit(int? id)
+        private IdentityUser _createUser()
         {
-            if (id == null || id == 0)
+            try
             {
-                return NotFound();
+                return Activator.CreateInstance<IdentityUser>();
             }
-            var BlockbusterFromDb = _db.Blockbusters.Find(id);
-            //var BlockbusterFromDbFirst = _db.Blockbusters.FirstOrDefault(c => c.Id == id);
-            //var BlockbusterFromDbSingle = _db.Blockbusters.SingleOrDefault(c => c.Id == id);
-            return BlockbusterFromDb == null ?
-                NotFound() : View(BlockbusterFromDb);
-        }
-
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(Blockbuster obj)
-        {
-            if (ModelState.IsValid)
+            catch
             {
-                _db.Blockbusters.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Blockbuster Updated Correctly";
-                return RedirectToAction("Index");
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
+                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
-            return View(obj);
         }
 
-        public IActionResult Delete(int? id)
+        private IUserEmailStore<IdentityUser> _getEmailStore()
         {
-            if (id == null || id == 0)
-                return BadRequest();
-
-            var BlockbusterFromDb = _db.Blockbusters.Find(id);
-            return BlockbusterFromDb == null ?
-                NotFound() : View(BlockbusterFromDb);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult DeletePOST(int? id)
-        {
-            var obj = _db.Blockbusters.Find(id);
-            if (obj == null)
+            if (!_userManager.SupportsUserEmail)
             {
-                return NotFound();
+                throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-
-            _db.Blockbusters.Remove(obj);
-            _db.SaveChanges();
-            TempData["success"] = "Blockbuster Deleted Correctly";
-            return RedirectToAction("Index");
+            return (IUserEmailStore<IdentityUser>)_userStore;
         }
 
     }

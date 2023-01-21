@@ -6,72 +6,59 @@ using Hyka.Data;
 using Syncfusion.Pdf.Grid;
 using System.Data;
 using Hyka.Models;
-
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 namespace Hyka.Services
 {
     public class ReportService : IReportService
     {
-
-        public DataColumn[] REPORT_COLUMNS { get; set; } =
-        {
-            new DataColumn("Categoría"),
-            new DataColumn("Cantidad"),
-            new DataColumn("Recaudado")
-        };
+        private readonly ApplicationDbContext _db;
 
         private readonly IHistoryService _historyService;
 
-        public ReportService(IHistoryService historyService)
+        private readonly IPersonService _personService;
+
+        public ReportService(ApplicationDbContext db, IHistoryService historyService, IPersonService personService)
         {
+            _db = db;
             _historyService = historyService;
+            _personService = personService;
         }
 
-        public FileStreamResult DownloadPdf(PdfDocument document)
+        public string GetJsonReport(ReportParamsDto rParams)
         {
-            //Saving the PDF to the MemoryStream
-            MemoryStream stream = new MemoryStream();
-            document.Save(stream);
-            stream.Position = 0;
-            //Close the document.
-            document.Close(true);
-            //Download the PDF document in the browser
-            FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/pdf");
-            fileStreamResult.FileDownloadName = "Report_" + DateTime.Now.ToShortDateString() + ".pdf";
-            return fileStreamResult;
+            var pair = rParams.Type + rParams.IsFiltered.ToString();
+            var REPORT_DATA = new Dictionary<string, Func<String>>(){
+                {
+                    "PeopleTrue", () => _getJsonAsync(_personService.GetBetween(rParams.StartDate, rParams.EndDate)).Result
+                },
+                {
+                    "HistoryTrue",() =>  _getJsonAsync(_historyService.GetBetween(rParams.StartDate, rParams.EndDate)).Result
+                },
+                {
+                    "PeopleFalse", () => _getJsonAsync(_personService.GetAll()).Result
+                },
+                {
+                    "HistoryFalse", () => _getJsonAsync(_historyService.GetAll()).Result
+                }
+            };
+            return REPORT_DATA[pair].Invoke();
         }
 
-        public PdfDocument ExportToPdf(Report param)
+        private static async Task<string> _getJsonAsync<T>(T obj)
         {
-            PdfDocument document = new PdfDocument();
-            PdfPage page = document.Pages.Add();
-            PdfGraphics graphics = page.Graphics;
-            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
-            //Report Title
-            graphics.DrawString("Park report", font, PdfBrushes.Black, new PointF(0, 0));
-            //Create a PdfGrid.
-            PdfGrid pdfGrid = new PdfGrid();
-            DataTable table = new DataTable();
-            table.Columns.AddRange(REPORT_COLUMNS);
-            var history = _historyService.GetBetween(param.StartDate, param.EndDate)
-                            .GroupBy(r => r.TariffName)
-                            .Select(g => new
-                            {
-                                category = g.Key,
-                                count = g.Count(),
-                                collect = g.Sum(r => r.Price)
-                            });
-            var subtotal = history.Sum(r => r.count);
-            var total = history.Sum(r => r.collect);
-            foreach (var record in history)
+            string json = string.Empty;
+            using (var stream = new MemoryStream())
             {
-                table.Rows.Add(record.category, record.count, record.collect);
+                await JsonSerializer.SerializeAsync<T>(stream, obj);
+                stream.Position = 0;
+                using var reader = new StreamReader(stream);
+                json = await reader.ReadToEndAsync();
             }
-            table.Rows.Add("Total", subtotal, total);
-            pdfGrid.DataSource = table;
-            //Draw grid to the page of PDF document.
-            pdfGrid.Draw(page, new PointF(30, 30));
-            //Close the document.
-            return document;
+            return json;
         }
+
+
     }
 }

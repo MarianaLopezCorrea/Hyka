@@ -1,67 +1,102 @@
-﻿@model IEnumerable<Blockbuster>
+﻿@model Blockbuster
+@using Hyka.Areas.Identity.RolesDefinition
+@using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
+@inject UserManager<IdentityUser> UserManager
+
 @{
+    var colors = new List<string>() { "amber", "blue", "blueGrey", "brown", "cyan", "deepOrange", "deepPurple", "green",
+"grey", "indigo", "lightBlue", "lightGreen", "lime", "orange", "pink","purple", "red", "teal", "yellow" };
+    var blockbusterList = UserManager.GetUsersInRoleAsync(Roles.BLOCKBUSTER).Result;
     ViewData["Title"] = @localize["blockbusters"];
 }
 
+@* https://avatars.dicebear.com to get profile pics https://avatars.dicebear.com/docs/http-api *@
 <div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">@localize["bluckbustersList"]</h2>
+
+    <nav>
+        <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+            <button class="nav-link active h4" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                type="button" role="tab" aria-controls="nav-home" aria-selected="true"> Personal
+            </button>
+
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-expanded="false"> <i class="bi bi-gear-fill"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addBlockbuster">Agregar</a>
+                    <li><a class="dropdown-item" onclick="window.location.reload()">Actualizar</a></li>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Blockbuster" asp-action="Create" class="btn btn-success btn-lg">
-                @localize["addNew"] &nbsp; <i class="bi bi-plus-square-dotted"></i>
-            </a>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+            <div class="row row-cols-1 row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 g-4 py-3">
+
+                @foreach (var user in blockbusterList)
+                {
+                    var n = Random.Shared.Next(0, colors.Count);
+                    <div class="col">
+                        <div class="card h-100 mx-auto" style="width: 18rem;">
+                            <img src="https://avatars.dicebear.com/api/initials/{@user.UserName}.svg?backgroundColors[]=@colors[@n]"
+                            class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@user.UserName</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Taquilla</h6>
+                                <p class="card-text">@user.PhoneNumber</p>
+                            </div>
+                            <div class="card-footer">@user.Email</div>
+                        </div>
+                    </div>
+                }
+
+            </div>
         </div>
     </div>
 
 </div>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr class="table-primary" style="text-align: center;">
-            <th>@localize["name"]</th>
-            <th>@localize["surname"]</th>
-            <th>@localize["email"]</th>
-            <th>@localize["creationDate"]</th>
-            <th>@localize["options"]</th>
-        </tr>
-    </thead>
+@* <!-- Modal --> *@
+<div class="modal fade" id="addBlockbuster" tabindex="-1" aria-labelledby="addBlockbusterLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #E9ECEF;">
+                <h5 class="modal-title" id="addBlockbusterLabel">
+                    <i class="bi bi-shield-lock-fill"></i> &nbsp; Datos de acceso
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-action="Create">
+                <div class="modal-body">
 
-    <tbody>
-        @foreach (var obj in Model)
-        {
-            <tr class="table-light">
-                <td>
-                    @obj.Names
-                </td>
-                <td>
-                    @obj.Surnames
-                </td>
-                <td>
-                    @obj.Email
-                </td>
-                <td>
-                    @obj.CreatedDateTime
-                </td>
-
-                <td style="text-align: center;">
-                    <div class="w-75 btn-group" role="group">
-
-                        <a asp-controller="Blockbuster" asp-action="Edit" asp-route-id="@obj.Id"
-                        class="btn btn-primary mx-2">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-
-                        <a asp-controller="Blockbuster" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger">
-                            <i class="bi bi-x-square-fill"></i>
-                        </a>
-
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-person-check-fill"></i></span>
+                        <input asp-for="UserName" type="text" class="form-control" placeholder="Usuario">
+                        <span asp-validation-for="UserName" class="text-danger"> </span>
                     </div>
 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-envelope-check-fill"></i></span>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Correo Electrónico">
+                        <span asp-validation-for="Email" class="text-danger"> </span>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@* <!-- Modal --> *@
+
+
+@section Scripts{
+<partial name="_ValidationScriptsPartial" />
+}

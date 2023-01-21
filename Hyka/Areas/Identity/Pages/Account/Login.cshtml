@@ -1,22 +1,23 @@
 ﻿@page
-@model LoginModel 
+@model LoginModel
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
 
-<div class="col-md-4" style="margin: 0 auto">
+<div class="col-sm-8 col-md-7 col-lg-5 col-xl-4 mx-auto my-4 border rounded-3 p-4">
     <h1 class="text-center">@localize["text1"]</h1>
     <section>
         <form id="account" method="post">
             <h2 class="text-center">@localize["text2"]</h2>
             <hr />
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating my-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input asp-for="Input.Email" class="form-control" placeholder='@localize["em"]' aria-required="true" />
                 <label asp-for="Input.Email" class="form-label">@localize["em"]</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating my-3 caption">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password"
-                    aria-required="true" />
+                <input asp-for="Input.Password" class="form-control" placeholder='@localize["pass"]'
+                    autocomplete="current-password" aria-required="true" />
                 <label asp-for="Input.Password" class="form-label">@localize["pass"]</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
@@ -24,7 +25,7 @@
                 <div class="checkbox my-3">
                     <label asp-for="Input.RememberMe" class="form-label">
                         <input class="form-check-input" asp-for="Input.RememberMe" />
-                            @localize["remem"]
+                        @localize["remem"]
                     </label>
                 </div>
             </div>
@@ -34,10 +35,11 @@
             <hr />
             <div class="text-center">
                 <p>
-                    <a id="forgot-password" style="text-align: center;" asp-page="./ForgotPassword">@localize["forgot"]</a>
+                    <a id="forgot-password" asp-page="./ForgotPassword">@localize["forgot"]</a>
                 </p>
                 <p>
-                    @localize["dontacc"] <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@localize["reg"]</a>
+                    @localize["dontacc"] <a asp-page="./Register"
+                        asp-route-returnUrl="@Model.ReturnUrl">@localize["reg"]</a>
                 </p>
             </div>
         </form>

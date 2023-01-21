@@ -1,16 +1,19 @@
+using Hyka.Dtos;
 using Hyka.Models;
 
 namespace Hyka.Services
 {
     public interface IIngressService
     {
-        public Person Decode(Barcode barcode);
+        public bool AddToIngressList(ISession session, PersonDto personDto);
 
-        public bool AddToGroup(Person person);
+        public bool RemovePersonFromIngressList(ISession session, String id);
 
-        public void SaveGroup();
+        public void SaveIngressList(HttpContext context);
 
-        public int RemovePersonFromGroup(String id);
+        public bool HasPet(ISession session, String id);
 
+        public PersonDto Decode(String barcode);
+        
     }
 }

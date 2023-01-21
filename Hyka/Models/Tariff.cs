@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Hyka.Models
 {
@@ -7,10 +8,16 @@ namespace Hyka.Models
     {
         [Key]
         public String Id { get; set; }
+
         [Required]
         public String Name { get; set; }
+
         [Required]
         public int Price { get; set; }
+
+        [Required]
+        [JsonIgnore]
+        public DateTime UpdateTime { get; set; } = TimeZoneInfo.ConvertTimeFromUtc(DateTimeOffset.UtcNow.DateTime, TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time"));
 
         public Tariff(string id, string name, int price)
         {
@@ -19,8 +26,6 @@ namespace Hyka.Models
             Price = price;
         }
 
-        public Tariff()
-        {
-        }
+        public Tariff() { }
     }
 }

@@ -86,6 +86,10 @@ namespace Hyka.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
+                if (await _userManager.IsLockedOutAsync(user))
+                {
+                    await _userManager.SetLockoutEndDateAsync(user, null);
+                }
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 

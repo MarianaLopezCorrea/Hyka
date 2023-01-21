@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Hyka.Data;
 using Microsoft.AspNetCore.Authorization;
-using Hyka.Areas.Identity.PoliciesDefinition;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Hyka.Models;
 using Hyka.Services;
@@ -11,7 +11,6 @@ namespace Hyka.Service.Controllers
 {
     [ApiController]
     [Route("api/territories")]
-    [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
     public class TerritoryController : ControllerBase
@@ -38,7 +37,5 @@ namespace Hyka.Service.Controllers
             var territory = _territoryService.GetById(daneId);
             return territory != null ? Ok(territory) : NotFound();
         }
-
-
     }
 }

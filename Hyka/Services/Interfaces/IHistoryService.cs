@@ -4,8 +4,10 @@ namespace Hyka.Services
 {
     public interface IHistoryService
     {
-        public int Create(History history);
+        public int Create(Record record);
 
-        public IQueryable<History> GetBetween(DateTime start, DateTime end);
+        public IQueryable<Record> GetAll();
+
+        public IEnumerable<Record> GetBetween(DateTime start, DateTime end);
     }
 }

@@ -1,6 +1,7 @@
 using Hyka.Data;
 using Hyka.Models;
-using Microsoft.AspNetCore.Identity;
+using Hyka.Extensions;
+using Hyka.Dtos;
 
 namespace Hyka.Services
 {
@@ -11,7 +12,6 @@ namespace Hyka.Services
         private readonly ITariffService _tariffService;
         private readonly ITerritoryService _territoryService;
         private readonly IHistoryService _historyService;
-
 
         public IngressService(
             ApplicationDbContext db,
@@ -26,45 +26,75 @@ namespace Hyka.Services
             _territoryService = territoryService;
             _historyService = historyService;
         }
-
-        public bool AddToGroup(Person person)
-        {
-            if (Group.PeopleList.Exists(p => p.Key.Id == person.Id))
-                return false;
-            var tariff = _tariffService.GetByPerson(person);
-            if (person.TariffId == null)
-                person.TariffId = tariff.Id;
-            KeyValuePair<Person, Tariff> personInfo = new(person, tariff);
-            Group.PeopleList.Add(personInfo);
-            Group.Total = Group.PeopleList.Sum(t => t.Value.Price);
-            return true;
-        }
-
-        public Person Decode(Barcode barcode)
+        public PersonDto Decode(String barcode)
         {
             return _personService.FromBarcode(barcode);
         }
 
-        public int RemovePersonFromGroup(string id)
+        public void SaveIngressList(HttpContext context)
         {
-            var number = Group.PeopleList.RemoveAll(p => p.Key.Id == id);
-            Group.Total = Group.PeopleList.Sum(t => t.Value.Price);
-            return number;
+            var blockbusterName = context.User.Identity.Name;
+            var ingressList = context.Session.GetObject<List<KeyValuePair<PersonDto, Tariff>>>("INGRESS_LIST");
+            var recordId = Guid.NewGuid().ToString();
+            int ingressCount = 0;
+            foreach (var pair in ingressList)
+            {
+                var personDto = pair.Key;
+                var tariff = pair.Value;
+                var record = new Record(
+                    recordId + "-" + ingressCount++.ToString(),
+                    personDto.Id,
+                    blockbusterName,
+                    tariff.Name,
+                    tariff.Price,
+                    personDto.HasPet
+                );
+                if (_personService.GetById(personDto.Id) == null)
+                    _personService.Create(PersonDto.Map(personDto));
+                else
+                    _personService.Update(PersonDto.Map(personDto));
+
+                _historyService.Create(record);
+            }
+            context.Session.Clear();
         }
 
-        public void SaveGroup()
+        public bool AddToIngressList(ISession session, PersonDto personDto)
         {
-            foreach (var pair in Group.PeopleList)
-            {
-                var person = pair.Key;
-                var tariff = pair.Value;
-                var history = new History(Guid.NewGuid(), person.Id, tariff.Name, tariff.Price);
-                if (_personService.GetById(person.Id) == null)
-                    _personService.Create(person);
-                _historyService.Create(history);
-            }
-            Group.PeopleList.Clear();
-            Group.Total = 0;
+            var ingressList = session.GetObject<List<KeyValuePair<PersonDto, Tariff>>>("INGRESS_LIST");
+            if (ingressList.Exists(p => p.Key.Id == personDto.Id))
+                ingressList.RemoveAll(p => p.Key.Id == personDto.Id);
+            if (personDto.District != null)
+                personDto.IsLocal = true;
+            var tariff = _tariffService.GetByPerson(personDto);
+            if (tariff != null)
+                personDto.TariffId = tariff.Id;
+            ingressList.Add(new(personDto, tariff));
+            var total = ingressList.Sum(t => t.Value.Price);
+            session.SetObject("INGRESS_LIST", ingressList);
+            session.SetObject("TOTAL", total);
+            return true;
+        }
+
+        public bool RemovePersonFromIngressList(ISession session, string id)
+        {
+            var ingressList = session.GetObject<List<KeyValuePair<PersonDto, Tariff>>>("INGRESS_LIST");
+            var count = ingressList.RemoveAll(p => p.Key.Id == id);
+            var total = ingressList.Sum(t => t.Value.Price);
+            session.SetObject("INGRESS_LIST", ingressList);
+            session.SetObject("TOTAL", total);
+            return count > 0;
+        }
+
+        public bool HasPet(ISession session, string id)
+        {
+            var ingressList = session.GetObject<List<KeyValuePair<PersonDto, Tariff>>>("INGRESS_LIST");
+            var personDto = ingressList.Find(p => p.Key.Id == id).Key;
+            if (personDto == null)
+                return false;
+            personDto.HasPet = !personDto.HasPet;
+            session.SetObject("INGRESS_LIST", ingressList);
+            return true;
         }
     }
 }

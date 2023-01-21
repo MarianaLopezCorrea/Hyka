@@ -1,74 +1,42 @@
-﻿using Hyka.Areas.Identity.PoliciesDefinition;
+﻿using System.Text.Json;
 using Hyka.Areas.Identity.RolesDefinition;
-using Hyka.Data;
 using Hyka.Models;
+using Hyka.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hyka.Controllers
 {
-    [Authorize(Policy = Policy.REQUIRE_ADMIN)]
     [Authorize(Roles = $"{Roles.ADMIN}")]
     public class TariffController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ITariffService _tariffService;
 
-        public TariffController(ApplicationDbContext db)
+        public TariffController(ITariffService tariffService)
         {
-            _db = db;
+            _tariffService = tariffService;
         }
 
         public IActionResult Index()
-        {
-            var tariffList = _db.Tariffs;
-            return View(tariffList);
-        }
-
-        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Create(Tariff tariff)
-        {
-            var result = await _db.Tariffs.FindAsync(tariff.Id);
-            if (result != null)
-            {
-                ModelState.AddModelError(string.Empty, "Tariff already exist");
-                return View();
-            }
-
-            if (ModelState.IsValid)
-            {
-                _db.Tariffs.Add(tariff);
-                _db.SaveChanges();
-                TempData["success"] = "Tariff Created Correctly";
-                return RedirectToAction("Index");
-            }
-            return View(tariff);
-        }
-
-        public async Task<IActionResult> Edit(String id)
-        {
-            var TariffFromDb = await _db.Tariffs.FindAsync(id);
-            return TariffFromDb == null ?
-                NotFound() : View(TariffFromDb);
-        }
-
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Edit(Tariff tariff)
+        public IActionResult Edit(Tariff tariff)
         {
             if (ModelState.IsValid)
             {
-                _db.Tariffs.Update(tariff);
-                await _db.SaveChangesAsync();
-                TempData["success"] = "Tariff Updated Correctly";
-                return RedirectToAction("Index");
+                if (_tariffService.Update(tariff))
+                {
+                    TempData["status"] = JsonSerializer.Serialize(new { type = "success", message = "Tarifa actualizada correctamente" });
+                    return RedirectToAction("Index");
+                }
+                TempData["status"] = JsonSerializer.Serialize(new { type = "error", message = "Error al actualizar" });
+                return View("Index");
             }
-            return View(tariff);
+            return View("Index");
         }
 
     }

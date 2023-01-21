@@ -2,16 +2,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hyka.Models
 {
-    public class Report
+    public class ReportParamsDto
     {
-        
+        [Required]
+        public string Type { get; set; }
+
+        public string Period { get; set; }
+
         [Required]
         public DateTime StartDate { get; set; }
 
         [Required]
         public DateTime EndDate { get; set; }
 
-        public IEnumerable<History> ReportData { get; set; }
+        [Required]
+        public bool IsFiltered { get; set; }
 
     }
 

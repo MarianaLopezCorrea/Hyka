@@ -5,7 +5,6 @@ INSERT INTO
 		[DaneId],
 		[DepartmentName],
 		[MunicipalityName]
-		
 	)
 VALUES
 	('01001', 'ANTIOQUIA', 'MEDELLIN'),

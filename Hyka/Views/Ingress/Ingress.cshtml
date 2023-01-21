@@ -1,84 +1,109 @@
-﻿@model Ingress
+﻿@model IngressDto
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
+
 @{
-	ViewData["Title"] = @localize["ingress"];
+	ViewData["Title"] = localize["ingress"];
+	var ingressList = Context.Session.GetObject<List<KeyValuePair<PersonDto, Tariff>>>("INGRESS_LIST");
+	var total = Context.Session.GetObject<Int32>("TOTAL");
 }
 
-
+@* <!-- Form Ingress --> *@
 <form method="post" asp-action="Decode">
-
-	<div class="border p-3 mt-4" style="text-align: center;">
-		<div classs="row pb-2">
+	<div class="border p-4 mt-4 col-sm-8 col-md-7 col-lg-5 col-xl-5 text-center mx-auto">
+		<div classs="row-auto">
 			<h2 class="text-primary">
 				@localize["ingressRegis"]
 			</h2>
 		</div>
-		<div class="mb-3">
-			<input asp-for="Barcode.Code" class="form-control" maxlength="300" type="password" autofocus />
-			<span asp-validation-for="Barcode.Code" class="text-danger"> </span>
+		@* <!-- Input Barcode, Number or Json --> *@
+		<div class="input-group mb-3 my-3">
+			<span class="input-group-text"><i class="bi bi-credit-card-2-back-fill"></i></span>
+			<input id="main_input" type="password" asp-for="Barcode" class="form-control"
+				placeholder="Digitar Cédula o Escanear QR-PDF417">
+			<button class="btn btn-dark"> <i class="bi bi-search"></i> </button>
 		</div>
 
-		<button type="submit" class="btn btn-primary" style="width:150px">@localize["register"]</button>
+		<button class="btn btn-primary" style="width:150px">@localize["register"]</button>
 		@* <!-- Button trigger modal --> *@
-		<button type="button" onclick="getAllContries()" class=" btn btn-secondary" data-bs-toggle="modal"
+		<button id="btn_modal" type="button" class="btn btn-secondary my-2" data-bs-toggle="modal"
 			data-bs-target="#registerModal">
 			@localize["addManually"]
 		</button>
 	</div>
 </form>
 
-
-@if (@Group.PeopleList.Any())
+@* <!-- Table --> *@
+@if (@ingressList.Any())
 {
-	<div class="border p-3 mt-4" style="text-align: center;">
-		<form method="post" asp-action="SaveGroup">
-
-			<table class="table table-bordered table-striped">
-				<caption>@localize["orderSummary"]</caption>
-				<thead>
-					<tr class="table-primary" style="text-align: center;">
+	<div class="border p-3 mt-4 text-center table-responsive">
+		<form method="post" asp-action="SaveIngressList">
+			<table class="table table-light align-middle table-bordered border-dark table-hover">
+				<caption>Lista de ingreso</caption>
+				<thead class="align-middle">
+					<tr class="table-primary table-bordered border-dark text-center">
 						<th>@localize["name"]</th>
 						<th>@localize["category"]</th>
 						<th>@localize["amountPaid"]</th>
 						<th>@localize["ingressDate"]</th>
-						<th>@localize["delete"]</th>
+						<th>Mascota</th>
+						<th>Opciones</th>
 					</tr>
 				</thead>
-
 				<tbody>
-
-					@foreach (var obj in @Group.PeopleList)
+					@foreach (var pair in @ingressList)
 					{
-						<tr class="table-light">
-							<td> @obj.Key.FullName</td>
-							<td> @obj.Value.Name </td>
-							<td> @obj.Value.Price.ToString("C0") </td>
-							<td> @obj.Key.RegisterDateTime </td>
+						<tr>
+							<td> @pair.Key.FullName</td>
+							<td> @pair.Value.Name</td>
+							<td> @pair.Value.Price.ToString("C0")</td>
+							<td> @pair.Key.RegisterDateTime </td>
+							<td>
+								<a asp-route-id="@pair.Key.Id" asp-controller="Ingress" asp-action="HasPet"
+							data-bs-toggle="tooltip" title="Click to change option">
+									@if (@pair.Key.HasPet)
+									{
+										<img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/service-dog_1f415-200d-1f9ba.png"
+								srcset="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/service-dog_1f415-200d-1f9ba.png 2x"
+								alt="🐕‍🦺" width="40" height="40">
 
-							<td style="text-align: center;">
-								<div class="w-75 btn-group" role="group">
-									<a asp-controller="Ingress" asp-action="Delete" asp-route-id="@obj.Key.Id"
+									}
+									else
+									{
+										<img src="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/crying-cat_1f63f.png"
+								srcset="https://emojipedia-us.s3.amazonaws.com/source/microsoft-teams/337/crying-cat_1f63f.png 2x"
+								alt="😿" width="40" height="40">
+
+									}
+								</a>
+							</td>
+							<td>
+								@{
+									var data = JsonSerializer.Serialize(@pair.Key);
+									var dataB64 = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
+								}
+								<div class="w-50 btn-group justify-content-center" role="group">
+									<button type="button" onclick="getDataFromObject('@dataB64')" class="btn btn-info">
+										<i class="bi bi-info-circle-fill"></i>
+									</button>
+									<a asp-controller="Ingress" asp-action="Delete" asp-route-id="@pair.Key.Id"
 								class="btn btn-danger">
-										<i class="bi bi-x-square-fill"></i>
+										<i class="bi bi-x-circle-fill"></i>
 									</a>
 								</div>
 							</td>
 						</tr>
 					}
-
 				</tbody>
-
-				<tfoot>
+				<tfoot class="align-middle">
 					<tr class="table-active">
-						<th>@localize["numberVisitors"] &nbsp; @Group.PeopleList.Count</th>
+						<th> @localize["numberVisitors"] &nbsp; @ingressList.Count </th>
 						<th>@localize["total"]</th>
-						<td>@Group.Total.ToString("C0")</td>
+						<td>@total.ToString("C0") </td>
+						<td colspan="3"></td>
 					</tr>
 				</tfoot>
 			</table>
-
-			<button type="submit" class="btn btn-primary">@localize["procedPayment"]</button>
-
+			<button class="btn btn-success">@localize["procedPayment"]</button>
 		</form>
 	</div>
 }
@@ -87,83 +112,116 @@
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
-
-			<div class="modal-header bg-light">
+			<div class="modal-header" style="background-color: #E9ECEF;">
 				<h5 class="modal-title" id="registerModalLabel">
 					<i class="bi bi-person-plus-fill"></i> &nbsp;
-					@localize["regNewVisitor"]
+					Información del usuario
 				</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<form method="post" asp-action="SaveManual">
-				<div class="modal-body">
-
-					<script type="text/javascript" src="~/js/site.js"></script>
-
-					<div class="mb-3">
-						<label asp-for="Manual.Person.Id">@localize["id"]</label>
-						<input asp-for="Manual.Person.Id" class="form-control" />
-						<span asp-validation-for="Manual.Person.Id" class="text-danger"> </span>
+			<div class="modal-body">
+				@* <!-- Accordion Card --> *@
+				<div class="accordion mb-3" id="accordCard">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingOne">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+								<i class="bi bi-credit-card"></i> &nbsp;&nbsp; Escanea o Digita
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+							data-bs-parent="#accordCard">
+							<div class="accordion-body">
+								@* <!-- Input Barcode, Number or Json --> *@
+								<form method="post" asp-action="Decode">
+									<div class="input-group mb-3">
+										<span class="input-group-text"><i class="bi bi-qr-code"></i></span>
+										<input id="modal_input" type="password" asp-for="Barcode" class="form-control"
+											placeholder="Digitar Cédula o Escanear QR-PDF417">
+										<button class="btn btn-primary">
+											<i class="bi bi-qr-code-scan"></i>
+										</button>
+									</div>
+								</form>
+								@* <!-- Input Barcode, Number or Json --> *@
+							</div>
+						</div>
+					</div>
+				</div>
+				@* <!-- Accordion Card --> *@
+				<form id="modal-form" method="post" asp-action="SaveManually">
+					@* <!-- Hidden inputs --> *@
+					<input id="CardId" asp-for="PersonDto.CardId" readonly hidden />
+					<input id="BloodType" asp-for="PersonDto.BloodType" readonly hidden />
+					<input id="DepartmentOfBirth" asp-for="PersonDto.DepartmentOfBirth" readonly hidden />
+					<input id="MunicipalityOfBirth" asp-for="PersonDto.MunicipalityOfBirth" readonly hidden />
+					@* <!-- Hidden inputs --> *@
+					<div class="row mb-3">
+						<div class="col-3">
+							<label asp-for="PersonDto.DocumentType">Tipo</label>
+							<select id="DocumentType" class="form-select" asp-for="PersonDto.DocumentType">
+								<option value="CC">CC</option>
+								<option value="TI">TI</option>
+								<option value="CE">CE</option>
+								<option value="NUIP">NUIP</option>
+								<option value="PA">PA</option>
+							</select>
+							<span asp-validation-for="PersonDto.Gender" class="text-danger"> </span>
+						</div>
+						<div class="col">
+							<label asp-for="PersonDto.Id">@localize["id"]</label>
+							<input id="Id" asp-for="PersonDto.Id" class="form-control" />
+							<span asp-validation-for="PersonDto.Id" class="text-danger"> </span>
+						</div>
 					</div>
 
 					<div class="mb-3">
-						<label asp-for="Manual.Person.FullName">@localize["name"]</label>
-						<input asp-for="Manual.Person.FullName" class="form-control text-uppercase" />
-						<span asp-validation-for="Manual.Person.FullName" class="text-danger"> </span>
+						<label asp-for="PersonDto.FullName">@localize["name"]</label>
+						<input id="FullName" asp-for="PersonDto.FullName" class="form-control text-uppercase" />
+						<span asp-validation-for="PersonDto.FullName" class="text-danger"> </span>
 					</div>
 
 					<div class="row mb-3">
 						<div class="col">
-							<label asp-for="Manual.Person.Age">@localize["age"]</label>
-							<input asp-for="Manual.Person.Age" type="number" class="form-control">
-							<span asp-validation-for="Manual.Person.Age" class="text-danger"> </span>
+							<label asp-for="PersonDto.Age">@localize["age"]</label>
+							<input id="Age" asp-for="PersonDto.Age" type="number" class="form-control">
+							<span asp-validation-for="PersonDto.Age" class="text-danger"> </span>
 						</div>
 						<div class="col">
-							<label asp-for="Manual.Person.Gender">@localize["gender"]</label>
-							<select class="form-select" asp-for="Manual.Person.Gender">
-								<option selected></option>
+							<label asp-for="PersonDto.Gender">@localize["gender"]</label>
+							<select id="Gender" class="form-select" asp-for="PersonDto.Gender">
 								<option value="F">@localize["female"]</option>
 								<option value="M">@localize["male"]</option>
-								<option value="NB">@localize["nonBinary"]</option>
-								<option value="UF">@localize["undefined"]</option>
 							</select>
-							<span asp-validation-for="Manual.Person.Gender" class="text-danger"> </span>
+							<span asp-validation-for="PersonDto.Gender" class="text-danger"> </span>
 						</div>
 					</div>
 
-					<div class="mb-3">
-						<label asp-for="Manual.Person.Country">@localize["country"]</label>
-						<select id="countries" class="form-select" asp-for="Manual.Person.Country">
-							<option selected> </option>
-						</select>
-						<span asp-validation-for="Manual.Person.Country" class="text-danger"> </span>
+					<div class="row mb-3">
+						<div class="col">
+							<label asp-for="PersonDto.Country">@localize["country"]</label>
+							<select id="Country" class="form-select" asp-for="PersonDto.Country">
+							</select>
+							<span asp-validation-for="PersonDto.Country" class="text-danger"> </span>
+						</div>
+						<div class="col">
+							<label asp-for="PersonDto.District">Barrio</label>
+							<select id="District" class="form-select" asp-for="PersonDto.District">
+							</select>
+							<span asp-validation-for="PersonDto.District" class="text-danger"> </span>
+						</div>
 					</div>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@localize["close"]</button>
-					<button type="submit" class="btn btn-primary">@localize["save"]</button>
-				</div>
-
-			</form>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@localize["close"]</button>
+				<button onclick="$('#modal-form').submit()" class="btn btn-primary">@localize["save"]</button>
+			</div>
 		</div>
 	</div>
 </div>
 
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />
+<script src="~/js/ingress.js"></script>
 }
-
-
-
-
-@* <button type="submit" onclick="getUsersTable()" class="btn btn-primary" style="width:150px"> Tabla </button>
-
-
-	<button type="submit" onclick="getImage('Hola')" class="btn btn-primary" style="width:150px"> QR </button>
-	<img id="image">
-
-
-	<div id="qr-image"> </div>
-
-	<div id="users-table"> </div> *@

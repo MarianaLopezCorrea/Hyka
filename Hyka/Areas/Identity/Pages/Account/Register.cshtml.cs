@@ -2,30 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Hyka.Areas.Identity.RolesDefinition;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 
 
 namespace Hyka.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
@@ -33,13 +21,11 @@ namespace Hyka.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
-            RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger)
         {
-            _roleManager = roleManager;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -78,9 +64,6 @@ namespace Hyka.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Required]
-            public string Rol { get; set; }
         }
 
 
@@ -103,21 +86,11 @@ namespace Hyka.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    await validateAndCreateRoles();
-                    if (Input.Rol.Equals(Roles.BLOCKBUSTER))
-                    {
-                        await _userManager.AddToRoleAsync(user, Roles.BLOCKBUSTER);
-                    }
-                    else if (Input.Rol.Equals(Roles.ADMIN))
-                    {
-                        await _userManager.AddToRoleAsync(user, Roles.ADMIN);
-                    }
-
-                    _logger.LogInformation($"{Input.Rol} created a new account with password.");
+                    await _userManager.AddToRoleAsync(user, Roles.USER);
+                    _logger.LogInformation($"{Input.UserName} has created a new account with password.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
-
                 }
                 foreach (var error in result.Errors)
                 {
@@ -126,18 +99,6 @@ namespace Hyka.Areas.Identity.Pages.Account
             }
             // If we got this far, something failed, redisplay form
             return Page();
-        }
-
-        private async Task validateAndCreateRoles()
-        {
-            foreach (var rol in Roles.RolesList)
-            {
-                var rolExists = await _roleManager.RoleExistsAsync(rol);
-                if (!rolExists)
-                {
-                    await _roleManager.CreateAsync(new IdentityRole(rol));
-                }
-            }
         }
 
         private IdentityUser CreateUser()

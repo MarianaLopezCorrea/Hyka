@@ -1,51 +1,112 @@
-@model IEnumerable<Tariff>
+@model Tariff
+@inject ITariffService TariffService
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localize
 @{
     ViewData["Title"] = @localize["tariffs"];
+    var Tariffs = TariffService.Get().OrderBy(x => x.Price);
 }
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">@localize["tariffsList"]</h2>
-        </div>
-        @* <div class="col-6 text-end">
-            <a asp-controller="Tariff" asp-action="Create" class="btn btn-success btn-lg">
-                Añadir nueva &nbsp; <i class="bi bi-plus-square-dotted"></i>
+<div class="container text-center p-3">
+
+    <div class="nav nav-tabs my-3 justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active h4" aria-current="page" href="#">
+                Lista de tarifas
             </a>
-        </div> *@
+        </li>
+    </div>
+    <div class="table-responsive">
+        <table id="tariffList" class="table table-bordered table-hover">
+            <caption>
+                Valores de ingreso según Acuerdo 012 del 29 de Dicimbre de 2020
+                expedido por Concejo Municipal de Facatativá
+            </caption>
+            <thead>
+                <tr class="table-primary text-center align-middle border-dark">
+                    <th>Identificador</th>
+                    <th>Nombre</th>
+                    <th>Valor a pagar</th>
+                    <th> Fecha de actualización</th>
+                    <th>@localize["options"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tariff in Tariffs)
+                {
+                    <tr class="table-secondary align-middle border-dark">
+                        <td class="table-active">
+                            @tariff.Id
+                        </td>
+                        <td>
+                            @tariff.Name
+                        </td>
+                        <td>
+                            @tariff.Price.ToString("C0")
+                        </td>
+                        <td>
+                            @tariff.UpdateTime.ToString()
+                        </td>
+                        <td>
+                            @{
+                                var data = JsonSerializer.Serialize(@tariff);
+                                var dataB64 = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
+                            }
+                            <div class="w-75 btn-group justify-content-center" role="group">
+                                <button type="button" class="btn btn-outline-dark" onclick="getDataFromTariff('@dataB64')">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 
 </div>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr class="table-primary" style="text-align: center;">
-            <th>@localize["nameTariff"]</th>
-            <th>@localize["priceTariff"]</th>
-            <th>@localize["options"]</th>
-        </tr>
-    </thead>
+@* <!-- Modal --> *@
+<div class="modal fade" id="editTariff" tabindex="-1" aria-labelledby="editTariffLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #E9ECEF;">
+                <h5 class="modal-title" id="editTariff">
+                    <i class="bi bi-ticket-detailed"></i> &nbsp; Actualizar tarifa
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-action="Edit">
+                <div class="modal-body">
 
-    <tbody>
-        @foreach (var obj in Model)
-        {
-            <tr class="table-light">
-                <td>
-                    @obj.Name
-                </td>
-                <td>
-                    @obj.Price
-                </td>
-                <td style="text-align: center;">
-                    <div class="w-75 btn-group" role="group">
-                        <a asp-controller="Tariff" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
+                    <input id="Id" asp-for="Id" hidden readonly />
 
+                    <label asp-for="Name" class="form-label">Nombre</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-body-text"></i></span>
+                        <input id="Name" asp-for="Name" type="text" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"> </span>
                     </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+                    <label asp-for="Price" class="form-label">Valor a pagar</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                        <input id="Price" asp-for="Price" type="number" class="form-control">
+                        <span class="input-group-text">.00</span>
+                        <span asp-validation-for="Price" class="text-danger"> </span>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@* <!-- Modal --> *@
+
+@section Scripts{
+<partial name="_ValidationScriptsPartial" />
+<script src="~/js/tariff.js"></script>
+}

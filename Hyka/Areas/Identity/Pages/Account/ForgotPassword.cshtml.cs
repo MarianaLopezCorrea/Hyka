@@ -6,7 +6,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Hyka.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -34,7 +36,7 @@ namespace Hyka.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-   
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -45,7 +47,8 @@ namespace Hyka.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                // !(await _userManager.IsEmailConfirmedAsync(user))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
@@ -63,8 +66,13 @@ namespace Hyka.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Resetear contraseña",
+                    JsonSerializer.Serialize(new MessageDto()
+                    {
+                        Head = $"Hola, {user.UserName}",
+                        Body = $"Haz clic en el boton para resetear tu constraseña",
+                        Url = HtmlEncoder.Default.Encode(callbackUrl)
+                    }));
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

@@ -7,9 +7,6 @@ namespace Hyka.Services
 {
     public interface IReportService
     {
-        DataColumn[] REPORT_COLUMNS { get; set; }
-        PdfDocument ExportToPdf(Report param);
-        FileStreamResult DownloadPdf(PdfDocument document);
-
+        String GetJsonReport(ReportParamsDto reportParams);
     }
 }

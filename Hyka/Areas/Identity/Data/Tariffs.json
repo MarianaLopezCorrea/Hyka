@@ -1,0 +1,8 @@
+[
+    { "Id": "EXENTO", "Name": "Exento", "Price": 0 },
+    { "Id": "AMIGOPAF", "Name": "Amigo PAF", "Price": 1500 },
+    { "Id": "TARJETAJOVEN", "Name": "Tarjeta Joven", "Price": 1500 },
+    { "Id": "INFANTE", "Name": "Infante", "Price": 6700 },
+    { "Id": "NACIONAL", "Name": "Nacional", "Price": 10000 },
+    { "Id": "EXTRANJERO", "Name": "Extranjero", "Price": 50100 }
+]

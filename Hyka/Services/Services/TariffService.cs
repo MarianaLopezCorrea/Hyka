@@ -1,5 +1,7 @@
 using Hyka.Data;
+using Hyka.Dtos;
 using Hyka.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hyka.Services
 {
@@ -17,17 +19,11 @@ namespace Hyka.Services
             return _db.Tariffs.Any();
         }
 
-        public int CreateDefaultTariffs()
+        public bool Update(Tariff tariff)
         {
-            List<Tariff> tariffs = new(){
-                new Tariff("1C", "Exento", 0),
-                new Tariff("2C", "Local", 1500),
-                new Tariff("3C", "Infante", 6500),
-                new Tariff("4C", "Nacional", 10500),
-                new Tariff("5C", "Extranjero", 40500)
-            };
-            _db.AddRange(tariffs);
-            return _db.SaveChanges();
+            _db.Entry(tariff).State = EntityState.Detached;
+            _db.Update(tariff);
+            return _db.SaveChanges() > 0;
         }
 
         public IEnumerable<Tariff> Get()
@@ -40,27 +36,32 @@ namespace Hyka.Services
             return _db.Tariffs.Find(id);
         }
 
-        public Tariff GetByPerson(Person person)
+        public Tariff GetByPerson(PersonDto personDto)
         {
-            // If don't have category, 'Extranjero' is default
-            String tariffId = "5C";
-            if (person.Age < 5 || person.Age > 59)
+            var tariffId = string.Empty;
+            switch (personDto)
             {
-                tariffId = "1C";
-            }
-            else if (person.Municipality == "FACATATIVA")
-            {
-                tariffId = "2C";
-            }
-            else if (person.Age > 5 && person.Age < 13)
-            {
-                tariffId = "3C";
-            }
-            else if (person.Country == "COLOMBIA")
-            {
-                tariffId = "4C";
+                case PersonDto p when p.Age < 5 || p.Age > 62:
+                    tariffId = "EXENTO";
+                    break;
+                case PersonDto p when p.CardId != null:
+                    tariffId = "TARJETAJOVEN";
+                    break;
+                case PersonDto p when p.MunicipalityOfBirth == "FACATATIVA" || p.IsLocal:
+                    tariffId = "AMIGOPAF";
+                    break;
+                case PersonDto p when p.Age > 5 && p.Age < 13:
+                    tariffId = "INFANTE";
+                    break;
+                case PersonDto p when p.Country == "COLOMBIA":
+                    tariffId = "NACIONAL";
+                    break;
+                default:
+                    tariffId = "EXTRANJERO";
+                    break;
             }
             return _db.Tariffs.Find(tariffId);
         }
+
     }
 }

@@ -17,71 +17,10 @@ namespace Hyka.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Hyka.Models.Blockbuster", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Names")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surnames")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Blockbusters");
-                });
-
-            modelBuilder.Entity("Hyka.Models.History", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PersonId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TariffName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("VisitDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Histories");
-                });
 
             modelBuilder.Entity("Hyka.Models.Person", b =>
                 {
@@ -94,25 +33,31 @@ namespace Hyka.Migrations
                     b.Property<string>("BloodType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
+                    b.Property<string>("CardId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Department")
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DepartmentOfBirth")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("District")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DocumentType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Municipality")
+                    b.Property<bool>("IsLocal")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MunicipalityOfBirth")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RegisterDateTime")
@@ -124,6 +69,37 @@ namespace Hyka.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("People");
+                });
+
+            modelBuilder.Entity("Hyka.Models.Record", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("HasPet")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PersonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RegisteredBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TariffName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("VisitDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("History");
                 });
 
             modelBuilder.Entity("Hyka.Models.Tariff", b =>
@@ -138,9 +114,49 @@ namespace Hyka.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tariffs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "EXENTO",
+                            Name = "Exento",
+                            Price = 0,
+                            UpdateTime = new DateTime(2022, 7, 27, 21, 31, 58, 470, DateTimeKind.Unspecified).AddTicks(3030)
+                        },
+                        new
+                        {
+                            Id = "AMIGOPAF",
+                            Name = "Amigo PAF",
+                            Price = 1500,
+                            UpdateTime = new DateTime(2022, 7, 27, 21, 31, 58, 470, DateTimeKind.Unspecified).AddTicks(3440)
+                        },
+                        new
+                        {
+                            Id = "INFANTE",
+                            Name = "Infante",
+                            Price = 6700,
+                            UpdateTime = new DateTime(2022, 7, 27, 21, 31, 58, 470, DateTimeKind.Unspecified).AddTicks(3497)
+                        },
+                        new
+                        {
+                            Id = "NACIONAL",
+                            Name = "Nacional",
+                            Price = 10000,
+                            UpdateTime = new DateTime(2022, 7, 27, 21, 31, 58, 470, DateTimeKind.Unspecified).AddTicks(3544)
+                        },
+                        new
+                        {
+                            Id = "EXTRANJERO",
+                            Name = "Extranjero",
+                            Price = 50100,
+                            UpdateTime = new DateTime(2022, 7, 27, 21, 31, 58, 470, DateTimeKind.Unspecified).AddTicks(3583)
+                        });
                 });
 
             modelBuilder.Entity("Hyka.Models.Territory", b =>
@@ -159,6 +175,7148 @@ namespace Hyka.Migrations
                     b.HasKey("DaneId");
 
                     b.ToTable("Territories");
+
+                    b.HasData(
+                        new
+                        {
+                            DaneId = "01001",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "MEDELLIN"
+                        },
+                        new
+                        {
+                            DaneId = "01004",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ABEJORRAL"
+                        },
+                        new
+                        {
+                            DaneId = "01007",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ABRIAQUI"
+                        },
+                        new
+                        {
+                            DaneId = "01010",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ALEJANDRIA"
+                        },
+                        new
+                        {
+                            DaneId = "01013",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "AMAGA"
+                        },
+                        new
+                        {
+                            DaneId = "01016",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "AMALFI"
+                        },
+                        new
+                        {
+                            DaneId = "01019",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ANDES"
+                        },
+                        new
+                        {
+                            DaneId = "01022",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ANGELOPOLIS"
+                        },
+                        new
+                        {
+                            DaneId = "01025",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ANGOSTURA"
+                        },
+                        new
+                        {
+                            DaneId = "01028",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ANORI"
+                        },
+                        new
+                        {
+                            DaneId = "01031",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ANTIOQUIA"
+                        },
+                        new
+                        {
+                            DaneId = "01034",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ANZA"
+                        },
+                        new
+                        {
+                            DaneId = "01035",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "APARTADO"
+                        },
+                        new
+                        {
+                            DaneId = "01037",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ARBOLETES"
+                        },
+                        new
+                        {
+                            DaneId = "01039",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ARGELIA"
+                        },
+                        new
+                        {
+                            DaneId = "01040",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ARMENIA"
+                        },
+                        new
+                        {
+                            DaneId = "01043",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BARBOSA"
+                        },
+                        new
+                        {
+                            DaneId = "01046",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BELMIRA"
+                        },
+                        new
+                        {
+                            DaneId = "01049",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BELLO"
+                        },
+                        new
+                        {
+                            DaneId = "01052",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BETANIA"
+                        },
+                        new
+                        {
+                            DaneId = "01055",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BETULIA"
+                        },
+                        new
+                        {
+                            DaneId = "01058",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BOLIVAR"
+                        },
+                        new
+                        {
+                            DaneId = "01061",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BURITICA"
+                        },
+                        new
+                        {
+                            DaneId = "01062",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "BRICEÑO"
+                        },
+                        new
+                        {
+                            DaneId = "01064",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CACERES"
+                        },
+                        new
+                        {
+                            DaneId = "01067",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CAICEDO"
+                        },
+                        new
+                        {
+                            DaneId = "01070",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CALDAS"
+                        },
+                        new
+                        {
+                            DaneId = "01073",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CAMPAMENTO"
+                        },
+                        new
+                        {
+                            DaneId = "01076",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CAÑASGORDAS"
+                        },
+                        new
+                        {
+                            DaneId = "01078",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CARACOLI"
+                        },
+                        new
+                        {
+                            DaneId = "01079",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CARAMANTA"
+                        },
+                        new
+                        {
+                            DaneId = "01080",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CAREPA"
+                        },
+                        new
+                        {
+                            DaneId = "01082",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CARMEN DE VIBORAL"
+                        },
+                        new
+                        {
+                            DaneId = "01085",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CAROLINA"
+                        },
+                        new
+                        {
+                            DaneId = "01088",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CAUCASIA"
+                        },
+                        new
+                        {
+                            DaneId = "01091",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CISNEROS"
+                        },
+                        new
+                        {
+                            DaneId = "01094",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "COCORNA"
+                        },
+                        new
+                        {
+                            DaneId = "01097",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CONCEPCION"
+                        },
+                        new
+                        {
+                            DaneId = "01100",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CONCORDIA"
+                        },
+                        new
+                        {
+                            DaneId = "01103",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "COPACABANA"
+                        },
+                        new
+                        {
+                            DaneId = "01106",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "CHIGORODO"
+                        },
+                        new
+                        {
+                            DaneId = "01109",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "DABEIBA"
+                        },
+                        new
+                        {
+                            DaneId = "01112",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "DON MATIAS"
+                        },
+                        new
+                        {
+                            DaneId = "01115",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "EBEJICO"
+                        },
+                        new
+                        {
+                            DaneId = "01117",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "EL BAGRE"
+                        },
+                        new
+                        {
+                            DaneId = "01118",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ENTRERRIOS"
+                        },
+                        new
+                        {
+                            DaneId = "01121",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ENVIGADO"
+                        },
+                        new
+                        {
+                            DaneId = "01124",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "FREDONIA"
+                        },
+                        new
+                        {
+                            DaneId = "01127",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "FRONTINO"
+                        },
+                        new
+                        {
+                            DaneId = "01130",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "GIRALDO"
+                        },
+                        new
+                        {
+                            DaneId = "01133",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "GIRARDOTA"
+                        },
+                        new
+                        {
+                            DaneId = "01136",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "GOMEZ PLATA"
+                        },
+                        new
+                        {
+                            DaneId = "01139",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "GRANADA"
+                        },
+                        new
+                        {
+                            DaneId = "01140",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "GUADALUPE"
+                        },
+                        new
+                        {
+                            DaneId = "01142",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "GUARNE"
+                        },
+                        new
+                        {
+                            DaneId = "01145",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "GUATAPE"
+                        },
+                        new
+                        {
+                            DaneId = "01148",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "HELICONIA"
+                        },
+                        new
+                        {
+                            DaneId = "01150",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "HISPANIA"
+                        },
+                        new
+                        {
+                            DaneId = "01151",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ITAGUI"
+                        },
+                        new
+                        {
+                            DaneId = "01154",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ITUANGO"
+                        },
+                        new
+                        {
+                            DaneId = "01157",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "JARDIN"
+                        },
+                        new
+                        {
+                            DaneId = "01160",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "JERICO"
+                        },
+                        new
+                        {
+                            DaneId = "01163",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "LA CEJA"
+                        },
+                        new
+                        {
+                            DaneId = "01166",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "LA ESTRELLA"
+                        },
+                        new
+                        {
+                            DaneId = "01168",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "PUERTO NARE‐LA MAGDALENA"
+                        },
+                        new
+                        {
+                            DaneId = "01169",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "LA UNION"
+                        },
+                        new
+                        {
+                            DaneId = "01170",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "LA PINTADA"
+                        },
+                        new
+                        {
+                            DaneId = "01172",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "LIBORINA"
+                        },
+                        new
+                        {
+                            DaneId = "01175",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "MACEO"
+                        },
+                        new
+                        {
+                            DaneId = "01178",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "MARINILLA"
+                        },
+                        new
+                        {
+                            DaneId = "01181",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "MONTEBELLO"
+                        },
+                        new
+                        {
+                            DaneId = "01184",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "MURINDO"
+                        },
+                        new
+                        {
+                            DaneId = "01187",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "MUTATA"
+                        },
+                        new
+                        {
+                            DaneId = "01190",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "NARIÑO"
+                        },
+                        new
+                        {
+                            DaneId = "01191",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "NECHI"
+                        },
+                        new
+                        {
+                            DaneId = "01192",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "NECOCLI"
+                        },
+                        new
+                        {
+                            DaneId = "01193",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "OLAYA"
+                        },
+                        new
+                        {
+                            DaneId = "01196",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "PEÑOL"
+                        },
+                        new
+                        {
+                            DaneId = "01199",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "PEQUE"
+                        },
+                        new
+                        {
+                            DaneId = "01202",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "PUEBLORRICO"
+                        },
+                        new
+                        {
+                            DaneId = "01205",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "PUERTO BERRIO"
+                        },
+                        new
+                        {
+                            DaneId = "01206",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "PUERTO TRIUNFO"
+                        },
+                        new
+                        {
+                            DaneId = "01208",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "REMEDIOS"
+                        },
+                        new
+                        {
+                            DaneId = "01211",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "RETIRO"
+                        },
+                        new
+                        {
+                            DaneId = "01214",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "RIONEGRO"
+                        },
+                        new
+                        {
+                            DaneId = "01217",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SABANALARGA"
+                        },
+                        new
+                        {
+                            DaneId = "01218",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SABANETA"
+                        },
+                        new
+                        {
+                            DaneId = "01220",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SALGAR"
+                        },
+                        new
+                        {
+                            DaneId = "01223",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN ANDRES"
+                        },
+                        new
+                        {
+                            DaneId = "01226",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN CARLOS"
+                        },
+                        new
+                        {
+                            DaneId = "01227",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN FRANCISCO"
+                        },
+                        new
+                        {
+                            DaneId = "01229",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN JERONIMO"
+                        },
+                        new
+                        {
+                            DaneId = "01230",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN JOSE DE LA MONTAÑA"
+                        },
+                        new
+                        {
+                            DaneId = "01231",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN JUAN DE URABA"
+                        },
+                        new
+                        {
+                            DaneId = "01232",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN LUIS"
+                        },
+                        new
+                        {
+                            DaneId = "01235",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN PEDRO"
+                        },
+                        new
+                        {
+                            DaneId = "01237",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN PEDRO DE URABA"
+                        },
+                        new
+                        {
+                            DaneId = "01238",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN RAFAEL"
+                        },
+                        new
+                        {
+                            DaneId = "01241",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN ROQUE"
+                        },
+                        new
+                        {
+                            DaneId = "01244",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SAN VICENTE"
+                        },
+                        new
+                        {
+                            DaneId = "01247",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SANTA BARBARA"
+                        },
+                        new
+                        {
+                            DaneId = "01250",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SANTA ROSA DE OSOS"
+                        },
+                        new
+                        {
+                            DaneId = "01253",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SANTO DOMINGO"
+                        },
+                        new
+                        {
+                            DaneId = "01256",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SANTUARIO"
+                        },
+                        new
+                        {
+                            DaneId = "01259",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SEGOVIA"
+                        },
+                        new
+                        {
+                            DaneId = "01262",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SONSON"
+                        },
+                        new
+                        {
+                            DaneId = "01265",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "SOPETRAN"
+                        },
+                        new
+                        {
+                            DaneId = "01268",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "TAMESIS"
+                        },
+                        new
+                        {
+                            DaneId = "01270",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "TARAZA"
+                        },
+                        new
+                        {
+                            DaneId = "01271",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "TARSO"
+                        },
+                        new
+                        {
+                            DaneId = "01274",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "TITIRIBI"
+                        },
+                        new
+                        {
+                            DaneId = "01277",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "TOLEDO"
+                        },
+                        new
+                        {
+                            DaneId = "01280",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "TURBO"
+                        },
+                        new
+                        {
+                            DaneId = "01282",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "URAMITA"
+                        },
+                        new
+                        {
+                            DaneId = "01283",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "URRAO"
+                        },
+                        new
+                        {
+                            DaneId = "01286",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "VALDIVIA"
+                        },
+                        new
+                        {
+                            DaneId = "01289",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "VALPARAISO"
+                        },
+                        new
+                        {
+                            DaneId = "01290",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "VEGACHI"
+                        },
+                        new
+                        {
+                            DaneId = "01291",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "VIGIA DEL FUERTE"
+                        },
+                        new
+                        {
+                            DaneId = "01292",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "VENECIA"
+                        },
+                        new
+                        {
+                            DaneId = "01293",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "YALI"
+                        },
+                        new
+                        {
+                            DaneId = "01295",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "YARUMAL"
+                        },
+                        new
+                        {
+                            DaneId = "01298",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "YOLOMBO"
+                        },
+                        new
+                        {
+                            DaneId = "01300",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "YONDO‐CASABE"
+                        },
+                        new
+                        {
+                            DaneId = "01301",
+                            DepartmentName = "ANTIOQUIA",
+                            MunicipalityName = "ZARAGOZA"
+                        },
+                        new
+                        {
+                            DaneId = "03001",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "BARRANQUILLA"
+                        },
+                        new
+                        {
+                            DaneId = "03004",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "BARANOA"
+                        },
+                        new
+                        {
+                            DaneId = "03007",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "CAMPO DE LA CRUZ"
+                        },
+                        new
+                        {
+                            DaneId = "03010",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "CANDELARIA"
+                        },
+                        new
+                        {
+                            DaneId = "03013",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "GALAPA"
+                        },
+                        new
+                        {
+                            DaneId = "03016",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "JUAN DE ACOSTA"
+                        },
+                        new
+                        {
+                            DaneId = "03019",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "LURUACO"
+                        },
+                        new
+                        {
+                            DaneId = "03022",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "MALAMBO"
+                        },
+                        new
+                        {
+                            DaneId = "03025",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "MANATI"
+                        },
+                        new
+                        {
+                            DaneId = "03028",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "PALMAR DE VARELA"
+                        },
+                        new
+                        {
+                            DaneId = "03031",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "PIOJO"
+                        },
+                        new
+                        {
+                            DaneId = "03034",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "POLONUEVO"
+                        },
+                        new
+                        {
+                            DaneId = "03035",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "PONEDERA"
+                        },
+                        new
+                        {
+                            DaneId = "03037",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "PUERTO COLOMBIA"
+                        },
+                        new
+                        {
+                            DaneId = "03040",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "REPELON"
+                        },
+                        new
+                        {
+                            DaneId = "03043",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "SABANAGRANDE"
+                        },
+                        new
+                        {
+                            DaneId = "03046",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "SABANALARGA"
+                        },
+                        new
+                        {
+                            DaneId = "03047",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "SANTA LUCIA"
+                        },
+                        new
+                        {
+                            DaneId = "03049",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "SANTO TOMAS"
+                        },
+                        new
+                        {
+                            DaneId = "03052",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "SOLEDAD"
+                        },
+                        new
+                        {
+                            DaneId = "03055",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "SUAN"
+                        },
+                        new
+                        {
+                            DaneId = "03058",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "TUBARA"
+                        },
+                        new
+                        {
+                            DaneId = "03061",
+                            DepartmentName = "ATLANTICO",
+                            MunicipalityName = "USIACURI"
+                        },
+                        new
+                        {
+                            DaneId = "05001",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "CARTAGENA"
+                        },
+                        new
+                        {
+                            DaneId = "05004",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "ACHI"
+                        },
+                        new
+                        {
+                            DaneId = "05005",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "ARENAL"
+                        },
+                        new
+                        {
+                            DaneId = "05006",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "ALTOS DEL ROSARIO"
+                        },
+                        new
+                        {
+                            DaneId = "05007",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "ARJONA"
+                        },
+                        new
+                        {
+                            DaneId = "05009",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "ARROYO HONDO"
+                        },
+                        new
+                        {
+                            DaneId = "05010",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "BARRANCO DE LOBA"
+                        },
+                        new
+                        {
+                            DaneId = "05013",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "CALAMAR"
+                        },
+                        new
+                        {
+                            DaneId = "05014",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "CANTAGALLO"
+                        },
+                        new
+                        {
+                            DaneId = "05015",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "CICUCO"
+                        },
+                        new
+                        {
+                            DaneId = "05016",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "CORDOBA"
+                        },
+                        new
+                        {
+                            DaneId = "05018",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "CLEMENCIA"
+                        },
+                        new
+                        {
+                            DaneId = "05022",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "EL CARMEN DE BOLIVAR"
+                        },
+                        new
+                        {
+                            DaneId = "05025",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "EL GUAMO"
+                        },
+                        new
+                        {
+                            DaneId = "05026",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "HATILLO DE LOBA"
+                        },
+                        new
+                        {
+                            DaneId = "05027",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "EL PEÑON"
+                        },
+                        new
+                        {
+                            DaneId = "05028",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "MAGANGUE"
+                        },
+                        new
+                        {
+                            DaneId = "05031",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "MAHATES"
+                        },
+                        new
+                        {
+                            DaneId = "05037",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "MARGARITA"
+                        },
+                        new
+                        {
+                            DaneId = "05040",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "MARIA LA BAJA"
+                        },
+                        new
+                        {
+                            DaneId = "05041",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "MONTECRISTO"
+                        },
+                        new
+                        {
+                            DaneId = "05043",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "MOMPOS"
+                        },
+                        new
+                        {
+                            DaneId = "05044",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "MORALES"
+                        },
+                        new
+                        {
+                            DaneId = "05050",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "NOROSI"
+                        },
+                        new
+                        {
+                            DaneId = "05059",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "PINILLOS"
+                        },
+                        new
+                        {
+                            DaneId = "05063",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "REGIDOR"
+                        },
+                        new
+                        {
+                            DaneId = "05065",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "RIOVIEJO"
+                        },
+                        new
+                        {
+                            DaneId = "05070",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN ESTANISLAO"
+                        },
+                        new
+                        {
+                            DaneId = "05072",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN CRISTOBAL"
+                        },
+                        new
+                        {
+                            DaneId = "05073",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN FERNANDO"
+                        },
+                        new
+                        {
+                            DaneId = "05076",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN JACINTO"
+                        },
+                        new
+                        {
+                            DaneId = "05078",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN JACINTO DEL CAUCA"
+                        },
+                        new
+                        {
+                            DaneId = "05079",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN JUAN NEPOMUCENO"
+                        },
+                        new
+                        {
+                            DaneId = "05082",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN MARTIN DE LOBA"
+                        },
+                        new
+                        {
+                            DaneId = "05084",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SAN PABLO"
+                        },
+                        new
+                        {
+                            DaneId = "05091",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SANTA CATALINA"
+                        },
+                        new
+                        {
+                            DaneId = "05094",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SANTA ROSA"
+                        },
+                        new
+                        {
+                            DaneId = "05095",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SANTA ROSA DEL SUR"
+                        },
+                        new
+                        {
+                            DaneId = "05097",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SIMITI"
+                        },
+                        new
+                        {
+                            DaneId = "05106",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "SOPLAVIENTO"
+                        },
+                        new
+                        {
+                            DaneId = "05110",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "TALAIGUA NUEVO"
+                        },
+                        new
+                        {
+                            DaneId = "05113",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "TIQUISIO (PTO. RICO)"
+                        },
+                        new
+                        {
+                            DaneId = "05118",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "TURBACO"
+                        },
+                        new
+                        {
+                            DaneId = "05121",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "TURBANA"
+                        },
+                        new
+                        {
+                            DaneId = "05124",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "VILLANUEVA"
+                        },
+                        new
+                        {
+                            DaneId = "05127",
+                            DepartmentName = "BOLIVAR",
+                            MunicipalityName = "ZAMBRANO"
+                        },
+                        new
+                        {
+                            DaneId = "07001",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TUNJA"
+                        },
+                        new
+                        {
+                            DaneId = "07007",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "ALMEIDA"
+                        },
+                        new
+                        {
+                            DaneId = "07008",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "AQUITANIA (PUEBLOVIEJO)"
+                        },
+                        new
+                        {
+                            DaneId = "07010",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "ARCABUCO"
+                        },
+                        new
+                        {
+                            DaneId = "07013",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BELEN"
+                        },
+                        new
+                        {
+                            DaneId = "07016",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BERBEO"
+                        },
+                        new
+                        {
+                            DaneId = "07019",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BETEITIVA"
+                        },
+                        new
+                        {
+                            DaneId = "07022",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BOAVITA"
+                        },
+                        new
+                        {
+                            DaneId = "07025",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BOYACA"
+                        },
+                        new
+                        {
+                            DaneId = "07028",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BRICEÑO"
+                        },
+                        new
+                        {
+                            DaneId = "07031",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BUENAVISTA"
+                        },
+                        new
+                        {
+                            DaneId = "07034",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "BUSBANZA"
+                        },
+                        new
+                        {
+                            DaneId = "07037",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CALDAS"
+                        },
+                        new
+                        {
+                            DaneId = "07040",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CAMPOHERMOSO"
+                        },
+                        new
+                        {
+                            DaneId = "07043",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CERINZA"
+                        },
+                        new
+                        {
+                            DaneId = "07046",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CIENEGA"
+                        },
+                        new
+                        {
+                            DaneId = "07049",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "COMBITA"
+                        },
+                        new
+                        {
+                            DaneId = "07052",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "COPER"
+                        },
+                        new
+                        {
+                            DaneId = "07055",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CORRALES"
+                        },
+                        new
+                        {
+                            DaneId = "07058",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "COVARACHIA"
+                        },
+                        new
+                        {
+                            DaneId = "07059",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CUBARA"
+                        },
+                        new
+                        {
+                            DaneId = "07060",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CUCAITA"
+                        },
+                        new
+                        {
+                            DaneId = "07061",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CUITIVA"
+                        },
+                        new
+                        {
+                            DaneId = "07064",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHINAVITA"
+                        },
+                        new
+                        {
+                            DaneId = "07067",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHIQUINQUIRA"
+                        },
+                        new
+                        {
+                            DaneId = "07068",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHIQUIZA"
+                        },
+                        new
+                        {
+                            DaneId = "07070",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHISCAS"
+                        },
+                        new
+                        {
+                            DaneId = "07073",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHITA"
+                        },
+                        new
+                        {
+                            DaneId = "07076",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHITARAQUE"
+                        },
+                        new
+                        {
+                            DaneId = "07077",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHIVATA"
+                        },
+                        new
+                        {
+                            DaneId = "07078",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "CHIVOR"
+                        },
+                        new
+                        {
+                            DaneId = "07079",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "DUITAMA"
+                        },
+                        new
+                        {
+                            DaneId = "07082",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "EL COCUY"
+                        },
+                        new
+                        {
+                            DaneId = "07085",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "EL ESPINO"
+                        },
+                        new
+                        {
+                            DaneId = "07088",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "FIRAVITOBA"
+                        },
+                        new
+                        {
+                            DaneId = "07091",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "FLORESTA"
+                        },
+                        new
+                        {
+                            DaneId = "07094",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "GACHANTIVA"
+                        },
+                        new
+                        {
+                            DaneId = "07097",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "GAMEZA"
+                        },
+                        new
+                        {
+                            DaneId = "07100",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "GARAGOA"
+                        },
+                        new
+                        {
+                            DaneId = "07103",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "GUACAMAYAS"
+                        },
+                        new
+                        {
+                            DaneId = "07106",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "GUATEQUE"
+                        },
+                        new
+                        {
+                            DaneId = "07109",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "GUAYATA"
+                        },
+                        new
+                        {
+                            DaneId = "07112",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "GUICAN"
+                        },
+                        new
+                        {
+                            DaneId = "07118",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "IZA"
+                        },
+                        new
+                        {
+                            DaneId = "07121",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "JENESANO"
+                        },
+                        new
+                        {
+                            DaneId = "07124",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "JERICO"
+                        },
+                        new
+                        {
+                            DaneId = "07127",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "LABRANZAGRANDE"
+                        },
+                        new
+                        {
+                            DaneId = "07130",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "LA CAPILLA"
+                        },
+                        new
+                        {
+                            DaneId = "07136",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "LA UVITA"
+                        },
+                        new
+                        {
+                            DaneId = "07137",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "LA VICTORIA"
+                        },
+                        new
+                        {
+                            DaneId = "07139",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "VILLA DE LEIVA"
+                        },
+                        new
+                        {
+                            DaneId = "07142",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MACANAL"
+                        },
+                        new
+                        {
+                            DaneId = "07148",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MARIPI"
+                        },
+                        new
+                        {
+                            DaneId = "07151",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MIRAFLORES"
+                        },
+                        new
+                        {
+                            DaneId = "07154",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MONGUA"
+                        },
+                        new
+                        {
+                            DaneId = "07157",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MONGUI"
+                        },
+                        new
+                        {
+                            DaneId = "07160",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MONIQUIRA"
+                        },
+                        new
+                        {
+                            DaneId = "07161",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MOTAVITA"
+                        },
+                        new
+                        {
+                            DaneId = "07163",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "MUZO"
+                        },
+                        new
+                        {
+                            DaneId = "07166",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "NOBSA"
+                        },
+                        new
+                        {
+                            DaneId = "07169",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "NUEVO COLON"
+                        },
+                        new
+                        {
+                            DaneId = "07173",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "OICATA"
+                        },
+                        new
+                        {
+                            DaneId = "07176",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "OTANCHE"
+                        },
+                        new
+                        {
+                            DaneId = "07178",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PACHAVITA"
+                        },
+                        new
+                        {
+                            DaneId = "07179",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PAEZ"
+                        },
+                        new
+                        {
+                            DaneId = "07181",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PAIPA"
+                        },
+                        new
+                        {
+                            DaneId = "07184",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PAJARITO"
+                        },
+                        new
+                        {
+                            DaneId = "07187",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PANQUEBA"
+                        },
+                        new
+                        {
+                            DaneId = "07190",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PAUNA"
+                        },
+                        new
+                        {
+                            DaneId = "07193",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PAYA"
+                        },
+                        new
+                        {
+                            DaneId = "07199",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PAZ DE RIO"
+                        },
+                        new
+                        {
+                            DaneId = "07202",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PESCA"
+                        },
+                        new
+                        {
+                            DaneId = "07205",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PISBA"
+                        },
+                        new
+                        {
+                            DaneId = "07214",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "PUERTO BOYACA"
+                        },
+                        new
+                        {
+                            DaneId = "07215",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "QUIPAMA"
+                        },
+                        new
+                        {
+                            DaneId = "07217",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "RAMIRIQUI"
+                        },
+                        new
+                        {
+                            DaneId = "07220",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "RAQUIRA"
+                        },
+                        new
+                        {
+                            DaneId = "07223",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "RONDON"
+                        },
+                        new
+                        {
+                            DaneId = "07226",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SABOYA"
+                        },
+                        new
+                        {
+                            DaneId = "07232",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SACHICA"
+                        },
+                        new
+                        {
+                            DaneId = "07235",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SAMACA"
+                        },
+                        new
+                        {
+                            DaneId = "07237",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SAN EDUARDO"
+                        },
+                        new
+                        {
+                            DaneId = "07238",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SAN JOSE DE PARE"
+                        },
+                        new
+                        {
+                            DaneId = "07241",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SAN LUIS DE GACENO"
+                        },
+                        new
+                        {
+                            DaneId = "07247",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SAN MATEO"
+                        },
+                        new
+                        {
+                            DaneId = "07248",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SAN MIGUEL DE SEMA"
+                        },
+                        new
+                        {
+                            DaneId = "07249",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SAN PABLO DE BORBUR"
+                        },
+                        new
+                        {
+                            DaneId = "07250",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SANTANA"
+                        },
+                        new
+                        {
+                            DaneId = "07251",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SANTA MARIA"
+                        },
+                        new
+                        {
+                            DaneId = "07253",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SANTA ROSA DE VITERBO"
+                        },
+                        new
+                        {
+                            DaneId = "07256",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SANTA SOFIA"
+                        },
+                        new
+                        {
+                            DaneId = "07259",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SATIVANORTE"
+                        },
+                        new
+                        {
+                            DaneId = "07262",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SATIVASUR"
+                        },
+                        new
+                        {
+                            DaneId = "07265",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SIACHOQUE"
+                        },
+                        new
+                        {
+                            DaneId = "07268",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SOATA"
+                        },
+                        new
+                        {
+                            DaneId = "07271",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SOCOTA"
+                        },
+                        new
+                        {
+                            DaneId = "07274",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SOCHA"
+                        },
+                        new
+                        {
+                            DaneId = "07277",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SOGAMOSO"
+                        },
+                        new
+                        {
+                            DaneId = "07280",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SOMONDOCO"
+                        },
+                        new
+                        {
+                            DaneId = "07281",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SORA"
+                        },
+                        new
+                        {
+                            DaneId = "07282",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SORACA"
+                        },
+                        new
+                        {
+                            DaneId = "07283",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SOTAQUIRA"
+                        },
+                        new
+                        {
+                            DaneId = "07286",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SUSACON"
+                        },
+                        new
+                        {
+                            DaneId = "07289",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SUTAMARCHAN"
+                        },
+                        new
+                        {
+                            DaneId = "07292",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "SUTATENZA"
+                        },
+                        new
+                        {
+                            DaneId = "07298",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TASCO"
+                        },
+                        new
+                        {
+                            DaneId = "07301",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TENZA"
+                        },
+                        new
+                        {
+                            DaneId = "07304",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TIBANA"
+                        },
+                        new
+                        {
+                            DaneId = "07307",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TIBASOSA"
+                        },
+                        new
+                        {
+                            DaneId = "07310",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TINJACA"
+                        },
+                        new
+                        {
+                            DaneId = "07311",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TIPACOQUE"
+                        },
+                        new
+                        {
+                            DaneId = "07313",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TOCA"
+                        },
+                        new
+                        {
+                            DaneId = "07316",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TOGUI"
+                        },
+                        new
+                        {
+                            DaneId = "07319",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TOPAGA"
+                        },
+                        new
+                        {
+                            DaneId = "07322",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TOTA"
+                        },
+                        new
+                        {
+                            DaneId = "07324",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TUNUNGUA"
+                        },
+                        new
+                        {
+                            DaneId = "07325",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TURMEQUE"
+                        },
+                        new
+                        {
+                            DaneId = "07328",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TUTA"
+                        },
+                        new
+                        {
+                            DaneId = "07331",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "TUTAZA"
+                        },
+                        new
+                        {
+                            DaneId = "07334",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "UMBITA"
+                        },
+                        new
+                        {
+                            DaneId = "07337",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "VENTAQUEMADA"
+                        },
+                        new
+                        {
+                            DaneId = "07340",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "VIRACACHA"
+                        },
+                        new
+                        {
+                            DaneId = "07346",
+                            DepartmentName = "BOYACA",
+                            MunicipalityName = "ZETAQUIRA"
+                        },
+                        new
+                        {
+                            DaneId = "09001",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "MANIZALES"
+                        },
+                        new
+                        {
+                            DaneId = "09004",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "AGUADAS"
+                        },
+                        new
+                        {
+                            DaneId = "09007",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "ANSERMA"
+                        },
+                        new
+                        {
+                            DaneId = "09013",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "ARANZAZU"
+                        },
+                        new
+                        {
+                            DaneId = "09022",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "BELALCAZAR"
+                        },
+                        new
+                        {
+                            DaneId = "09034",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "CHINCHINA"
+                        },
+                        new
+                        {
+                            DaneId = "09037",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "FILADELFIA"
+                        },
+                        new
+                        {
+                            DaneId = "09049",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "LA DORADA"
+                        },
+                        new
+                        {
+                            DaneId = "09052",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "LA MERCED"
+                        },
+                        new
+                        {
+                            DaneId = "09055",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "MANZANARES"
+                        },
+                        new
+                        {
+                            DaneId = "09058",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "MARMATO"
+                        },
+                        new
+                        {
+                            DaneId = "09061",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "MARQUETALIA"
+                        },
+                        new
+                        {
+                            DaneId = "09067",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "MARULANDA"
+                        },
+                        new
+                        {
+                            DaneId = "09076",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "NEIRA"
+                        },
+                        new
+                        {
+                            DaneId = "09078",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "NORCASIA"
+                        },
+                        new
+                        {
+                            DaneId = "09079",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "PACORA"
+                        },
+                        new
+                        {
+                            DaneId = "09082",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "PALESTINA"
+                        },
+                        new
+                        {
+                            DaneId = "09085",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "PENSILVANIA"
+                        },
+                        new
+                        {
+                            DaneId = "09103",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "RIOSUCIO"
+                        },
+                        new
+                        {
+                            DaneId = "09106",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "RISARALDA"
+                        },
+                        new
+                        {
+                            DaneId = "09109",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "SALAMINA"
+                        },
+                        new
+                        {
+                            DaneId = "09115",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "SAMANA"
+                        },
+                        new
+                        {
+                            DaneId = "09120",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "SAN JOSE"
+                        },
+                        new
+                        {
+                            DaneId = "09124",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "SUPIA"
+                        },
+                        new
+                        {
+                            DaneId = "09127",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "VICTORIA"
+                        },
+                        new
+                        {
+                            DaneId = "09130",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "VILLAMARIA"
+                        },
+                        new
+                        {
+                            DaneId = "09133",
+                            DepartmentName = "CALDAS",
+                            MunicipalityName = "VITERBO"
+                        },
+                        new
+                        {
+                            DaneId = "11001",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "POPAYAN"
+                        },
+                        new
+                        {
+                            DaneId = "11004",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "ALMAGUER"
+                        },
+                        new
+                        {
+                            DaneId = "11005",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "ARGELIA"
+                        },
+                        new
+                        {
+                            DaneId = "11006",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "BALBOA"
+                        },
+                        new
+                        {
+                            DaneId = "11007",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "BOLIVAR"
+                        },
+                        new
+                        {
+                            DaneId = "11010",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "BUENOS AIRES"
+                        },
+                        new
+                        {
+                            DaneId = "11013",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "CAJIBIO"
+                        },
+                        new
+                        {
+                            DaneId = "11016",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "CALDONO"
+                        },
+                        new
+                        {
+                            DaneId = "11019",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "CALOTO"
+                        },
+                        new
+                        {
+                            DaneId = "11022",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "CORINTO"
+                        },
+                        new
+                        {
+                            DaneId = "11025",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "EL TAMBO"
+                        },
+                        new
+                        {
+                            DaneId = "11027",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "FLORENCIA"
+                        },
+                        new
+                        {
+                            DaneId = "11028",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "GUAPI"
+                        },
+                        new
+                        {
+                            DaneId = "11029",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "GUACHENE"
+                        },
+                        new
+                        {
+                            DaneId = "11031",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "INZA"
+                        },
+                        new
+                        {
+                            DaneId = "11034",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "JAMBALO"
+                        },
+                        new
+                        {
+                            DaneId = "11037",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "LA SIERRA"
+                        },
+                        new
+                        {
+                            DaneId = "11040",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "LA VEGA"
+                        },
+                        new
+                        {
+                            DaneId = "11043",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "LOPEZ (MICAY)"
+                        },
+                        new
+                        {
+                            DaneId = "11046",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "MERCADERES"
+                        },
+                        new
+                        {
+                            DaneId = "11049",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "MIRANDA"
+                        },
+                        new
+                        {
+                            DaneId = "11052",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "MORALES"
+                        },
+                        new
+                        {
+                            DaneId = "11053",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "PADILLA"
+                        },
+                        new
+                        {
+                            DaneId = "11055",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "PAEZ (BELALCAZAR)"
+                        },
+                        new
+                        {
+                            DaneId = "11058",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "PATIA (EL BORDO)"
+                        },
+                        new
+                        {
+                            DaneId = "11060",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "PIAMONTE"
+                        },
+                        new
+                        {
+                            DaneId = "11061",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "PIENDAMO"
+                        },
+                        new
+                        {
+                            DaneId = "11064",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "PUERTO TEJADA"
+                        },
+                        new
+                        {
+                            DaneId = "11067",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "PURACE (COCONUCO)"
+                        },
+                        new
+                        {
+                            DaneId = "11070",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "ROSAS"
+                        },
+                        new
+                        {
+                            DaneId = "11073",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "SAN SEBASTIAN"
+                        },
+                        new
+                        {
+                            DaneId = "11076",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "SANTANDER DE QUILICHAO"
+                        },
+                        new
+                        {
+                            DaneId = "11079",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "SANTA ROSA"
+                        },
+                        new
+                        {
+                            DaneId = "11082",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "SILVIA"
+                        },
+                        new
+                        {
+                            DaneId = "11085",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "SOTARA (PAISPAMBA)"
+                        },
+                        new
+                        {
+                            DaneId = "11086",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "SUCRE"
+                        },
+                        new
+                        {
+                            DaneId = "11087",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "SUAREZ"
+                        },
+                        new
+                        {
+                            DaneId = "11088",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "TIMBIO"
+                        },
+                        new
+                        {
+                            DaneId = "11091",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "TIMBIQUI"
+                        },
+                        new
+                        {
+                            DaneId = "11094",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "TORIBIO"
+                        },
+                        new
+                        {
+                            DaneId = "11097",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "TOTORO"
+                        },
+                        new
+                        {
+                            DaneId = "11098",
+                            DepartmentName = "CAUCA",
+                            MunicipalityName = "VILLA RICA"
+                        },
+                        new
+                        {
+                            DaneId = "12001",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "VALLEDUPAR"
+                        },
+                        new
+                        {
+                            DaneId = "12075",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "AGUACHICA"
+                        },
+                        new
+                        {
+                            DaneId = "12150",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "AGUSTIN CODAZZI"
+                        },
+                        new
+                        {
+                            DaneId = "12170",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "ASTREA"
+                        },
+                        new
+                        {
+                            DaneId = "12180",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "BECERRIL"
+                        },
+                        new
+                        {
+                            DaneId = "12200",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "BOSCONIA"
+                        },
+                        new
+                        {
+                            DaneId = "12225",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "CURUMANI"
+                        },
+                        new
+                        {
+                            DaneId = "12300",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "CHIMICHAGUA"
+                        },
+                        new
+                        {
+                            DaneId = "12375",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "CHIRIGUANA"
+                        },
+                        new
+                        {
+                            DaneId = "12410",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "EL COPEY"
+                        },
+                        new
+                        {
+                            DaneId = "12415",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "EL PASO"
+                        },
+                        new
+                        {
+                            DaneId = "12450",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "GAMARRA"
+                        },
+                        new
+                        {
+                            DaneId = "12525",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "GONZALEZ"
+                        },
+                        new
+                        {
+                            DaneId = "12600",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "LA GLORIA"
+                        },
+                        new
+                        {
+                            DaneId = "12608",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "LA JAGUA DE IBIRICO"
+                        },
+                        new
+                        {
+                            DaneId = "12625",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "MANAURE BALCON DEL CESAR (MANA)"
+                        },
+                        new
+                        {
+                            DaneId = "12650",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "PAILITAS"
+                        },
+                        new
+                        {
+                            DaneId = "12700",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "PELAYA"
+                        },
+                        new
+                        {
+                            DaneId = "12720",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "PUEBLO BELLO"
+                        },
+                        new
+                        {
+                            DaneId = "12750",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "RIO DE ORO"
+                        },
+                        new
+                        {
+                            DaneId = "12800",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "SAN ALBERTO"
+                        },
+                        new
+                        {
+                            DaneId = "12825",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "LA PAZ"
+                        },
+                        new
+                        {
+                            DaneId = "12850",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "SAN DIEGO"
+                        },
+                        new
+                        {
+                            DaneId = "12875",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "SAN MARTIN"
+                        },
+                        new
+                        {
+                            DaneId = "12900",
+                            DepartmentName = "CESAR",
+                            MunicipalityName = "TAMALAMEQUE"
+                        },
+                        new
+                        {
+                            DaneId = "13001",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "MONTERIA"
+                        },
+                        new
+                        {
+                            DaneId = "13004",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "AYAPEL"
+                        },
+                        new
+                        {
+                            DaneId = "13007",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "BUENAVISTA"
+                        },
+                        new
+                        {
+                            DaneId = "13009",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "CANALETE"
+                        },
+                        new
+                        {
+                            DaneId = "13010",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "CERETE"
+                        },
+                        new
+                        {
+                            DaneId = "13013",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "CIENAGA DE ORO"
+                        },
+                        new
+                        {
+                            DaneId = "13014",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "COTORRA (BONGO)"
+                        },
+                        new
+                        {
+                            DaneId = "13016",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "CHIMA"
+                        },
+                        new
+                        {
+                            DaneId = "13019",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "CHINU"
+                        },
+                        new
+                        {
+                            DaneId = "13020",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "LA APARTADA (FRONTERA)"
+                        },
+                        new
+                        {
+                            DaneId = "13022",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "LORICA"
+                        },
+                        new
+                        {
+                            DaneId = "13023",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "LOS CORDOBAS"
+                        },
+                        new
+                        {
+                            DaneId = "13024",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "MOMIL"
+                        },
+                        new
+                        {
+                            DaneId = "13025",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "MONTELIBANO"
+                        },
+                        new
+                        {
+                            DaneId = "13027",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "MOÑITOS"
+                        },
+                        new
+                        {
+                            DaneId = "13028",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "PLANETA RICA"
+                        },
+                        new
+                        {
+                            DaneId = "13031",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "PUEBLO NUEVO"
+                        },
+                        new
+                        {
+                            DaneId = "13032",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "PUERTO LIBERTADOR"
+                        },
+                        new
+                        {
+                            DaneId = "13033",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "PUERTO ESCONDIDO"
+                        },
+                        new
+                        {
+                            DaneId = "13034",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "PURISIMA"
+                        },
+                        new
+                        {
+                            DaneId = "13037",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "SAHAGUN"
+                        },
+                        new
+                        {
+                            DaneId = "13040",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "SAN ANDRES DE SOTAVENTO"
+                        },
+                        new
+                        {
+                            DaneId = "13043",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "SAN ANTERO"
+                        },
+                        new
+                        {
+                            DaneId = "13046",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "SAN BERNARDO DEL VIENTO"
+                        },
+                        new
+                        {
+                            DaneId = "13049",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "SAN CARLOS"
+                        },
+                        new
+                        {
+                            DaneId = "13052",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "SAN JOSE DE URE"
+                        },
+                        new
+                        {
+                            DaneId = "13055",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "SAN PELAYO"
+                        },
+                        new
+                        {
+                            DaneId = "13058",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "TIERRALTA"
+                        },
+                        new
+                        {
+                            DaneId = "13060",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "TUCHIN"
+                        },
+                        new
+                        {
+                            DaneId = "13061",
+                            DepartmentName = "CORDOBA",
+                            MunicipalityName = "VALENCIA"
+                        },
+                        new
+                        {
+                            DaneId = "15004",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "AGUA DE DIOS"
+                        },
+                        new
+                        {
+                            DaneId = "15007",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "ALBAN"
+                        },
+                        new
+                        {
+                            DaneId = "15010",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "ANAPOIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15013",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "ANOLAIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15016",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "ARBELAEZ"
+                        },
+                        new
+                        {
+                            DaneId = "15019",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "BELTRAN"
+                        },
+                        new
+                        {
+                            DaneId = "15022",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "BITUIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15025",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "BOJACA"
+                        },
+                        new
+                        {
+                            DaneId = "15029",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CABRERA"
+                        },
+                        new
+                        {
+                            DaneId = "15030",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CACHIPAY"
+                        },
+                        new
+                        {
+                            DaneId = "15031",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CAJICA"
+                        },
+                        new
+                        {
+                            DaneId = "15034",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CAPARRAPI"
+                        },
+                        new
+                        {
+                            DaneId = "15037",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CAQUEZA"
+                        },
+                        new
+                        {
+                            DaneId = "15040",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CARMEN DE CARUPA"
+                        },
+                        new
+                        {
+                            DaneId = "15043",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "COGUA"
+                        },
+                        new
+                        {
+                            DaneId = "15046",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "COTA"
+                        },
+                        new
+                        {
+                            DaneId = "15049",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CUCUNUBA"
+                        },
+                        new
+                        {
+                            DaneId = "15052",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CHAGUANI"
+                        },
+                        new
+                        {
+                            DaneId = "15055",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CHIA"
+                        },
+                        new
+                        {
+                            DaneId = "15058",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CHIPAQUE"
+                        },
+                        new
+                        {
+                            DaneId = "15061",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CHOACHI"
+                        },
+                        new
+                        {
+                            DaneId = "15064",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "CHOCONTA"
+                        },
+                        new
+                        {
+                            DaneId = "15067",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "EL COLEGIO"
+                        },
+                        new
+                        {
+                            DaneId = "15070",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "EL PEÑON"
+                        },
+                        new
+                        {
+                            DaneId = "15072",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "EL ROSAL"
+                        },
+                        new
+                        {
+                            DaneId = "15076",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "FACATATIVA"
+                        },
+                        new
+                        {
+                            DaneId = "15079",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "FOMEQUE"
+                        },
+                        new
+                        {
+                            DaneId = "15085",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "FOSCA"
+                        },
+                        new
+                        {
+                            DaneId = "15088",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "FUNZA"
+                        },
+                        new
+                        {
+                            DaneId = "15091",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "FUQUENE"
+                        },
+                        new
+                        {
+                            DaneId = "15094",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "FUSAGASUGA"
+                        },
+                        new
+                        {
+                            DaneId = "15097",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GACHALA"
+                        },
+                        new
+                        {
+                            DaneId = "15100",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GACHANCIPA"
+                        },
+                        new
+                        {
+                            DaneId = "15103",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GACHETA"
+                        },
+                        new
+                        {
+                            DaneId = "15106",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GAMA"
+                        },
+                        new
+                        {
+                            DaneId = "15109",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GIRARDOT"
+                        },
+                        new
+                        {
+                            DaneId = "15112",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUACHETA"
+                        },
+                        new
+                        {
+                            DaneId = "15115",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUADUAS"
+                        },
+                        new
+                        {
+                            DaneId = "15118",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUASCA"
+                        },
+                        new
+                        {
+                            DaneId = "15121",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUATAQUI"
+                        },
+                        new
+                        {
+                            DaneId = "15124",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUATAVITA"
+                        },
+                        new
+                        {
+                            DaneId = "15127",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUAYABAL DE SIQUIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15128",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUAYABETAL"
+                        },
+                        new
+                        {
+                            DaneId = "15130",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GUTIERREZ"
+                        },
+                        new
+                        {
+                            DaneId = "15132",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "GRANADA"
+                        },
+                        new
+                        {
+                            DaneId = "15133",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "JERUSALEN"
+                        },
+                        new
+                        {
+                            DaneId = "15136",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "JUNIN"
+                        },
+                        new
+                        {
+                            DaneId = "15139",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "LA CALERA"
+                        },
+                        new
+                        {
+                            DaneId = "15142",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "LA MESA"
+                        },
+                        new
+                        {
+                            DaneId = "15145",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "LA PALMA"
+                        },
+                        new
+                        {
+                            DaneId = "15148",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "LA PEÑA"
+                        },
+                        new
+                        {
+                            DaneId = "15151",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "LA VEGA"
+                        },
+                        new
+                        {
+                            DaneId = "15154",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "LENGUAZAQUE"
+                        },
+                        new
+                        {
+                            DaneId = "15157",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "MACHETA"
+                        },
+                        new
+                        {
+                            DaneId = "15160",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "MADRID"
+                        },
+                        new
+                        {
+                            DaneId = "15163",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "MANTA"
+                        },
+                        new
+                        {
+                            DaneId = "15166",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "MEDINA"
+                        },
+                        new
+                        {
+                            DaneId = "15169",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "MOSQUERA"
+                        },
+                        new
+                        {
+                            DaneId = "15172",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "NARIÑO"
+                        },
+                        new
+                        {
+                            DaneId = "15175",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "NEMOCON"
+                        },
+                        new
+                        {
+                            DaneId = "15178",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "NILO"
+                        },
+                        new
+                        {
+                            DaneId = "15181",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "NIMAIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15184",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "NOCAIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15190",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "PACHO"
+                        },
+                        new
+                        {
+                            DaneId = "15193",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "PAIME"
+                        },
+                        new
+                        {
+                            DaneId = "15196",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "PANDI"
+                        },
+                        new
+                        {
+                            DaneId = "15198",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "PARATEBUENO (LA NAGUAYA)"
+                        },
+                        new
+                        {
+                            DaneId = "15199",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "PASCA"
+                        },
+                        new
+                        {
+                            DaneId = "15202",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "PUERTO SALGAR"
+                        },
+                        new
+                        {
+                            DaneId = "15205",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "PULI"
+                        },
+                        new
+                        {
+                            DaneId = "15208",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "QUEBRADANEGRA"
+                        },
+                        new
+                        {
+                            DaneId = "15211",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "QUETAME"
+                        },
+                        new
+                        {
+                            DaneId = "15214",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "QUIPILE"
+                        },
+                        new
+                        {
+                            DaneId = "15217",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "APULO"
+                        },
+                        new
+                        {
+                            DaneId = "15218",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "RICAURTE"
+                        },
+                        new
+                        {
+                            DaneId = "15220",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SAN ANTONIO DEL TEQUENDAMA"
+                        },
+                        new
+                        {
+                            DaneId = "15223",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SAN BERNARDO"
+                        },
+                        new
+                        {
+                            DaneId = "15226",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SAN CAYETANO"
+                        },
+                        new
+                        {
+                            DaneId = "15229",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SAN FRANCISCO"
+                        },
+                        new
+                        {
+                            DaneId = "15232",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SAN JUAN DE RIOSECO"
+                        },
+                        new
+                        {
+                            DaneId = "15235",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SASAIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15238",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SESQUILE"
+                        },
+                        new
+                        {
+                            DaneId = "15239",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SIBATE"
+                        },
+                        new
+                        {
+                            DaneId = "15241",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SILVANIA"
+                        },
+                        new
+                        {
+                            DaneId = "15244",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SIMIJACA"
+                        },
+                        new
+                        {
+                            DaneId = "15247",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SOACHA"
+                        },
+                        new
+                        {
+                            DaneId = "15250",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SOPO"
+                        },
+                        new
+                        {
+                            DaneId = "15256",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SUBACHOQUE"
+                        },
+                        new
+                        {
+                            DaneId = "15259",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SUESCA"
+                        },
+                        new
+                        {
+                            DaneId = "15262",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SUPATA"
+                        },
+                        new
+                        {
+                            DaneId = "15265",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SUSA"
+                        },
+                        new
+                        {
+                            DaneId = "15268",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "SUTATAUSA"
+                        },
+                        new
+                        {
+                            DaneId = "15271",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TABIO"
+                        },
+                        new
+                        {
+                            DaneId = "15274",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TAUSA"
+                        },
+                        new
+                        {
+                            DaneId = "15277",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TENA"
+                        },
+                        new
+                        {
+                            DaneId = "15280",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TENJO"
+                        },
+                        new
+                        {
+                            DaneId = "15283",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TIBACUY"
+                        },
+                        new
+                        {
+                            DaneId = "15286",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TIBIRITA"
+                        },
+                        new
+                        {
+                            DaneId = "15289",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TOCAIMA"
+                        },
+                        new
+                        {
+                            DaneId = "15292",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TOCANCIPA"
+                        },
+                        new
+                        {
+                            DaneId = "15295",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "TOPAIPI"
+                        },
+                        new
+                        {
+                            DaneId = "15298",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "UBALA"
+                        },
+                        new
+                        {
+                            DaneId = "15301",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "UBAQUE"
+                        },
+                        new
+                        {
+                            DaneId = "15304",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "UBATE"
+                        },
+                        new
+                        {
+                            DaneId = "15307",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "UNE"
+                        },
+                        new
+                        {
+                            DaneId = "15316",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "UTICA"
+                        },
+                        new
+                        {
+                            DaneId = "15318",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "VENECIA"
+                        },
+                        new
+                        {
+                            DaneId = "15319",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "VERGARA"
+                        },
+                        new
+                        {
+                            DaneId = "15322",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "VIANI"
+                        },
+                        new
+                        {
+                            DaneId = "15323",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "VILLAGOMEZ"
+                        },
+                        new
+                        {
+                            DaneId = "15325",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "VILLAPINZON"
+                        },
+                        new
+                        {
+                            DaneId = "15328",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "VILLETA"
+                        },
+                        new
+                        {
+                            DaneId = "15331",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "VIOTA"
+                        },
+                        new
+                        {
+                            DaneId = "15334",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "YACOPI"
+                        },
+                        new
+                        {
+                            DaneId = "15337",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "ZIPACON"
+                        },
+                        new
+                        {
+                            DaneId = "15340",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "ZIPAQUIRA"
+                        },
+                        new
+                        {
+                            DaneId = "15001",
+                            DepartmentName = "CUNDINAMARCA",
+                            MunicipalityName = "BOGOTA, D.C."
+                        },
+                        new
+                        {
+                            DaneId = "16001",
+                            DepartmentName = "BOGOTA",
+                            MunicipalityName = "BOGOTA, D.C."
+                        },
+                        new
+                        {
+                            DaneId = "17001",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "QUIBDO"
+                        },
+                        new
+                        {
+                            DaneId = "17002",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "ATRATO (YUTO)"
+                        },
+                        new
+                        {
+                            DaneId = "17004",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "ACANDI"
+                        },
+                        new
+                        {
+                            DaneId = "17006",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "ALTO BAUDO (PIE DE PATO)"
+                        },
+                        new
+                        {
+                            DaneId = "17007",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "BAGADO"
+                        },
+                        new
+                        {
+                            DaneId = "17008",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "BAHIA SOLANO (MUTIS)"
+                        },
+                        new
+                        {
+                            DaneId = "17010",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "BAJO BAUDO (PIZARRO)"
+                        },
+                        new
+                        {
+                            DaneId = "17011",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "BOJAYA (BELLAVISTA)"
+                        },
+                        new
+                        {
+                            DaneId = "17012",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "MEDIO ATRATO (BETE)"
+                        },
+                        new
+                        {
+                            DaneId = "17013",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "CONDOTO"
+                        },
+                        new
+                        {
+                            DaneId = "17014",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "CERTEGUI"
+                        },
+                        new
+                        {
+                            DaneId = "17015",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "CARMEN DEL DARIEN"
+                        },
+                        new
+                        {
+                            DaneId = "17016",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "EL CARMEN"
+                        },
+                        new
+                        {
+                            DaneId = "17017",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "EL CANTON DEL SAN PABLO (MAN.)"
+                        },
+                        new
+                        {
+                            DaneId = "17019",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "ISTMINA"
+                        },
+                        new
+                        {
+                            DaneId = "17022",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "JURADO"
+                        },
+                        new
+                        {
+                            DaneId = "17025",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "LLORO"
+                        },
+                        new
+                        {
+                            DaneId = "17026",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "MEDIO BAUDO (PUERTO MELUK)"
+                        },
+                        new
+                        {
+                            DaneId = "17027",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "MEDIO SAN JUAN"
+                        },
+                        new
+                        {
+                            DaneId = "17028",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "NOVITA"
+                        },
+                        new
+                        {
+                            DaneId = "17031",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "NUQUI"
+                        },
+                        new
+                        {
+                            DaneId = "17032",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "RIO IRO"
+                        },
+                        new
+                        {
+                            DaneId = "17034",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "RIOSUCIO"
+                        },
+                        new
+                        {
+                            DaneId = "17035",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "RIO QUITO (PAIMADO)"
+                        },
+                        new
+                        {
+                            DaneId = "17037",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "SAN JOSE DEL PALMAR"
+                        },
+                        new
+                        {
+                            DaneId = "17038",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "EL LITORAL DEL SAN JUAN"
+                        },
+                        new
+                        {
+                            DaneId = "17040",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "SIPI"
+                        },
+                        new
+                        {
+                            DaneId = "17043",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "TADO"
+                        },
+                        new
+                        {
+                            DaneId = "17048",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "UNGUIA"
+                        },
+                        new
+                        {
+                            DaneId = "17060",
+                            DepartmentName = "CHOCO",
+                            MunicipalityName = "UNION PANAMERICANA (LAS ANIMAS)"
+                        },
+                        new
+                        {
+                            DaneId = "19001",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "NEIVA"
+                        },
+                        new
+                        {
+                            DaneId = "19004",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "ACEVEDO"
+                        },
+                        new
+                        {
+                            DaneId = "19007",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "AGRADO"
+                        },
+                        new
+                        {
+                            DaneId = "19010",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "AIPE"
+                        },
+                        new
+                        {
+                            DaneId = "19013",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "ALGECIRAS"
+                        },
+                        new
+                        {
+                            DaneId = "19016",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "ALTAMIRA"
+                        },
+                        new
+                        {
+                            DaneId = "19019",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "BARAYA"
+                        },
+                        new
+                        {
+                            DaneId = "19022",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "CAMPOALEGRE"
+                        },
+                        new
+                        {
+                            DaneId = "19025",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "TESALIA (CARNICERIAS)"
+                        },
+                        new
+                        {
+                            DaneId = "19028",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "COLOMBIA"
+                        },
+                        new
+                        {
+                            DaneId = "19031",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "ELIAS"
+                        },
+                        new
+                        {
+                            DaneId = "19034",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "GARZON"
+                        },
+                        new
+                        {
+                            DaneId = "19037",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "GIGANTE"
+                        },
+                        new
+                        {
+                            DaneId = "19040",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "GUADALUPE"
+                        },
+                        new
+                        {
+                            DaneId = "19043",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "HOBO"
+                        },
+                        new
+                        {
+                            DaneId = "19044",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "ISNOS"
+                        },
+                        new
+                        {
+                            DaneId = "19046",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "IQUIRA"
+                        },
+                        new
+                        {
+                            DaneId = "19047",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "LA ARGENTINA (PLATA VIEJA)"
+                        },
+                        new
+                        {
+                            DaneId = "19049",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "LA PLATA"
+                        },
+                        new
+                        {
+                            DaneId = "19050",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "NATAGA"
+                        },
+                        new
+                        {
+                            DaneId = "19051",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "OPORAPA"
+                        },
+                        new
+                        {
+                            DaneId = "19052",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "PAICOL"
+                        },
+                        new
+                        {
+                            DaneId = "19055",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "PALERMO"
+                        },
+                        new
+                        {
+                            DaneId = "19056",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "PALESTINA"
+                        },
+                        new
+                        {
+                            DaneId = "19058",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "PITAL"
+                        },
+                        new
+                        {
+                            DaneId = "19061",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "PITALITO"
+                        },
+                        new
+                        {
+                            DaneId = "19064",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "RIVERA"
+                        },
+                        new
+                        {
+                            DaneId = "19067",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "SALADOBLANCO"
+                        },
+                        new
+                        {
+                            DaneId = "19070",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "SAN AGUSTIN"
+                        },
+                        new
+                        {
+                            DaneId = "19074",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "SANTA MARIA"
+                        },
+                        new
+                        {
+                            DaneId = "19076",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "SUAZA"
+                        },
+                        new
+                        {
+                            DaneId = "19079",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "TARQUI"
+                        },
+                        new
+                        {
+                            DaneId = "19082",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "TELLO"
+                        },
+                        new
+                        {
+                            DaneId = "19085",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "TERUEL"
+                        },
+                        new
+                        {
+                            DaneId = "19088",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "TIMANA"
+                        },
+                        new
+                        {
+                            DaneId = "19091",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "VILLAVIEJA"
+                        },
+                        new
+                        {
+                            DaneId = "19094",
+                            DepartmentName = "HUILA",
+                            MunicipalityName = "YAGUARA"
+                        },
+                        new
+                        {
+                            DaneId = "21001",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SANTA MARTA"
+                        },
+                        new
+                        {
+                            DaneId = "21008",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "ALGARROBO"
+                        },
+                        new
+                        {
+                            DaneId = "21010",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "ARACATACA"
+                        },
+                        new
+                        {
+                            DaneId = "21012",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "ARIGUANI (EL DIFICIL)"
+                        },
+                        new
+                        {
+                            DaneId = "21013",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "CERRO DE SAN ANTONIO"
+                        },
+                        new
+                        {
+                            DaneId = "21015",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "CHIVOLO"
+                        },
+                        new
+                        {
+                            DaneId = "21016",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "CIENAGA"
+                        },
+                        new
+                        {
+                            DaneId = "21020",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "CONCORDIA"
+                        },
+                        new
+                        {
+                            DaneId = "21025",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "EL BANCO"
+                        },
+                        new
+                        {
+                            DaneId = "21028",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "EL PIÑON"
+                        },
+                        new
+                        {
+                            DaneId = "21030",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "EL RETEN"
+                        },
+                        new
+                        {
+                            DaneId = "21031",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "FUNDACION"
+                        },
+                        new
+                        {
+                            DaneId = "21040",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "GUAMAL"
+                        },
+                        new
+                        {
+                            DaneId = "21042",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "NUEVA GRANADA"
+                        },
+                        new
+                        {
+                            DaneId = "21046",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "PEDRAZA"
+                        },
+                        new
+                        {
+                            DaneId = "21048",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "PIJIÑO DEL CARMEN"
+                        },
+                        new
+                        {
+                            DaneId = "21049",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "PIVIJAY"
+                        },
+                        new
+                        {
+                            DaneId = "21052",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "PLATO"
+                        },
+                        new
+                        {
+                            DaneId = "21055",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "PUEBLOVIEJO"
+                        },
+                        new
+                        {
+                            DaneId = "21058",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "REMOLINO"
+                        },
+                        new
+                        {
+                            DaneId = "21060",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SABANAS DE SAN ANGEL"
+                        },
+                        new
+                        {
+                            DaneId = "21067",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SALAMINA"
+                        },
+                        new
+                        {
+                            DaneId = "21070",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SAN SEBASTIAN DE BUENAVISTA"
+                        },
+                        new
+                        {
+                            DaneId = "21073",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SAN ZENON"
+                        },
+                        new
+                        {
+                            DaneId = "21076",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SANTA ANA"
+                        },
+                        new
+                        {
+                            DaneId = "21078",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SANTA BARBARA DE PINTO"
+                        },
+                        new
+                        {
+                            DaneId = "21079",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "SITIONUEVO"
+                        },
+                        new
+                        {
+                            DaneId = "21085",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "TENERIFE"
+                        },
+                        new
+                        {
+                            DaneId = "21090",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "ZAPAYAN"
+                        },
+                        new
+                        {
+                            DaneId = "21095",
+                            DepartmentName = "MAGDALENA",
+                            MunicipalityName = "ZONA BANANERA (SEVILLA)"
+                        },
+                        new
+                        {
+                            DaneId = "23001",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "PASTO"
+                        },
+                        new
+                        {
+                            DaneId = "23004",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "ALBAN (SAN JOSE)"
+                        },
+                        new
+                        {
+                            DaneId = "23007",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "ALDANA"
+                        },
+                        new
+                        {
+                            DaneId = "23010",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "ANCUYA"
+                        },
+                        new
+                        {
+                            DaneId = "23013",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "ARBOLEDA (BERRUECOS)"
+                        },
+                        new
+                        {
+                            DaneId = "23016",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "BARBACOAS"
+                        },
+                        new
+                        {
+                            DaneId = "23017",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "BELEN"
+                        },
+                        new
+                        {
+                            DaneId = "23019",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "BUESACO"
+                        },
+                        new
+                        {
+                            DaneId = "23022",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "COLON (GENOVA)"
+                        },
+                        new
+                        {
+                            DaneId = "23025",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "CONSACA"
+                        },
+                        new
+                        {
+                            DaneId = "23028",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "CONTADERO"
+                        },
+                        new
+                        {
+                            DaneId = "23031",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "CORDOBA"
+                        },
+                        new
+                        {
+                            DaneId = "23034",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "CUASPUD (CARLOSAMA)"
+                        },
+                        new
+                        {
+                            DaneId = "23037",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "CUMBAL"
+                        },
+                        new
+                        {
+                            DaneId = "23038",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "CHACHAGUI"
+                        },
+                        new
+                        {
+                            DaneId = "23039",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "CUMBITARA"
+                        },
+                        new
+                        {
+                            DaneId = "23040",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "EL ROSARIO"
+                        },
+                        new
+                        {
+                            DaneId = "23041",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "EL CHARCO"
+                        },
+                        new
+                        {
+                            DaneId = "23043",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "EL TABLON"
+                        },
+                        new
+                        {
+                            DaneId = "23044",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "EL PEÑOL"
+                        },
+                        new
+                        {
+                            DaneId = "23046",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "EL TAMBO"
+                        },
+                        new
+                        {
+                            DaneId = "23047",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "FRANCISCO PIZARRO (SALAHONDA)"
+                        },
+                        new
+                        {
+                            DaneId = "23049",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "FUNES"
+                        },
+                        new
+                        {
+                            DaneId = "23052",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "GUACHUCAL"
+                        },
+                        new
+                        {
+                            DaneId = "23055",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "GUAITARILLA"
+                        },
+                        new
+                        {
+                            DaneId = "23058",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "GUALMATAN"
+                        },
+                        new
+                        {
+                            DaneId = "23061",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "ILES"
+                        },
+                        new
+                        {
+                            DaneId = "23064",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "IMUES"
+                        },
+                        new
+                        {
+                            DaneId = "23067",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "IPIALES"
+                        },
+                        new
+                        {
+                            DaneId = "23073",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LA CRUZ"
+                        },
+                        new
+                        {
+                            DaneId = "23076",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LA FLORIDA"
+                        },
+                        new
+                        {
+                            DaneId = "23077",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LA LLANADA"
+                        },
+                        new
+                        {
+                            DaneId = "23078",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LA TOLA"
+                        },
+                        new
+                        {
+                            DaneId = "23079",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LA UNION"
+                        },
+                        new
+                        {
+                            DaneId = "23080",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LEIVA"
+                        },
+                        new
+                        {
+                            DaneId = "23082",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LINARES"
+                        },
+                        new
+                        {
+                            DaneId = "23085",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "LOS ANDES (SOTOMAYOR)"
+                        },
+                        new
+                        {
+                            DaneId = "23088",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "MAGUI (PAYAN)"
+                        },
+                        new
+                        {
+                            DaneId = "23091",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "MALLAMA (PIEDRANCHA)"
+                        },
+                        new
+                        {
+                            DaneId = "23094",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "MOSQUERA"
+                        },
+                        new
+                        {
+                            DaneId = "23095",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "OLAYA HERRERA"
+                        },
+                        new
+                        {
+                            DaneId = "23096",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "NARIÑO"
+                        },
+                        new
+                        {
+                            DaneId = "23097",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "OSPINA"
+                        },
+                        new
+                        {
+                            DaneId = "23098",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "POLICARPA"
+                        },
+                        new
+                        {
+                            DaneId = "23100",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "POTOSI"
+                        },
+                        new
+                        {
+                            DaneId = "23101",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "PROVIDENCIA"
+                        },
+                        new
+                        {
+                            DaneId = "23103",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "PUERRES"
+                        },
+                        new
+                        {
+                            DaneId = "23106",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "PUPIALES"
+                        },
+                        new
+                        {
+                            DaneId = "23109",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "RICAURTE"
+                        },
+                        new
+                        {
+                            DaneId = "23112",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "ROBERTO PAYAN (SAN JOSE)"
+                        },
+                        new
+                        {
+                            DaneId = "23115",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SAMANIEGO"
+                        },
+                        new
+                        {
+                            DaneId = "23118",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SANDONA"
+                        },
+                        new
+                        {
+                            DaneId = "23120",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SAN BERNARDO"
+                        },
+                        new
+                        {
+                            DaneId = "23121",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SAN LORENZO"
+                        },
+                        new
+                        {
+                            DaneId = "23123",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SAN PEDRO DE CARTAGO"
+                        },
+                        new
+                        {
+                            DaneId = "23124",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SAN PABLO"
+                        },
+                        new
+                        {
+                            DaneId = "23125",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SANTA BARBARA (ISCUANDE)"
+                        },
+                        new
+                        {
+                            DaneId = "23127",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SANTACRUZ (GUACHAVES)"
+                        },
+                        new
+                        {
+                            DaneId = "23130",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "SAPUYES"
+                        },
+                        new
+                        {
+                            DaneId = "23133",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "TAMINANGO"
+                        },
+                        new
+                        {
+                            DaneId = "23136",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "TANGUA"
+                        },
+                        new
+                        {
+                            DaneId = "23139",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "TUMACO"
+                        },
+                        new
+                        {
+                            DaneId = "23142",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "TUQUERRES"
+                        },
+                        new
+                        {
+                            DaneId = "23145",
+                            DepartmentName = "NARIÑO",
+                            MunicipalityName = "YACUANQUER"
+                        },
+                        new
+                        {
+                            DaneId = "24001",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "PEREIRA"
+                        },
+                        new
+                        {
+                            DaneId = "24008",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "APIA"
+                        },
+                        new
+                        {
+                            DaneId = "24013",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "BALBOA"
+                        },
+                        new
+                        {
+                            DaneId = "24021",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "BELEN DE UMBRIA"
+                        },
+                        new
+                        {
+                            DaneId = "24025",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "DOSQUEBRADAS"
+                        },
+                        new
+                        {
+                            DaneId = "24029",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "GUATICA"
+                        },
+                        new
+                        {
+                            DaneId = "24038",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "LA CELIA"
+                        },
+                        new
+                        {
+                            DaneId = "24046",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "LA VIRGINIA"
+                        },
+                        new
+                        {
+                            DaneId = "24054",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "MARSELLA"
+                        },
+                        new
+                        {
+                            DaneId = "24062",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "MISTRATO"
+                        },
+                        new
+                        {
+                            DaneId = "24070",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "PUEBLO RICO"
+                        },
+                        new
+                        {
+                            DaneId = "24078",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "QUINCHIA"
+                        },
+                        new
+                        {
+                            DaneId = "24086",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "SANTA ROSA DE CABAL"
+                        },
+                        new
+                        {
+                            DaneId = "24094",
+                            DepartmentName = "RISARALDA",
+                            MunicipalityName = "SANTUARIO"
+                        },
+                        new
+                        {
+                            DaneId = "25001",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "CUCUTA"
+                        },
+                        new
+                        {
+                            DaneId = "25004",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "ABREGO"
+                        },
+                        new
+                        {
+                            DaneId = "25007",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "ARBOLEDAS"
+                        },
+                        new
+                        {
+                            DaneId = "25010",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "BOCHALEMA"
+                        },
+                        new
+                        {
+                            DaneId = "25013",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "BUCARASICA"
+                        },
+                        new
+                        {
+                            DaneId = "25016",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "CACOTA"
+                        },
+                        new
+                        {
+                            DaneId = "25019",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "CACHIRA"
+                        },
+                        new
+                        {
+                            DaneId = "25022",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "CONVENCION"
+                        },
+                        new
+                        {
+                            DaneId = "25025",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "CUCUTILLA"
+                        },
+                        new
+                        {
+                            DaneId = "25028",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "CHINACOTA"
+                        },
+                        new
+                        {
+                            DaneId = "25031",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "CHITAGA"
+                        },
+                        new
+                        {
+                            DaneId = "25034",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "DURANIA"
+                        },
+                        new
+                        {
+                            DaneId = "25036",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "EL TARRA"
+                        },
+                        new
+                        {
+                            DaneId = "25037",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "EL CARMEN"
+                        },
+                        new
+                        {
+                            DaneId = "25038",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "EL ZULIA"
+                        },
+                        new
+                        {
+                            DaneId = "25040",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "GRAMALOTE"
+                        },
+                        new
+                        {
+                            DaneId = "25043",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "HACARI"
+                        },
+                        new
+                        {
+                            DaneId = "25046",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "HERRAN"
+                        },
+                        new
+                        {
+                            DaneId = "25049",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "LABATECA"
+                        },
+                        new
+                        {
+                            DaneId = "25051",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "LA ESPERANZA"
+                        },
+                        new
+                        {
+                            DaneId = "25052",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "LA PLAYA"
+                        },
+                        new
+                        {
+                            DaneId = "25054",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "LOS PATIOS"
+                        },
+                        new
+                        {
+                            DaneId = "25055",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "LOURDES"
+                        },
+                        new
+                        {
+                            DaneId = "25058",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "MUTISCUA"
+                        },
+                        new
+                        {
+                            DaneId = "25061",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "OCAÑA"
+                        },
+                        new
+                        {
+                            DaneId = "25064",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "PAMPLONA"
+                        },
+                        new
+                        {
+                            DaneId = "25067",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "PAMPLONITA"
+                        },
+                        new
+                        {
+                            DaneId = "25069",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "PUERTO SANTANDER"
+                        },
+                        new
+                        {
+                            DaneId = "25070",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "RAGONVALIA"
+                        },
+                        new
+                        {
+                            DaneId = "25073",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "SALAZAR"
+                        },
+                        new
+                        {
+                            DaneId = "25076",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "SAN CALIXTO"
+                        },
+                        new
+                        {
+                            DaneId = "25079",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "SAN CAYETANO"
+                        },
+                        new
+                        {
+                            DaneId = "25082",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "SANTIAGO"
+                        },
+                        new
+                        {
+                            DaneId = "25085",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "SARDINATA"
+                        },
+                        new
+                        {
+                            DaneId = "25088",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "SILOS"
+                        },
+                        new
+                        {
+                            DaneId = "25091",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "TEORAMA"
+                        },
+                        new
+                        {
+                            DaneId = "25093",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "TIBU"
+                        },
+                        new
+                        {
+                            DaneId = "25094",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "TOLEDO"
+                        },
+                        new
+                        {
+                            DaneId = "25097",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "VILLA CARO"
+                        },
+                        new
+                        {
+                            DaneId = "25100",
+                            DepartmentName = "NORTE DE SANTANDER",
+                            MunicipalityName = "VILLA DEL ROSARIO"
+                        },
+                        new
+                        {
+                            DaneId = "26001",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "ARMENIA"
+                        },
+                        new
+                        {
+                            DaneId = "26005",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "BUENAVISTA"
+                        },
+                        new
+                        {
+                            DaneId = "26010",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "CALARCA"
+                        },
+                        new
+                        {
+                            DaneId = "26020",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "CIRCASIA"
+                        },
+                        new
+                        {
+                            DaneId = "26025",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "CORDOBA"
+                        },
+                        new
+                        {
+                            DaneId = "26030",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "FILANDIA"
+                        },
+                        new
+                        {
+                            DaneId = "26040",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "GENOVA"
+                        },
+                        new
+                        {
+                            DaneId = "26050",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "LA TEBAIDA"
+                        },
+                        new
+                        {
+                            DaneId = "26060",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "MONTENEGRO"
+                        },
+                        new
+                        {
+                            DaneId = "26070",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "PIJAO"
+                        },
+                        new
+                        {
+                            DaneId = "26080",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "QUIMBAYA"
+                        },
+                        new
+                        {
+                            DaneId = "26090",
+                            DepartmentName = "QUINDIO",
+                            MunicipalityName = "SALENTO"
+                        },
+                        new
+                        {
+                            DaneId = "27001",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "BUCARAMANGA"
+                        },
+                        new
+                        {
+                            DaneId = "27004",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "AGUADA"
+                        },
+                        new
+                        {
+                            DaneId = "27007",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "ALBANIA"
+                        },
+                        new
+                        {
+                            DaneId = "27010",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "ARATOCA"
+                        },
+                        new
+                        {
+                            DaneId = "27013",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "BARBOSA"
+                        },
+                        new
+                        {
+                            DaneId = "27016",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "BARICHARA"
+                        },
+                        new
+                        {
+                            DaneId = "27019",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "BARRANCABERMEJA"
+                        },
+                        new
+                        {
+                            DaneId = "27022",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "BETULIA"
+                        },
+                        new
+                        {
+                            DaneId = "27025",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "BOLIVAR"
+                        },
+                        new
+                        {
+                            DaneId = "27028",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CABRERA"
+                        },
+                        new
+                        {
+                            DaneId = "27031",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CALIFORNIA"
+                        },
+                        new
+                        {
+                            DaneId = "27034",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CAPITANEJO"
+                        },
+                        new
+                        {
+                            DaneId = "27037",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CARCASI"
+                        },
+                        new
+                        {
+                            DaneId = "27040",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CEPITA"
+                        },
+                        new
+                        {
+                            DaneId = "27043",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CERRITO"
+                        },
+                        new
+                        {
+                            DaneId = "27045",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CIMITARRA"
+                        },
+                        new
+                        {
+                            DaneId = "27046",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CONCEPCION"
+                        },
+                        new
+                        {
+                            DaneId = "27049",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CONFINES"
+                        },
+                        new
+                        {
+                            DaneId = "27052",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CONTRATACION"
+                        },
+                        new
+                        {
+                            DaneId = "27055",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "COROMORO"
+                        },
+                        new
+                        {
+                            DaneId = "27058",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CURITI"
+                        },
+                        new
+                        {
+                            DaneId = "27061",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CHARALA"
+                        },
+                        new
+                        {
+                            DaneId = "27064",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CHARTA"
+                        },
+                        new
+                        {
+                            DaneId = "27067",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CHIMA"
+                        },
+                        new
+                        {
+                            DaneId = "27070",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "CHIPATA"
+                        },
+                        new
+                        {
+                            DaneId = "27071",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "EL CARMEN"
+                        },
+                        new
+                        {
+                            DaneId = "27073",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "EL GUACAMAYO"
+                        },
+                        new
+                        {
+                            DaneId = "27074",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "EL PLAYON"
+                        },
+                        new
+                        {
+                            DaneId = "27075",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "EL PEÑON"
+                        },
+                        new
+                        {
+                            DaneId = "27076",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "ENCINO"
+                        },
+                        new
+                        {
+                            DaneId = "27079",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "ENCISO"
+                        },
+                        new
+                        {
+                            DaneId = "27080",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "FLORIAN"
+                        },
+                        new
+                        {
+                            DaneId = "27082",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "FLORIDABLANCA"
+                        },
+                        new
+                        {
+                            DaneId = "27085",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GALAN"
+                        },
+                        new
+                        {
+                            DaneId = "27088",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GAMBITA"
+                        },
+                        new
+                        {
+                            DaneId = "27091",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GIRON"
+                        },
+                        new
+                        {
+                            DaneId = "27094",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GUACA"
+                        },
+                        new
+                        {
+                            DaneId = "27097",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GUADALUPE"
+                        },
+                        new
+                        {
+                            DaneId = "27100",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GUAPOTA"
+                        },
+                        new
+                        {
+                            DaneId = "27103",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GUAVATA"
+                        },
+                        new
+                        {
+                            DaneId = "27106",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "GUEPSA"
+                        },
+                        new
+                        {
+                            DaneId = "27109",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "HATO"
+                        },
+                        new
+                        {
+                            DaneId = "27112",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "JESUS MARIA"
+                        },
+                        new
+                        {
+                            DaneId = "27115",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "JORDAN"
+                        },
+                        new
+                        {
+                            DaneId = "27118",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "LA PAZ"
+                        },
+                        new
+                        {
+                            DaneId = "27119",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "LA BELLEZA"
+                        },
+                        new
+                        {
+                            DaneId = "27120",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "LANDAZURI"
+                        },
+                        new
+                        {
+                            DaneId = "27121",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "LEBRIJA"
+                        },
+                        new
+                        {
+                            DaneId = "27124",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "LOS SANTOS"
+                        },
+                        new
+                        {
+                            DaneId = "27127",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "MACARAVITA"
+                        },
+                        new
+                        {
+                            DaneId = "27130",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "MALAGA"
+                        },
+                        new
+                        {
+                            DaneId = "27133",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "MATANZA"
+                        },
+                        new
+                        {
+                            DaneId = "27136",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "MOGOTES"
+                        },
+                        new
+                        {
+                            DaneId = "27139",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "MOLAGAVITA"
+                        },
+                        new
+                        {
+                            DaneId = "27142",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "OCAMONTE"
+                        },
+                        new
+                        {
+                            DaneId = "27145",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "OIBA"
+                        },
+                        new
+                        {
+                            DaneId = "27148",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "ONZAGA"
+                        },
+                        new
+                        {
+                            DaneId = "27151",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PALMAR"
+                        },
+                        new
+                        {
+                            DaneId = "27154",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PALMAS DEL SOCORRO"
+                        },
+                        new
+                        {
+                            DaneId = "27157",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PARAMO"
+                        },
+                        new
+                        {
+                            DaneId = "27160",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PIEDECUESTA"
+                        },
+                        new
+                        {
+                            DaneId = "27163",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PINCHOTE"
+                        },
+                        new
+                        {
+                            DaneId = "27166",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PUENTE NACIONAL"
+                        },
+                        new
+                        {
+                            DaneId = "27167",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PUERTO PARRA"
+                        },
+                        new
+                        {
+                            DaneId = "27169",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "PUERTO WILCHES"
+                        },
+                        new
+                        {
+                            DaneId = "27172",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "RIONEGRO"
+                        },
+                        new
+                        {
+                            DaneId = "27174",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SABANA DE TORRES"
+                        },
+                        new
+                        {
+                            DaneId = "27175",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SAN ANDRES"
+                        },
+                        new
+                        {
+                            DaneId = "27178",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SAN BENITO"
+                        },
+                        new
+                        {
+                            DaneId = "27181",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SAN GIL"
+                        },
+                        new
+                        {
+                            DaneId = "27184",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SAN JOAQUIN"
+                        },
+                        new
+                        {
+                            DaneId = "27187",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SAN JOSE DE MIRANDA"
+                        },
+                        new
+                        {
+                            DaneId = "27190",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SAN MIGUEL"
+                        },
+                        new
+                        {
+                            DaneId = "27193",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SAN VICENTE DE CHUCURI"
+                        },
+                        new
+                        {
+                            DaneId = "27194",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SANTA HELENA DEL OPON"
+                        },
+                        new
+                        {
+                            DaneId = "27195",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SANTA BARBARA"
+                        },
+                        new
+                        {
+                            DaneId = "27196",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SIMACOTA"
+                        },
+                        new
+                        {
+                            DaneId = "27199",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SOCORRO"
+                        },
+                        new
+                        {
+                            DaneId = "27202",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SUAITA"
+                        },
+                        new
+                        {
+                            DaneId = "27205",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SUCRE"
+                        },
+                        new
+                        {
+                            DaneId = "27208",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "SURATA"
+                        },
+                        new
+                        {
+                            DaneId = "27211",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "TONA"
+                        },
+                        new
+                        {
+                            DaneId = "27217",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "VALLE DE SAN JOSE"
+                        },
+                        new
+                        {
+                            DaneId = "27219",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "VETAS"
+                        },
+                        new
+                        {
+                            DaneId = "27220",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "VELEZ"
+                        },
+                        new
+                        {
+                            DaneId = "27221",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "VILLANUEVA"
+                        },
+                        new
+                        {
+                            DaneId = "27223",
+                            DepartmentName = "SANTANDER",
+                            MunicipalityName = "ZAPATOCA"
+                        },
+                        new
+                        {
+                            DaneId = "28001",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SINCELEJO"
+                        },
+                        new
+                        {
+                            DaneId = "28010",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "BUENAVISTA"
+                        },
+                        new
+                        {
+                            DaneId = "28020",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "CAIMITO"
+                        },
+                        new
+                        {
+                            DaneId = "28030",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "COLOSO (RICAURTE)"
+                        },
+                        new
+                        {
+                            DaneId = "28040",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "COROZAL"
+                        },
+                        new
+                        {
+                            DaneId = "28041",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "COVEÑAS"
+                        },
+                        new
+                        {
+                            DaneId = "28042",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "EL ROBLE"
+                        },
+                        new
+                        {
+                            DaneId = "28045",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "CHALAN"
+                        },
+                        new
+                        {
+                            DaneId = "28048",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "GALERAS (NUEVA GRANADA)"
+                        },
+                        new
+                        {
+                            DaneId = "28049",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "GUARANDA"
+                        },
+                        new
+                        {
+                            DaneId = "28050",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "LA UNION"
+                        },
+                        new
+                        {
+                            DaneId = "28055",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "LOS PALMITOS"
+                        },
+                        new
+                        {
+                            DaneId = "28060",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "MAJAGUAL"
+                        },
+                        new
+                        {
+                            DaneId = "28080",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "MORROA"
+                        },
+                        new
+                        {
+                            DaneId = "28100",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "OVEJAS"
+                        },
+                        new
+                        {
+                            DaneId = "28120",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "PALMITO"
+                        },
+                        new
+                        {
+                            DaneId = "28160",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SAMPUES"
+                        },
+                        new
+                        {
+                            DaneId = "28180",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SAN BENITO ABAD"
+                        },
+                        new
+                        {
+                            DaneId = "28190",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SAN JUAN DE BETULIA (BETULIA)"
+                        },
+                        new
+                        {
+                            DaneId = "28200",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SAN MARCOS"
+                        },
+                        new
+                        {
+                            DaneId = "28220",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SAN ONOFRE"
+                        },
+                        new
+                        {
+                            DaneId = "28240",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SAN PEDRO"
+                        },
+                        new
+                        {
+                            DaneId = "28260",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SINCE"
+                        },
+                        new
+                        {
+                            DaneId = "28280",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "SUCRE"
+                        },
+                        new
+                        {
+                            DaneId = "28300",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "TOLU"
+                        },
+                        new
+                        {
+                            DaneId = "28320",
+                            DepartmentName = "SUCRE",
+                            MunicipalityName = "TOLUVIEJO"
+                        },
+                        new
+                        {
+                            DaneId = "29001",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "IBAGUE"
+                        },
+                        new
+                        {
+                            DaneId = "29004",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ALPUJARRA"
+                        },
+                        new
+                        {
+                            DaneId = "29007",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ALVARADO"
+                        },
+                        new
+                        {
+                            DaneId = "29010",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "AMBALEMA"
+                        },
+                        new
+                        {
+                            DaneId = "29013",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ANZOATEGUI"
+                        },
+                        new
+                        {
+                            DaneId = "29016",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ARMERO (GUAYABAL)"
+                        },
+                        new
+                        {
+                            DaneId = "29019",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ATACO"
+                        },
+                        new
+                        {
+                            DaneId = "29022",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "CAJAMARCA"
+                        },
+                        new
+                        {
+                            DaneId = "29025",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "CARMEN DE APICALA"
+                        },
+                        new
+                        {
+                            DaneId = "29028",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "CASABIANCA"
+                        },
+                        new
+                        {
+                            DaneId = "29031",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "COELLO"
+                        },
+                        new
+                        {
+                            DaneId = "29034",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "COYAIMA"
+                        },
+                        new
+                        {
+                            DaneId = "29037",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "CUNDAY"
+                        },
+                        new
+                        {
+                            DaneId = "29040",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "CHAPARRAL"
+                        },
+                        new
+                        {
+                            DaneId = "29043",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "DOLORES"
+                        },
+                        new
+                        {
+                            DaneId = "29046",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ESPINAL"
+                        },
+                        new
+                        {
+                            DaneId = "29049",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "FALAN"
+                        },
+                        new
+                        {
+                            DaneId = "29052",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "FLANDES"
+                        },
+                        new
+                        {
+                            DaneId = "29055",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "FRESNO"
+                        },
+                        new
+                        {
+                            DaneId = "29058",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "GUAMO"
+                        },
+                        new
+                        {
+                            DaneId = "29061",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "HERVEO"
+                        },
+                        new
+                        {
+                            DaneId = "29064",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "HONDA"
+                        },
+                        new
+                        {
+                            DaneId = "29067",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ICONONZO"
+                        },
+                        new
+                        {
+                            DaneId = "29070",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "LERIDA"
+                        },
+                        new
+                        {
+                            DaneId = "29073",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "LIBANO"
+                        },
+                        new
+                        {
+                            DaneId = "29076",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "MARIQUITA"
+                        },
+                        new
+                        {
+                            DaneId = "29079",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "MELGAR"
+                        },
+                        new
+                        {
+                            DaneId = "29080",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "MURILLO"
+                        },
+                        new
+                        {
+                            DaneId = "29082",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "NATAGAIMA"
+                        },
+                        new
+                        {
+                            DaneId = "29085",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ORTEGA"
+                        },
+                        new
+                        {
+                            DaneId = "29087",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "PALOCABILDO"
+                        },
+                        new
+                        {
+                            DaneId = "29088",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "PIEDRAS"
+                        },
+                        new
+                        {
+                            DaneId = "29089",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "PLANADAS"
+                        },
+                        new
+                        {
+                            DaneId = "29091",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "PRADO"
+                        },
+                        new
+                        {
+                            DaneId = "29094",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "PURIFICACION"
+                        },
+                        new
+                        {
+                            DaneId = "29097",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "RIOBLANCO"
+                        },
+                        new
+                        {
+                            DaneId = "29100",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "RONCESVALLES"
+                        },
+                        new
+                        {
+                            DaneId = "29103",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "ROVIRA"
+                        },
+                        new
+                        {
+                            DaneId = "29105",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "SALDAÑA"
+                        },
+                        new
+                        {
+                            DaneId = "29106",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "SAN ANTONIO"
+                        },
+                        new
+                        {
+                            DaneId = "29109",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "SAN LUIS"
+                        },
+                        new
+                        {
+                            DaneId = "29112",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "SANTA ISABEL"
+                        },
+                        new
+                        {
+                            DaneId = "29115",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "SUAREZ"
+                        },
+                        new
+                        {
+                            DaneId = "29118",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "VALLE DE SAN JUAN"
+                        },
+                        new
+                        {
+                            DaneId = "29121",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "VENADILLO"
+                        },
+                        new
+                        {
+                            DaneId = "29124",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "VILLAHERMOSA"
+                        },
+                        new
+                        {
+                            DaneId = "29127",
+                            DepartmentName = "TOLIMA",
+                            MunicipalityName = "VILLARRICA"
+                        },
+                        new
+                        {
+                            DaneId = "31001",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "CALI"
+                        },
+                        new
+                        {
+                            DaneId = "31004",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "ALCALA"
+                        },
+                        new
+                        {
+                            DaneId = "31007",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "ANDALUCIA"
+                        },
+                        new
+                        {
+                            DaneId = "31010",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "ANSERMANUEVO"
+                        },
+                        new
+                        {
+                            DaneId = "31013",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "ARGELIA"
+                        },
+                        new
+                        {
+                            DaneId = "31016",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "BOLIVAR"
+                        },
+                        new
+                        {
+                            DaneId = "31019",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "BUENAVENTURA"
+                        },
+                        new
+                        {
+                            DaneId = "31022",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "BUGA"
+                        },
+                        new
+                        {
+                            DaneId = "31025",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "BUGALAGRANDE"
+                        },
+                        new
+                        {
+                            DaneId = "31028",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "CAICEDONIA"
+                        },
+                        new
+                        {
+                            DaneId = "31031",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "CANDELARIA"
+                        },
+                        new
+                        {
+                            DaneId = "31034",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "CARTAGO"
+                        },
+                        new
+                        {
+                            DaneId = "31037",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "DAGUA"
+                        },
+                        new
+                        {
+                            DaneId = "31040",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "CALIMA (DARIEN)"
+                        },
+                        new
+                        {
+                            DaneId = "31043",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "EL AGUILA"
+                        },
+                        new
+                        {
+                            DaneId = "31046",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "EL CAIRO"
+                        },
+                        new
+                        {
+                            DaneId = "31049",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "EL CERRITO"
+                        },
+                        new
+                        {
+                            DaneId = "31052",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "EL DOVIO"
+                        },
+                        new
+                        {
+                            DaneId = "31055",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "FLORIDA"
+                        },
+                        new
+                        {
+                            DaneId = "31058",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "GINEBRA"
+                        },
+                        new
+                        {
+                            DaneId = "31061",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "GUACARI"
+                        },
+                        new
+                        {
+                            DaneId = "31064",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "JAMUNDI"
+                        },
+                        new
+                        {
+                            DaneId = "31067",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "LA CUMBRE"
+                        },
+                        new
+                        {
+                            DaneId = "31070",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "LA UNION"
+                        },
+                        new
+                        {
+                            DaneId = "31073",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "LA VICTORIA"
+                        },
+                        new
+                        {
+                            DaneId = "31076",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "OBANDO"
+                        },
+                        new
+                        {
+                            DaneId = "31079",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "PALMIRA"
+                        },
+                        new
+                        {
+                            DaneId = "31082",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "PRADERA"
+                        },
+                        new
+                        {
+                            DaneId = "31085",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "RESTREPO"
+                        },
+                        new
+                        {
+                            DaneId = "31088",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "RIOFRIO"
+                        },
+                        new
+                        {
+                            DaneId = "31091",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "ROLDANILLO"
+                        },
+                        new
+                        {
+                            DaneId = "31094",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "SAN PEDRO"
+                        },
+                        new
+                        {
+                            DaneId = "31097",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "SEVILLA"
+                        },
+                        new
+                        {
+                            DaneId = "31100",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "TORO"
+                        },
+                        new
+                        {
+                            DaneId = "31103",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "TRUJILLO"
+                        },
+                        new
+                        {
+                            DaneId = "31106",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "TULUA"
+                        },
+                        new
+                        {
+                            DaneId = "31109",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "ULLOA"
+                        },
+                        new
+                        {
+                            DaneId = "31112",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "VERSALLES"
+                        },
+                        new
+                        {
+                            DaneId = "31115",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "VIJES"
+                        },
+                        new
+                        {
+                            DaneId = "31118",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "YOTOCO"
+                        },
+                        new
+                        {
+                            DaneId = "31121",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "YUMBO"
+                        },
+                        new
+                        {
+                            DaneId = "31124",
+                            DepartmentName = "VALLE",
+                            MunicipalityName = "ZARZAL"
+                        },
+                        new
+                        {
+                            DaneId = "40001",
+                            DepartmentName = "ARAUCA",
+                            MunicipalityName = "ARAUCA"
+                        },
+                        new
+                        {
+                            DaneId = "40005",
+                            DepartmentName = "ARAUCA",
+                            MunicipalityName = "TAME"
+                        },
+                        new
+                        {
+                            DaneId = "40010",
+                            DepartmentName = "ARAUCA",
+                            MunicipalityName = "ARAUQUITA"
+                        },
+                        new
+                        {
+                            DaneId = "40015",
+                            DepartmentName = "ARAUCA",
+                            MunicipalityName = "CRAVO NORTE"
+                        },
+                        new
+                        {
+                            DaneId = "40017",
+                            DepartmentName = "ARAUCA",
+                            MunicipalityName = "FORTUL"
+                        },
+                        new
+                        {
+                            DaneId = "40020",
+                            DepartmentName = "ARAUCA",
+                            MunicipalityName = "PUERTO RONDON"
+                        },
+                        new
+                        {
+                            DaneId = "40025",
+                            DepartmentName = "ARAUCA",
+                            MunicipalityName = "SARAVENA"
+                        },
+                        new
+                        {
+                            DaneId = "44001",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "FLORENCIA"
+                        },
+                        new
+                        {
+                            DaneId = "44002",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "ALBANIA"
+                        },
+                        new
+                        {
+                            DaneId = "44003",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "CARTAGENA DEL CHAIRA"
+                        },
+                        new
+                        {
+                            DaneId = "44004",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "BELEN DE LOS ANDAQUIES"
+                        },
+                        new
+                        {
+                            DaneId = "44005",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "EL DONCELLO"
+                        },
+                        new
+                        {
+                            DaneId = "44006",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "EL PAUJIL"
+                        },
+                        new
+                        {
+                            DaneId = "44007",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "LA MONTAÑITA"
+                        },
+                        new
+                        {
+                            DaneId = "44009",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "PUERTO RICO"
+                        },
+                        new
+                        {
+                            DaneId = "44010",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "SAN VICENTE DEL CAGUAN"
+                        },
+                        new
+                        {
+                            DaneId = "44012",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "CURILLO"
+                        },
+                        new
+                        {
+                            DaneId = "44016",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "MILAN"
+                        },
+                        new
+                        {
+                            DaneId = "44017",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "MORELIA"
+                        },
+                        new
+                        {
+                            DaneId = "44020",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "SAN JOSE DEL FRAGUA"
+                        },
+                        new
+                        {
+                            DaneId = "44022",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "SOLANO"
+                        },
+                        new
+                        {
+                            DaneId = "44024",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "SOLITA"
+                        },
+                        new
+                        {
+                            DaneId = "44040",
+                            DepartmentName = "CAQUETA",
+                            MunicipalityName = "VALPARAISO"
+                        },
+                        new
+                        {
+                            DaneId = "46001",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "YOPAL"
+                        },
+                        new
+                        {
+                            DaneId = "46040",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "AGUAZUL"
+                        },
+                        new
+                        {
+                            DaneId = "46120",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "CHAMEZA"
+                        },
+                        new
+                        {
+                            DaneId = "46320",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "HATO COROZAL"
+                        },
+                        new
+                        {
+                            DaneId = "46480",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "LA SALINA"
+                        },
+                        new
+                        {
+                            DaneId = "46520",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "MANI"
+                        },
+                        new
+                        {
+                            DaneId = "46540",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "MONTERREY"
+                        },
+                        new
+                        {
+                            DaneId = "46560",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "NUNCHIA"
+                        },
+                        new
+                        {
+                            DaneId = "46640",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "OROCUE"
+                        },
+                        new
+                        {
+                            DaneId = "46680",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "PAZ DE ARIPORO (MORENO)"
+                        },
+                        new
+                        {
+                            DaneId = "46700",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "PORE"
+                        },
+                        new
+                        {
+                            DaneId = "46760",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "RECETOR"
+                        },
+                        new
+                        {
+                            DaneId = "46800",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "SABANALARGA"
+                        },
+                        new
+                        {
+                            DaneId = "46815",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "SACAMA"
+                        },
+                        new
+                        {
+                            DaneId = "46830",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "SAN LUIS DE PALENQUE"
+                        },
+                        new
+                        {
+                            DaneId = "46840",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "TAMARA"
+                        },
+                        new
+                        {
+                            DaneId = "46850",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "TAURAMENA"
+                        },
+                        new
+                        {
+                            DaneId = "46865",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "TRINIDAD"
+                        },
+                        new
+                        {
+                            DaneId = "46880",
+                            DepartmentName = "CASANARE",
+                            MunicipalityName = "VILLANUEVA"
+                        },
+                        new
+                        {
+                            DaneId = "48001",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "RIOHACHA"
+                        },
+                        new
+                        {
+                            DaneId = "48002",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "ALBANIA"
+                        },
+                        new
+                        {
+                            DaneId = "48004",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "BARRANCAS"
+                        },
+                        new
+                        {
+                            DaneId = "48005",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "DIBULLA"
+                        },
+                        new
+                        {
+                            DaneId = "48006",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "EL MOLINO"
+                        },
+                        new
+                        {
+                            DaneId = "48007",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "FONSECA"
+                        },
+                        new
+                        {
+                            DaneId = "48008",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "DISTRACCION"
+                        },
+                        new
+                        {
+                            DaneId = "48009",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "HATONUEVO"
+                        },
+                        new
+                        {
+                            DaneId = "48010",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "MAICAO"
+                        },
+                        new
+                        {
+                            DaneId = "48011",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "MANAURE"
+                        },
+                        new
+                        {
+                            DaneId = "48012",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "LA JAGUA DEL PILAR"
+                        },
+                        new
+                        {
+                            DaneId = "48013",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "SAN JUAN DEL CESAR"
+                        },
+                        new
+                        {
+                            DaneId = "48016",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "URIBIA"
+                        },
+                        new
+                        {
+                            DaneId = "48018",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "URUMITA"
+                        },
+                        new
+                        {
+                            DaneId = "48020",
+                            DepartmentName = "LA GUAJIRA",
+                            MunicipalityName = "VILLANUEVA"
+                        },
+                        new
+                        {
+                            DaneId = "50001",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "INIRIDA"
+                        },
+                        new
+                        {
+                            DaneId = "50050",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "MAPIRIPANA"
+                        },
+                        new
+                        {
+                            DaneId = "50070",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "BARRANCO MINAS"
+                        },
+                        new
+                        {
+                            DaneId = "50073",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "CACAHUAL"
+                        },
+                        new
+                        {
+                            DaneId = "50078",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "LA GUADALUPE"
+                        },
+                        new
+                        {
+                            DaneId = "50083",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "MORICHAL (MORICHAL NUEVO)"
+                        },
+                        new
+                        {
+                            DaneId = "50087",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "PANA PANA (CAMPO ALEGRE)"
+                        },
+                        new
+                        {
+                            DaneId = "50090",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "PUERTO COLOMBIA"
+                        },
+                        new
+                        {
+                            DaneId = "50092",
+                            DepartmentName = "GUAINIA",
+                            MunicipalityName = "SAN FELIPE"
+                        },
+                        new
+                        {
+                            DaneId = "52001",
+                            DepartmentName = "META",
+                            MunicipalityName = "VILLAVICENCIO"
+                        },
+                        new
+                        {
+                            DaneId = "52005",
+                            DepartmentName = "META",
+                            MunicipalityName = "ACACIAS"
+                        },
+                        new
+                        {
+                            DaneId = "52006",
+                            DepartmentName = "META",
+                            MunicipalityName = "BARRANCA DE UPIA"
+                        },
+                        new
+                        {
+                            DaneId = "52008",
+                            DepartmentName = "META",
+                            MunicipalityName = "CABUYARO"
+                        },
+                        new
+                        {
+                            DaneId = "52010",
+                            DepartmentName = "META",
+                            MunicipalityName = "CASTILLA LA NUEVA"
+                        },
+                        new
+                        {
+                            DaneId = "52015",
+                            DepartmentName = "META",
+                            MunicipalityName = "CUBARRAL"
+                        },
+                        new
+                        {
+                            DaneId = "52020",
+                            DepartmentName = "META",
+                            MunicipalityName = "CUMARAL"
+                        },
+                        new
+                        {
+                            DaneId = "52025",
+                            DepartmentName = "META",
+                            MunicipalityName = "EL CALVARIO"
+                        },
+                        new
+                        {
+                            DaneId = "52027",
+                            DepartmentName = "META",
+                            MunicipalityName = "EL CASTILLO"
+                        },
+                        new
+                        {
+                            DaneId = "52028",
+                            DepartmentName = "META",
+                            MunicipalityName = "EL DORADO"
+                        },
+                        new
+                        {
+                            DaneId = "52030",
+                            DepartmentName = "META",
+                            MunicipalityName = "FUENTE DE ORO"
+                        },
+                        new
+                        {
+                            DaneId = "52035",
+                            DepartmentName = "META",
+                            MunicipalityName = "GRANADA"
+                        },
+                        new
+                        {
+                            DaneId = "52040",
+                            DepartmentName = "META",
+                            MunicipalityName = "GUAMAL"
+                        },
+                        new
+                        {
+                            DaneId = "52041",
+                            DepartmentName = "META",
+                            MunicipalityName = "LA MACARENA"
+                        },
+                        new
+                        {
+                            DaneId = "52042",
+                            DepartmentName = "META",
+                            MunicipalityName = "LEJANIAS"
+                        },
+                        new
+                        {
+                            DaneId = "52043",
+                            DepartmentName = "META",
+                            MunicipalityName = "PUERTO GAITAN"
+                        },
+                        new
+                        {
+                            DaneId = "52044",
+                            DepartmentName = "META",
+                            MunicipalityName = "MESETAS"
+                        },
+                        new
+                        {
+                            DaneId = "52045",
+                            DepartmentName = "META",
+                            MunicipalityName = "PUERTO LOPEZ"
+                        },
+                        new
+                        {
+                            DaneId = "52046",
+                            DepartmentName = "META",
+                            MunicipalityName = "MAPIRIPAN"
+                        },
+                        new
+                        {
+                            DaneId = "52047",
+                            DepartmentName = "META",
+                            MunicipalityName = "PUERTO CONCORDIA"
+                        },
+                        new
+                        {
+                            DaneId = "52048",
+                            DepartmentName = "META",
+                            MunicipalityName = "PUERTO LLERAS"
+                        },
+                        new
+                        {
+                            DaneId = "52049",
+                            DepartmentName = "META",
+                            MunicipalityName = "PUERTO RICO"
+                        },
+                        new
+                        {
+                            DaneId = "52050",
+                            DepartmentName = "META",
+                            MunicipalityName = "RESTREPO"
+                        },
+                        new
+                        {
+                            DaneId = "52055",
+                            DepartmentName = "META",
+                            MunicipalityName = "SAN CARLOS DE GUAROA"
+                        },
+                        new
+                        {
+                            DaneId = "52058",
+                            DepartmentName = "META",
+                            MunicipalityName = "SAN JUAN DE ARAMA"
+                        },
+                        new
+                        {
+                            DaneId = "52059",
+                            DepartmentName = "META",
+                            MunicipalityName = "SAN JUANITO"
+                        },
+                        new
+                        {
+                            DaneId = "52060",
+                            DepartmentName = "META",
+                            MunicipalityName = "SAN MARTIN DE LOS LLANOS"
+                        },
+                        new
+                        {
+                            DaneId = "52074",
+                            DepartmentName = "META",
+                            MunicipalityName = "URIBE"
+                        },
+                        new
+                        {
+                            DaneId = "52080",
+                            DepartmentName = "META",
+                            MunicipalityName = "VISTA HERMOSA"
+                        },
+                        new
+                        {
+                            DaneId = "54001",
+                            DepartmentName = "GUAVIARE",
+                            MunicipalityName = "SAN JOSE DEL GUAVIARE"
+                        },
+                        new
+                        {
+                            DaneId = "54003",
+                            DepartmentName = "GUAVIARE",
+                            MunicipalityName = "CALAMAR"
+                        },
+                        new
+                        {
+                            DaneId = "54007",
+                            DepartmentName = "GUAVIARE",
+                            MunicipalityName = "EL RETORNO"
+                        },
+                        new
+                        {
+                            DaneId = "54012",
+                            DepartmentName = "GUAVIARE",
+                            MunicipalityName = "MIRAFLORES"
+                        },
+                        new
+                        {
+                            DaneId = "56001",
+                            DepartmentName = "SAN ANDRES",
+                            MunicipalityName = "SAN ANDRES"
+                        },
+                        new
+                        {
+                            DaneId = "56004",
+                            DepartmentName = "SAN ANDRES",
+                            MunicipalityName = "PROVIDENCIA"
+                        },
+                        new
+                        {
+                            DaneId = "60001",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "LETICIA"
+                        },
+                        new
+                        {
+                            DaneId = "60007",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "PUERTO NARIÑO"
+                        },
+                        new
+                        {
+                            DaneId = "60010",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "EL ENCANTO"
+                        },
+                        new
+                        {
+                            DaneId = "60013",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "LA CHORRERA"
+                        },
+                        new
+                        {
+                            DaneId = "60016",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "LA PEDRERA"
+                        },
+                        new
+                        {
+                            DaneId = "60017",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "LA VICTORIA"
+                        },
+                        new
+                        {
+                            DaneId = "60019",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "MIRITI PARANA"
+                        },
+                        new
+                        {
+                            DaneId = "60021",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "PUERTO SANTANDER"
+                        },
+                        new
+                        {
+                            DaneId = "60022",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "TARAPACA"
+                        },
+                        new
+                        {
+                            DaneId = "60030",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "PUERTO ALEGRIA"
+                        },
+                        new
+                        {
+                            DaneId = "60040",
+                            DepartmentName = "AMAZONAS",
+                            MunicipalityName = "PUERTO ARICA"
+                        },
+                        new
+                        {
+                            DaneId = "64001",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "MOCOA"
+                        },
+                        new
+                        {
+                            DaneId = "64002",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "PUERTO ASIS"
+                        },
+                        new
+                        {
+                            DaneId = "64004",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "PUERTO LEGUIZAMO"
+                        },
+                        new
+                        {
+                            DaneId = "64007",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "COLON"
+                        },
+                        new
+                        {
+                            DaneId = "64013",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "SAN FRANCISCO"
+                        },
+                        new
+                        {
+                            DaneId = "64016",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "SANTIAGO"
+                        },
+                        new
+                        {
+                            DaneId = "64018",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "SAN MIGUEL (LA DORADA)"
+                        },
+                        new
+                        {
+                            DaneId = "64019",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "SIBUNDOY"
+                        },
+                        new
+                        {
+                            DaneId = "64023",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "ORITO"
+                        },
+                        new
+                        {
+                            DaneId = "64025",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "PUERTO GUZMAN"
+                        },
+                        new
+                        {
+                            DaneId = "64026",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "PUERTO CAICEDO"
+                        },
+                        new
+                        {
+                            DaneId = "64028",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "VALLE DEL GUAMUEZ (LA HORMIGA)"
+                        },
+                        new
+                        {
+                            DaneId = "64030",
+                            DepartmentName = "PUTUMAYO",
+                            MunicipalityName = "VILLAGARZON"
+                        },
+                        new
+                        {
+                            DaneId = "68001",
+                            DepartmentName = "VAUPES",
+                            MunicipalityName = "MITU"
+                        },
+                        new
+                        {
+                            DaneId = "68004",
+                            DepartmentName = "VAUPES",
+                            MunicipalityName = "CARURU"
+                        },
+                        new
+                        {
+                            DaneId = "68010",
+                            DepartmentName = "VAUPES",
+                            MunicipalityName = "MORICHAL (PAPUNAGUA)"
+                        },
+                        new
+                        {
+                            DaneId = "68013",
+                            DepartmentName = "VAUPES",
+                            MunicipalityName = "BUENOS AIRES (PACOA)"
+                        },
+                        new
+                        {
+                            DaneId = "68017",
+                            DepartmentName = "VAUPES",
+                            MunicipalityName = "TARAIRA"
+                        },
+                        new
+                        {
+                            DaneId = "68022",
+                            DepartmentName = "VAUPES",
+                            MunicipalityName = "YAVARATE"
+                        },
+                        new
+                        {
+                            DaneId = "72001",
+                            DepartmentName = "VICHADA",
+                            MunicipalityName = "PUERTO CARREÑO"
+                        },
+                        new
+                        {
+                            DaneId = "72002",
+                            DepartmentName = "VICHADA",
+                            MunicipalityName = "SANTA ROSALIA"
+                        },
+                        new
+                        {
+                            DaneId = "72006",
+                            DepartmentName = "VICHADA",
+                            MunicipalityName = "CUMARIBO"
+                        },
+                        new
+                        {
+                            DaneId = "72008",
+                            DepartmentName = "VICHADA",
+                            MunicipalityName = "LA PRIMAVERA"
+                        },
+                        new
+                        {
+                            DaneId = "88120",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "ALEMANIA"
+                        },
+                        new
+                        {
+                            DaneId = "88140",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "PAISES BAJ‐ANTILLAS HOLANDESAS"
+                        },
+                        new
+                        {
+                            DaneId = "88155",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "ARGENTINA"
+                        },
+                        new
+                        {
+                            DaneId = "88160",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "PAISES BAJOS ‐ ARUBA"
+                        },
+                        new
+                        {
+                            DaneId = "88165",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "AUSTRALIA"
+                        },
+                        new
+                        {
+                            DaneId = "88170",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "AUSTRIA"
+                        },
+                        new
+                        {
+                            DaneId = "88185",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "BARBADOS"
+                        },
+                        new
+                        {
+                            DaneId = "88190",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "BELGICA"
+                        },
+                        new
+                        {
+                            DaneId = "88195",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "BELICE"
+                        },
+                        new
+                        {
+                            DaneId = "88215",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "BOLIVIA"
+                        },
+                        new
+                        {
+                            DaneId = "88220",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "BRASIL"
+                        },
+                        new
+                        {
+                            DaneId = "88250",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "CANADA"
+                        },
+                        new
+                        {
+                            DaneId = "88275",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "COREA DEL SUR"
+                        },
+                        new
+                        {
+                            DaneId = "88285",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "COSTA RICA"
+                        },
+                        new
+                        {
+                            DaneId = "88290",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "CUBA"
+                        },
+                        new
+                        {
+                            DaneId = "88300",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "CHECOSLOVAQUIA"
+                        },
+                        new
+                        {
+                            DaneId = "88305",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "CHILE"
+                        },
+                        new
+                        {
+                            DaneId = "88315",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "CHINA REPUBLICA POPULAR"
+                        },
+                        new
+                        {
+                            DaneId = "88320",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "CHIPRE"
+                        },
+                        new
+                        {
+                            DaneId = "88325",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "DINAMARCA"
+                        },
+                        new
+                        {
+                            DaneId = "88330",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "ECUADOR"
+                        },
+                        new
+                        {
+                            DaneId = "88335",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "EGIPTO"
+                        },
+                        new
+                        {
+                            DaneId = "88340",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "EL SALVADOR"
+                        },
+                        new
+                        {
+                            DaneId = "88355",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "ESPAÑA"
+                        },
+                        new
+                        {
+                            DaneId = "88360",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "ESTADOS UNIDOS"
+                        },
+                        new
+                        {
+                            DaneId = "88370",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "FILIPINAS"
+                        },
+                        new
+                        {
+                            DaneId = "88375",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "FINLANDIA"
+                        },
+                        new
+                        {
+                            DaneId = "88380",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "FRANCIA"
+                        },
+                        new
+                        {
+                            DaneId = "88405",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "GRECIA"
+                        },
+                        new
+                        {
+                            DaneId = "88410",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "GUATEMALA"
+                        },
+                        new
+                        {
+                            DaneId = "88425",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "GUYANA"
+                        },
+                        new
+                        {
+                            DaneId = "88430",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "HAITI"
+                        },
+                        new
+                        {
+                            DaneId = "88435",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "HOLANDA"
+                        },
+                        new
+                        {
+                            DaneId = "88440",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "HONDURAS"
+                        },
+                        new
+                        {
+                            DaneId = "88450",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "HUNGRIA REPUBLICA POPULAR"
+                        },
+                        new
+                        {
+                            DaneId = "88455",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "INDIA"
+                        },
+                        new
+                        {
+                            DaneId = "88460",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "INDONESIA"
+                        },
+                        new
+                        {
+                            DaneId = "88465",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "INGLATERRA"
+                        },
+                        new
+                        {
+                            DaneId = "88475",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "IRAN"
+                        },
+                        new
+                        {
+                            DaneId = "88480",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "IRLANDA"
+                        },
+                        new
+                        {
+                            DaneId = "88490",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "ISRAEL"
+                        },
+                        new
+                        {
+                            DaneId = "88495",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "ITALIA"
+                        },
+                        new
+                        {
+                            DaneId = "88500",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "JAMAICA"
+                        },
+                        new
+                        {
+                            DaneId = "88505",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "JAPON"
+                        },
+                        new
+                        {
+                            DaneId = "88515",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "KENIA"
+                        },
+                        new
+                        {
+                            DaneId = "88535",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "LIBANO"
+                        },
+                        new
+                        {
+                            DaneId = "88560",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "MALASIA"
+                        },
+                        new
+                        {
+                            DaneId = "88580",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "MARRUECOS"
+                        },
+                        new
+                        {
+                            DaneId = "88590",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "MEXICO"
+                        },
+                        new
+                        {
+                            DaneId = "88620",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "NICARAGUA"
+                        },
+                        new
+                        {
+                            DaneId = "88635",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "NORUEGA"
+                        },
+                        new
+                        {
+                            DaneId = "88655",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "PANAMA"
+                        },
+                        new
+                        {
+                            DaneId = "88665",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "PARAGUAY"
+                        },
+                        new
+                        {
+                            DaneId = "88670",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "PERU"
+                        },
+                        new
+                        {
+                            DaneId = "88675",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "POLONIA"
+                        },
+                        new
+                        {
+                            DaneId = "88680",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "PORTUGAL"
+                        },
+                        new
+                        {
+                            DaneId = "88683",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "PUERTO RICO"
+                        },
+                        new
+                        {
+                            DaneId = "88685",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "REPUBLICA DOMINICANA"
+                        },
+                        new
+                        {
+                            DaneId = "88695",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "RUMANIA REPUBLICA SOCIAL"
+                        },
+                        new
+                        {
+                            DaneId = "88700",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "RUSIA"
+                        },
+                        new
+                        {
+                            DaneId = "88745",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "SUDAFRICA"
+                        },
+                        new
+                        {
+                            DaneId = "88755",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "SUECIA"
+                        },
+                        new
+                        {
+                            DaneId = "88760",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "SUIZA"
+                        },
+                        new
+                        {
+                            DaneId = "88770",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "TURQUIA"
+                        },
+                        new
+                        {
+                            DaneId = "88785",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "TRINIDAD Y TOBAGO"
+                        },
+                        new
+                        {
+                            DaneId = "88805",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "URUGUAY"
+                        },
+                        new
+                        {
+                            DaneId = "88815",
+                            DepartmentName = "CONSULADOS",
+                            MunicipalityName = "VENEZUELA"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -186,6 +7344,29 @@ namespace Hyka.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8b778c09-a58f-4698-a00a-c6128e37e09d",
+                            ConcurrencyStamp = "2144796b-0b80-4df2-9590-b816ac52ad0c",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "8a0899d0-478f-473e-8683-469de79bb9e8",
+                            ConcurrencyStamp = "3465b060-7f65-4c6a-ab6c-cdecfd2524e2",
+                            Name = "Blockbuster",
+                            NormalizedName = "BLOCKBUSTER"
+                        },
+                        new
+                        {
+                            Id = "3a709a4b-9270-4cf6-bd82-d08529391e3f",
+                            ConcurrencyStamp = "5e2274d8-97d1-4708-91af-3fbcdaabc1ff",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

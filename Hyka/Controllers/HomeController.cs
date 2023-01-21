@@ -37,7 +37,7 @@ public class HomeController : Controller
         Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
                                 CookieRequestCultureProvider.MakeCookieValue(
                                     new RequestCulture(language)),
-                                    new CookieOptions { Expires = DateTimeOffset.Now.AddDays(10) }
+                                    new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) }
                                  );
         //return RedirectToAction(nameof(Index));
         return LocalRedirect(returnUrl);

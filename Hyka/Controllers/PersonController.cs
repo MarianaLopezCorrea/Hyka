@@ -1,17 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-
-using Hyka.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Hyka.Areas.Identity.RolesDefinition;
-using Hyka.Areas.Identity.PoliciesDefinition;
+
 using Hyka.Services;
 
 namespace Hyka.Service.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [Authorize(Policy = Policy.REQUIRE_BLOCKBUSTER)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PersonController : Controller
     {
@@ -27,7 +23,7 @@ namespace Hyka.Service.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_personService.Get());
+            return Ok(_personService.GetAll());
         }
 
         [HttpGet("{id}")]

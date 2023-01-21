@@ -12,17 +12,23 @@ namespace Hyka.Services
             _db = db;
         }
 
-        public int Create(History history)
+        public int Create(Record record)
         {
-            _db.Histories.Add(history);
+            _db.History.Add(record);
             return _db.SaveChanges();
         }
 
-        public IQueryable<History> GetBetween(DateTime start, DateTime end)
+        public IQueryable<Record> GetAll()
         {
-            return _db.Histories.Where(h =>
-                h.VisitDateTime.Date >= start.Date && h.VisitDateTime.Date <= end.Date
-                );
+            return _db.History.AsQueryable();
         }
+
+        public IEnumerable<Record> GetBetween(DateTime start, DateTime end)
+        {
+            return _db.History.Where(h =>
+                h.VisitDateTime.Date >= start.Date && h.VisitDateTime.Date <= end.Date
+            );
+        }
+
     }
 }
